@@ -4,9 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NolowaFrontend"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        mc:Ignorable="d" WindowStyle="None"
+        Title="MainWindow" Height="500" Width="350">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
+        <Grid Grid.Row="0">
+            <Rectangle>
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" >
+                        <GradientStop Color="BlanchedAlmond"/>
+                        <GradientStop Color="Beige" Offset="1"/>
+                        <GradientStop Color="BurlyWood" Offset="0.5"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Grid>
+
+        <Rectangle RadiusX="15" RadiusY="15" Fill="White" Width="250" Height="250" Grid.RowSpan="2">
+            <Rectangle.Effect>
+                <DropShadowEffect Color="#FFC4C4C4" BlurRadius="10" Direction="315"/>
+            </Rectangle.Effect>
+        </Rectangle>
+        <Grid  Width="250" Height="250" Grid.RowSpan="2">
+            <TextBlock Text="LOGIN" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5"/>
+        </Grid>
     </Grid>
 </Window>

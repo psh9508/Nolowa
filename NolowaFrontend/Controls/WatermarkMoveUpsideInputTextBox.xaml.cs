@@ -13,22 +13,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NolowaFrontend
+namespace NolowaFrontend.Controls
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// WatermarkMoveUpsideInputTextBox.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class WatermarkMoveUpsideInputTextBox : UserControl
     {
-        public MainWindow()
+        public string Title { get; set; }
+
+        public int InputTextSize { get; set; }
+
+        public int TitleTextSize { get; set; }
+
+        public WatermarkMoveUpsideInputTextBox()
         {
             InitializeComponent();
-        }
-
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-                this.DragMove();
+            this.DataContext = this;
         }
     }
 }

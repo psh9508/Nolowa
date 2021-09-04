@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NolowaFrontend.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace NolowaFrontend
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new LoginVM();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

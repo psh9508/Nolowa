@@ -8,7 +8,9 @@
              Name="_this">
     <StackPanel>
         <TextBlock Text="{Binding Title, FallbackValue=Title}"/>
-        <TextBox Background="Transparent" BorderThickness="0" Text="{Binding Text}" FontSize="{Binding InputTextSize, FallbackValue=15}" d:Text="Design time value"/>
+        <TextBox Background="Transparent" BorderThickness="0" 
+                 Text="{Binding Path=InputText, ElementName=_this}" d:Text="Design time value"
+                 FontSize="{Binding InputTextSize, FallbackValue=15}" />
         <Line X1="0" X2="{Binding Path=Width, ElementName=_this}" Stroke="Black" StrokeThickness="1"/>
     </StackPanel>
 </UserControl>

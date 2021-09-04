@@ -20,11 +20,23 @@ namespace NolowaFrontend.Controls
     /// </summary>
     public partial class WatermarkMoveUpsideInputTextBox : UserControl
     {
+        public string InputText
+        {
+            get { return (string)GetValue(InputTextProperty); }
+            set { SetValue(InputTextProperty, value); }
+        }
+
+        public static readonly DependencyProperty InputTextProperty =
+            DependencyProperty.Register("InputText", typeof(string), typeof(WatermarkMoveUpsideInputTextBox));
+
         public string Title { get; set; }
 
-        public int InputTextSize { get; set; }
+        public double InputTextSize { get; set; }
 
-        public int TitleTextSize { get; set; }
+        public double TitleTextSize { get; set; }
+
+        public string TextValue { get; set; }
+
 
         public WatermarkMoveUpsideInputTextBox()
         {

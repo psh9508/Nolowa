@@ -4,13 +4,43 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NolowaFrontend.Controls"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" d:DesignHeight="50" d:DesignWidth="150"
-             Name="_this" >
+             Name="_this" >    
     <StackPanel>
         <TextBlock Text="{Binding Title, ElementName=_this, FallbackValue=Title}"/>
-        <TextBox Background="Transparent" BorderThickness="0" 
+        
+        <!-- 일반 텍스트 박스 -->
+        <TextBox Background="Transparent" BorderThickness="0"
                  Text="{Binding Path=InputText, ElementName=_this}" d:Text="Design time value"
-                 FontSize="{Binding InputTextSize, FallbackValue=15}" />
+                 FontSize="{Binding InputTextSize, FallbackValue=15}">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding TextBoxType, ElementName=_this}" Value="Normal">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+       
+        <!-- 비밀번호 텍스트 박스 -->
+        <PasswordBox Background="Transparent" BorderThickness="0" d:Password="TestValue"
+                     FontSize="{Binding InputTextSize, FallbackValue=15}" LostFocus="PasswordBox_LostFocus">
+            <PasswordBox.Style>
+                <Style TargetType="PasswordBox">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding TextBoxType, ElementName=_this}" Value="Password">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </PasswordBox.Style>
+        </PasswordBox>
+        
         <Line X1="0" X2="{Binding Path=ActualWidth, ElementName=_this}" Stroke="Black" StrokeThickness="1"/>
     </StackPanel>
 </UserControl>

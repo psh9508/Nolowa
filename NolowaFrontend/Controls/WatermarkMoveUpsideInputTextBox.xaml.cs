@@ -15,6 +15,12 @@ using System.Windows.Shapes;
 
 namespace NolowaFrontend.Controls
 {
+    public enum TextBoxType
+    {
+        Normal,
+        Password,
+    }
+
     /// <summary>
     /// WatermarkMoveUpsideInputTextBox.xaml에 대한 상호 작용 논리
     /// </summary>
@@ -39,9 +45,23 @@ namespace NolowaFrontend.Controls
             DependencyProperty.Register("Title", typeof(string), typeof(WatermarkMoveUpsideInputTextBox), new PropertyMetadata(""));
 
 
+        public TextBoxType TextBoxType
+        {
+            get { return (TextBoxType)GetValue(TextBoxTypeProperty); }
+            set { SetValue(TextBoxTypeProperty, value); }
+        }
+
+        public static readonly DependencyProperty TextBoxTypeProperty =
+            DependencyProperty.Register("TextBoxType", typeof(TextBoxType), typeof(WatermarkMoveUpsideInputTextBox), new PropertyMetadata(TextBoxType.Normal));
+
         public WatermarkMoveUpsideInputTextBox()
         {
             InitializeComponent();
+        }
+
+        private void PasswordBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            InputText = ((PasswordBox)sender).Password;
         }
     }
 }

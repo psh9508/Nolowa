@@ -5,12 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NolowaFrontend.Controls"
              mc:Ignorable="d" d:DesignHeight="50" d:DesignWidth="150"
-             Name="_this">
+             Name="_this" >
     <StackPanel>
-        <TextBlock Text="{Binding Title, FallbackValue=Title}"/>
+        <TextBlock Text="{Binding Title, ElementName=_this, FallbackValue=Title}"/>
         <TextBox Background="Transparent" BorderThickness="0" 
                  Text="{Binding Path=InputText, ElementName=_this}" d:Text="Design time value"
                  FontSize="{Binding InputTextSize, FallbackValue=15}" />
-        <Line X1="0" X2="{Binding Path=Width, ElementName=_this}" Stroke="Black" StrokeThickness="1"/>
+        <Line X1="0" X2="{Binding Path=ActualWidth, ElementName=_this}" Stroke="Black" StrokeThickness="1"/>
     </StackPanel>
 </UserControl>

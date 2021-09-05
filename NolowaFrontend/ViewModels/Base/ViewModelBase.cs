@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace NolowaFrontend.ViewModels.Base
 {
@@ -26,6 +27,14 @@ namespace NolowaFrontend.ViewModels.Base
             this.OnPropertyChanged(propertyName);
 
             return true;
+        }
+
+        protected ICommand GetRelayCommand(ref ICommand prop, Action<object> action)
+        {
+            if (prop == null)
+                prop = new RelayCommand(action);
+
+            return prop;
         }
     }
 }

@@ -10,14 +10,20 @@ namespace NolowaFrontend.ViewModels
 {
     public class LoginVM : ViewModelBase
     {
-        private string _email;
+        private ICommand loginCommand;
 
-        public string Email
+        public ICommand LoginCommand
         {
-            get { return _email; }
-            set { SetProperty(ref _email, value); }
-        }
+            get
+            {
+                return GetRelayCommand(ref loginCommand, x => {
+                    var args = (object[])x;
 
+                    var email = (string)args[0];
+                    var password = (string)args[1];
+                });
+            }
+        }
 
     }
 }

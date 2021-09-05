@@ -27,21 +27,21 @@ namespace NolowaFrontend.Controls
         }
 
         public static readonly DependencyProperty InputTextProperty =
-            DependencyProperty.Register("InputText", typeof(string), typeof(WatermarkMoveUpsideInputTextBox));
+            DependencyProperty.Register("InputText", typeof(string), typeof(WatermarkMoveUpsideInputTextBox), new PropertyMetadata(""));
 
-        public string Title { get; set; }
+        public string Title
+        {
+            get { return (string)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
 
-        public double InputTextSize { get; set; }
-
-        public double TitleTextSize { get; set; }
-
-        public string TextValue { get; set; }
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register("Title", typeof(string), typeof(WatermarkMoveUpsideInputTextBox), new PropertyMetadata(""));
 
 
         public WatermarkMoveUpsideInputTextBox()
         {
             InitializeComponent();
-            this.DataContext = this;
         }
     }
 }

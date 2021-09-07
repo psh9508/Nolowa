@@ -30,5 +30,18 @@ namespace NolowaFrontend.Servicies.Base
 
             throw new Exception();
         }
+
+        protected async Task<TResult> DoPost<TResult, TRequest>(string uri, TRequest body)
+        {
+            if (uri.StartsWith("/"))
+                uri = uri.Remove(0, 1);
+
+            var response = await httpClient.PostAsJsonAsync(uri, body);
+
+            if (response.IsSuccessStatusCode)
+                return await response.Content.ReadFromJsonAsync<TResult>();
+
+            throw new Exception();
+        }
     }
 }

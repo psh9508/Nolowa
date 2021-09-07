@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NolowaFrontend.ViewModels
@@ -25,7 +26,15 @@ namespace NolowaFrontend.ViewModels
                     var email = (string)args[0];
                     var password = (string)args[1];
 
-                    var data = await _service.GetAllUsers();
+                    var data = await _service.Login(new Models.User() {
+                        Name = email,
+                        Password = password,
+                    });
+
+                    if(data != null)
+                        MessageBox.Show("로그인 성공");
+                    else
+                        MessageBox.Show("로그인 실패");
                 });
             }
         }

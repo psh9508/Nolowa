@@ -1,5 +1,6 @@
 ﻿using NolowaFrontend.Servicies;
 using NolowaFrontend.ViewModels.Base;
+using NolowaFrontend.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace NolowaFrontend.ViewModels
 {
     public class LoginVM : ViewModelBase
     {
-        public event EventHandler<bool> RequestCloseDialog;
+        public event Action SuccessLogin;
 
         private readonly IUserService _service;
 
@@ -28,13 +29,13 @@ namespace NolowaFrontend.ViewModels
                     var email = (string)args[0];
                     var password = (string)args[1];
 
-                    var data = await _service.Login(new Models.User() {
+                    var response = await _service.Login(new Models.User() {
                         Name = email,
                         Password = password,
                     });
 
-                    if (data != null)
-                        RequestCloseDialog?.Invoke(null, true);
+                    if (response != null)
+                        SuccessLogin?.Invoke();
                     else
                         MessageBox.Show("로그인 실패");
                 });

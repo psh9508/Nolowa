@@ -16,17 +16,16 @@ namespace NolowaFrontend
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            var login = new LoginView();
+            var loginView = new LoginView();
 
-            if(login.ShowDialog() == true)
-            {
+            loginView.SuccessLogin += () => {
+                loginView.Hide();
+
                 var main = new MainView();
                 main.ShowDialog();
-            }
-            else
-            {
-                Environment.Exit(0);
-            }
+            };
+
+            loginView.ShowDialog();
         }
     }
 }

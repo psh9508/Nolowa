@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NolowaFrontend.Views;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,19 @@ namespace NolowaFrontend
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            var login = new LoginView();
+
+            if(login.ShowDialog() == true)
+            {
+                var main = new MainView();
+                main.ShowDialog();
+            }
+            else
+            {
+                Environment.Exit(0);
+            }
+        }
     }
 }

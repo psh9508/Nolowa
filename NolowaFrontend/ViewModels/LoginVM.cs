@@ -12,6 +12,8 @@ namespace NolowaFrontend.ViewModels
 {
     public class LoginVM : ViewModelBase
     {
+        public event EventHandler<bool> RequestCloseDialog;
+
         private readonly IUserService _service;
 
         private ICommand loginCommand;
@@ -31,13 +33,13 @@ namespace NolowaFrontend.ViewModels
                         Password = password,
                     });
 
-                    if(data != null)
-                        MessageBox.Show("로그인 성공");
+                    if (data != null)
+                        RequestCloseDialog?.Invoke(null, true);
                     else
                         MessageBox.Show("로그인 실패");
                 });
             }
-        }
+        }        
 
         public LoginVM()
         {

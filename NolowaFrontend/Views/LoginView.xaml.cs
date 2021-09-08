@@ -24,7 +24,13 @@ namespace NolowaFrontend
         public LoginView()
         {
             InitializeComponent();
-            this.DataContext = new LoginVM();
+
+            var viewModel = new LoginVM();
+            viewModel.RequestCloseDialog += (_, dialogResult) => {
+                this.DialogResult = dialogResult;
+            };
+
+            this.DataContext = viewModel;
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

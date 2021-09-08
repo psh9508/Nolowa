@@ -24,7 +24,7 @@ namespace NolowaFrontend.Controls
     /// <summary>
     /// WatermarkMoveUpsideInputTextBox.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class WatermarkMoveUpsideInputTextBox : UserControl
+    public partial class WatermarkMoveUpsideTextBox : UserControl
     {
         public string InputText
         {
@@ -33,7 +33,7 @@ namespace NolowaFrontend.Controls
         }
 
         public static readonly DependencyProperty InputTextProperty =
-            DependencyProperty.Register("InputText", typeof(string), typeof(WatermarkMoveUpsideInputTextBox), new PropertyMetadata(""));
+            DependencyProperty.Register("InputText", typeof(string), typeof(WatermarkMoveUpsideTextBox), new PropertyMetadata(""));
 
         public string Title
         {
@@ -42,7 +42,7 @@ namespace NolowaFrontend.Controls
         }
 
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(WatermarkMoveUpsideInputTextBox), new PropertyMetadata(""));
+            DependencyProperty.Register("Title", typeof(string), typeof(WatermarkMoveUpsideTextBox), new PropertyMetadata(""));
 
 
         public TextBoxType TextBoxType
@@ -52,9 +52,9 @@ namespace NolowaFrontend.Controls
         }
 
         public static readonly DependencyProperty TextBoxTypeProperty =
-            DependencyProperty.Register("TextBoxType", typeof(TextBoxType), typeof(WatermarkMoveUpsideInputTextBox), new PropertyMetadata(TextBoxType.Normal));
+            DependencyProperty.Register("TextBoxType", typeof(TextBoxType), typeof(WatermarkMoveUpsideTextBox), new PropertyMetadata(TextBoxType.Normal));
 
-        public WatermarkMoveUpsideInputTextBox()
+        public WatermarkMoveUpsideTextBox()
         {
             InitializeComponent();
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace NolowaFrontend.Servicies.Base
@@ -38,8 +39,21 @@ namespace NolowaFrontend.Servicies.Base
 
             var response = await httpClient.PostAsJsonAsync(uri, body);
 
-            if (response.IsSuccessStatusCode)
-                return await response.Content.ReadFromJsonAsync<TResult>();
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                    return await response.Content.ReadFromJsonAsync<TResult>();
+            }
+            catch (NotSupportedException) // When content type is not valid
+            {
+                Console.WriteLine("The content type is not supported.");
+                return default(TResult);
+            }
+            catch (JsonException) // Invalid JSON
+            {
+                Console.WriteLine("Invalid JSON.");
+                return default(TResult);
+            }
 
             throw new Exception();
         }

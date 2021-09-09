@@ -1,4 +1,5 @@
 ﻿using NolowaFrontend.Models;
+using NolowaFrontend.Models.Base;
 using NolowaFrontend.Servicies.Base;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace NolowaFrontend.Servicies
     {
         Task<List<User>> GetAllUsers();
         Task<User> GetUser(long id);
-        Task<User> Login(User user);
+        Task<ResponseBaseEntity<User>> Login(User user);
     }
 
     public class UserService : ServiceBase, IUserService
@@ -29,7 +30,7 @@ namespace NolowaFrontend.Servicies
             return await GetTFromService<User>($"users/{id}");
         }
 
-        public async Task<User> Login(User user)
+        public async Task<ResponseBaseEntity<User>> Login(User user)
         {
             return await DoPost<User, User>($"login", user);
         }

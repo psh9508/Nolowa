@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NolowaFrontend.Models.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -32,7 +33,7 @@ namespace NolowaFrontend.Servicies.Base
             throw new Exception();
         }
 
-        protected async Task<TResult> DoPost<TResult, TRequest>(string uri, TRequest body)
+        protected async Task<ResponseBaseEntity<TResult>> DoPost<TResult, TRequest>(string uri, TRequest body)
         {
             if (uri.StartsWith("/"))
                 uri = uri.Remove(0, 1);
@@ -42,20 +43,42 @@ namespace NolowaFrontend.Servicies.Base
             try
             {
                 if (response.IsSuccessStatusCode)
-                    return await response.Content.ReadFromJsonAsync<TResult>();
+                {
+                    var responseContent = await response.Content.ReadFromJsonAsync<TResult>();
+                    return GetResponseModel("성공", responseContent);
+                }
             }
             catch (NotSupportedException) // When content type is not valid
             {
-                Console.WriteLine("The content type is not supported.");
-                return default(TResult);
+                return GetResponseModel("The content type is not supported.", default(TResult));
             }
             catch (JsonException) // Invalid JSON
             {
-                Console.WriteLine("Invalid JSON.");
-                return default(TResult);
+                return GetResponseModel("Invalid JSON.", default(TResult));
             }
 
             throw new Exception();
+        }
+
+        //private ResponseBaseEntity GetResponseModel(string message)
+        //{
+        //    Console.WriteLine(message);
+
+        //    return new ResponseBaseEntity
+        //    {
+        //        Message = message,
+        //    };
+        //}
+
+        private ResponseBaseEntity<T> GetResponseModel<T>(string message, T data)
+        {
+            Console.WriteLine(message);
+
+            return new ResponseBaseEntity<T>
+            {
+                Message = message,
+                Data = data,
+            };
         }
     }
 }

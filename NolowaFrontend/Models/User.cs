@@ -22,5 +22,8 @@ namespace NolowaFrontend.Models
 
         [JsonProperty("password")]
         public string Password { get; set; } = string.Empty;
+
+        [JsonProperty("email")]
+        public string Email { get; set; } = string.Empty;
     }
 }

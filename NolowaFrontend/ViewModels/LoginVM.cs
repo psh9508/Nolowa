@@ -15,7 +15,8 @@ namespace NolowaFrontend.ViewModels
     {
         public event Action SuccessLogin;
 
-        private readonly IUserService _service;
+        private readonly IAuthenticationService _service;
+
 
         private ICommand loginCommand;
 
@@ -29,12 +30,9 @@ namespace NolowaFrontend.ViewModels
                     var email = (string)args[0];
                     var password = (string)args[1];
 
-                    var response = await _service.Login(new Models.User() {
-                        Name = email,
-                        Password = password,
-                    });
+                    var response = await _service.Login(email, password);
 
-                    if (response != null)
+                    if (response?.Data == true)
                         SuccessLogin?.Invoke();
                     else
                         MessageBox.Show("로그인 실패");
@@ -44,7 +42,7 @@ namespace NolowaFrontend.ViewModels
 
         public LoginVM()
         {
-            _service = new UserService();
+            _service = new AuthenticationService();
         }
     }
 }

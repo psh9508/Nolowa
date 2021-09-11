@@ -1,6 +1,8 @@
 ﻿using NolowaFrontend.Models.Base;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -57,7 +59,33 @@ namespace NolowaFrontend.Servicies.Base
                 return GetResponseModel("Invalid JSON.", default(TResult));
             }
 
-            throw new Exception();
+            return new ResponseBaseEntity<TResult>();
+        }
+
+        protected async Task<ResponseBaseEntity<TResult>> DoPost<TResult, TRequest>(string uri, string jsonRowData)
+        {
+            if (uri.StartsWith("/"))
+                uri = uri.Remove(0, 1);
+
+            var content = new StringContent(jsonRowData, Encoding.UTF8, "application/json");
+
+            var result = await httpClient.PostAsync(uri, content);
+
+            string resultContent = await result.Content.ReadAsStringAsync();
+
+            var converter = TypeDescriptor.GetConverter(typeof(TResult));
+
+            TResult data = default(TResult);
+
+            if (converter != null)
+            {
+                data = (TResult)converter.ConvertFrom(resultContent);
+            }
+
+            return new ResponseBaseEntity<TResult>()
+            {
+                Data = data,
+            };
         }
 
         //private ResponseBaseEntity GetResponseModel(string message)

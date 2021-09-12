@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NolowaFrontend.Views"
+        xmlns:uc="clr-namespace:NolowaFrontend.Views.UserControls"
         mc:Ignorable="d" WindowStyle="None" MouseDown="Window_MouseDown"
         Title="MainView" d:Height="600" d:Width="400"
         Height="600" Width="400">
@@ -14,11 +15,23 @@
             </Grid>
 
             <Grid DockPanel.Dock="Bottom" Height="70" Background="Aqua">
-                
+                <StackPanel Orientation="Horizontal">
+                    <Button Width="80"/>
+                    <Button Width="80"/>
+                    <Button Width="80"/>
+                    <Button Width="80"/>
+                    <Button Width="80"/>
+                </StackPanel>
             </Grid>
 
             <Grid>
-                
+                <ListBox ItemsSource="{Binding Posts}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <uc:PostView/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Grid>
         </DockPanel>
     </Grid>

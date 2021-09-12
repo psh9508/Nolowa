@@ -1,4 +1,6 @@
 ﻿using NolowaFrontend.ViewModels;
+using NolowaFrontend.ViewModels.Base;
+using NolowaFrontend.ViewModels.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,25 +13,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NolowaFrontend.Views
+namespace NolowaFrontend.Views.UserControls
 {
     /// <summary>
-    /// MainView.xaml에 대한 상호 작용 논리
+    /// PostView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MainView : Window
+    public partial class PostView : UserControl
     {
-        public MainView()
+        public PostView()
         {
             InitializeComponent();
-            this.DataContext = new MainVM();
-        }
-
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-                this.DragMove();
+            this.DataContext = new PostVM();
         }
     }
 }

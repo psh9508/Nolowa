@@ -14,6 +14,7 @@ namespace NolowaFrontend.ViewModels
     public class LoginVM : ViewModelBase
     {
         public event Action SuccessLogin;
+        public event Action FailLogin;
 
         private readonly IAuthenticationService _service;
 
@@ -35,7 +36,7 @@ namespace NolowaFrontend.ViewModels
                     if (response?.Data == true)
                         SuccessLogin?.Invoke();
                     else
-                        MessageBox.Show("로그인 실패");
+                        FailLogin?.Invoke();
                 });
             }
         }        

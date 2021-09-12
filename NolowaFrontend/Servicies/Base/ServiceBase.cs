@@ -75,16 +75,9 @@ namespace NolowaFrontend.Servicies.Base
 
             var converter = TypeDescriptor.GetConverter(typeof(TResult));
 
-            TResult data = default(TResult);
-
-            if (converter != null)
-            {
-                data = (TResult)converter.ConvertFrom(resultContent);
-            }
-
             return new ResponseBaseEntity<TResult>()
             {
-                Data = data,
+                Data = converter != null ? (TResult)converter.ConvertFrom(resultContent) : default(TResult),
             };
         }
 

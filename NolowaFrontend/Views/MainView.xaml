@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NolowaFrontend.Views"
         xmlns:uc="clr-namespace:NolowaFrontend.Views.UserControls"
-        mc:Ignorable="d" WindowStyle="None" MouseDown="Window_MouseDown"
+        mc:Ignorable="d" WindowStyle="None" 
+        MouseDown="Window_MouseDown" Closed="Window_Closed"        
         Title="MainView" d:Height="600" d:Width="400"
         Height="600" Width="400">
     <Grid>
@@ -25,7 +26,9 @@
             </Grid>
 
             <Grid>
-                <ListBox ItemsSource="{Binding Posts}">
+                <ListBox ItemsSource="{Binding Posts}"
+                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <uc:PostView/>

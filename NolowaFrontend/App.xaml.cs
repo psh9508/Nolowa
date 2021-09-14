@@ -18,10 +18,10 @@ namespace NolowaFrontend
         {
             var loginView = new LoginView();
 
-            loginView.SuccessLogin += () => {
+            loginView.SuccessLogin += user => {
                 loginView.Hide();
 
-                var main = new MainView();
+                var main = new MainView(user);
                 main.ShowDialog();
             };
 

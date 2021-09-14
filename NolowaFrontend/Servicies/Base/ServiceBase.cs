@@ -1,4 +1,5 @@
-﻿using NolowaFrontend.Models.Base;
+﻿using NolowaFrontend.Models;
+using NolowaFrontend.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -71,13 +72,9 @@ namespace NolowaFrontend.Servicies.Base
 
             var result = await httpClient.PostAsync(uri, content);
 
-            string resultContent = await result.Content.ReadAsStringAsync();
-
-            var converter = TypeDescriptor.GetConverter(typeof(TResult));
-
             return new ResponseBaseEntity<TResult>()
             {
-                Data = converter != null ? (TResult)converter.ConvertFrom(resultContent) : default(TResult),
+                Data = await result.Content.ReadFromJsonAsync<TResult>(),
             };
         }
 

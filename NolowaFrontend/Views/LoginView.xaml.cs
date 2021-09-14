@@ -1,4 +1,5 @@
-﻿using NolowaFrontend.ViewModels;
+﻿using NolowaFrontend.Models;
+using NolowaFrontend.ViewModels;
 using NolowaFrontend.Views;
 using System;
 using System.Collections.Generic;
@@ -22,15 +23,15 @@ namespace NolowaFrontend
     /// </summary>
     public partial class LoginView : Window
     {
-        public event Action SuccessLogin;
+        public event Action<User> SuccessLogin;
 
         public LoginView()
         {
             InitializeComponent();
 
             var viewModel = new LoginVM();
-            viewModel.SuccessLogin += () => {
-                SuccessLogin?.Invoke();
+            viewModel.SuccessLogin += user => {
+                SuccessLogin?.Invoke(user);
             };
 
             this.DataContext = viewModel;

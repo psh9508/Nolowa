@@ -1,4 +1,5 @@
-﻿using NolowaFrontend.Servicies;
+﻿using NolowaFrontend.Models;
+using NolowaFrontend.Servicies;
 using NolowaFrontend.ViewModels.Base;
 using NolowaFrontend.Views;
 using System;
@@ -13,7 +14,7 @@ namespace NolowaFrontend.ViewModels
 {
     public class LoginVM : ViewModelBase
     {
-        public event Action SuccessLogin;
+        public event Action<User> SuccessLogin;
         public event Action FailLogin;
 
         private readonly IAuthenticationService _service;
@@ -33,8 +34,8 @@ namespace NolowaFrontend.ViewModels
 
                     var response = await _service.Login(email, password);
 
-                    if (response?.Data == true)
-                        SuccessLogin?.Invoke();
+                    if (response?.Data != null)
+                        SuccessLogin?.Invoke(response.Data);
                     else
                         FailLogin?.Invoke();
                 });

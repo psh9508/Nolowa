@@ -12,21 +12,21 @@ namespace NolowaFrontend.Servicies
 {
     public interface IAuthenticationService
     {
-        Task<ResponseBaseEntity<bool>> Login(string id, string password);
+        Task<ResponseBaseEntity<User>> Login(string id, string password);
     }
 
     public class AuthenticationService : ServiceBase, IAuthenticationService
     {
         private const string parentEndPoint = "Authentication/";
 
-        public async Task<ResponseBaseEntity<bool>> Login(string id, string password)
+        public async Task<ResponseBaseEntity<User>> Login(string id, string password)
         {
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(new {
                 id = id,
                 password = password,
             });
 
-            return await DoPost<bool, string>($"{parentEndPoint}/Login", json);
+            return await DoPost<User, string>($"{parentEndPoint}/Login", json);
         }
     }
 }

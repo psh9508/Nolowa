@@ -1,4 +1,5 @@
-﻿using NolowaFrontend.ViewModels;
+﻿using NolowaFrontend.Models;
+using NolowaFrontend.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +21,10 @@ namespace NolowaFrontend.Views
     /// </summary>
     public partial class MainView : Window
     {
-        public MainView()
+        public MainView(User user)
         {
             InitializeComponent();
-            this.DataContext = new MainVM();
+            this.DataContext = new MainVM(user);
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

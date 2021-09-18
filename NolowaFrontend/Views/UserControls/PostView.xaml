@@ -35,9 +35,11 @@
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Image Stretch="Fill" Width="50" Source="{Binding ProfileImage}"/>
                 <Button Width="50"/>
                 <Button Width="50"/>
-                <Button Width="50"/>
+                <Image Stretch="Fill" Width="50" Source="{Binding Bitmap}"/>
+                <Button Width="50"/>            
             </StackPanel>
             <Grid Grid.Row="2">
                 <TextBlock Text="❤ 355 Likes" Foreground="Red"/>

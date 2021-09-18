@@ -27,22 +27,43 @@ namespace NolowaFrontend.ViewModels
             }
         }
 
-        //public Image byteArrayToImage(byte[] bytesArr)
-        //{
-        //    using (MemoryStream memstr = new MemoryStream(bytesArr))
-        //    {
-        //        Image img = Image.FromStream(memstr);
-        //        return img;
-        //    }
-        //}
+        public Image byteArrayToImage(byte[] bytesArr)
+        {
+            using (MemoryStream memstr = new MemoryStream(bytesArr))
+            {
+                Image img = Image.FromStream(memstr);
+                return img;
+            }
+        }
+
+        public byte[] GetByteFrom()
+        {
+            Image img = Image.FromFile(@"C:\Users\psh02\source\repos\NolowaFrontend\NolowaFrontend\Resources\1.jpg");
+            byte[] arr;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                arr = ms.ToArray();
+            }
+
+            return arr;
+        }
+
+
+
 
         public MainVM(User user)
         {
             _user = user;
 
+            var byteArray = GetByteFrom();
+
             for (int i = 0; i < _user.FollowIds.Count; i++)
             {
-                Posts.Add(new PostVM());
+                Posts.Add(new PostVM()
+                {
+                    array = byteArray,
+                });
             }
         }
 

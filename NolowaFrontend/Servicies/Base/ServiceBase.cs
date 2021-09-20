@@ -19,8 +19,11 @@ namespace NolowaFrontend.Servicies.Base
 
         public ServiceBase()
         {
-            httpClient.BaseAddress = new Uri("http://localhost:8080/");
-            httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            if(httpClient.BaseAddress == null)
+            {
+                httpClient.BaseAddress = new Uri("http://localhost:8080/");
+                httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            }
         }
 
         protected async Task<TModel> GetTFromService<TModel>(string uri)
@@ -74,7 +77,20 @@ namespace NolowaFrontend.Servicies.Base
 
             return new ResponseBaseEntity<TResult>()
             {
-                Data = await result.Content.ReadFromJsonAsync<TResult>(),
+                ResponseData = await result.Content.ReadFromJsonAsync<TResult>(),
+            };
+        }
+
+        protected async Task<ResponseBaseEntity<TResult>> DoGet<TResult>(string uri)
+        {
+            if (uri.StartsWith("/"))
+                uri = uri.Remove(0, 1);
+
+            var result = await httpClient.GetAsync(uri);
+
+            return new ResponseBaseEntity<TResult>()
+            {
+                ResponseData = await result.Content.ReadFromJsonAsync<TResult>(),
             };
         }
 
@@ -95,7 +111,7 @@ namespace NolowaFrontend.Servicies.Base
             return new ResponseBaseEntity<T>
             {
                 Message = message,
-                Data = data,
+                ResponseData = data,
             };
         }
     }

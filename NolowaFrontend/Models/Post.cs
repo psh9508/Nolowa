@@ -13,5 +13,6 @@ namespace NolowaFrontend.Models
         public int Likes { get; set; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public List<Image> Contents { get; set; } = new List<Image>();
+        public string Message { get; set; } = string.Empty;
     }
 }

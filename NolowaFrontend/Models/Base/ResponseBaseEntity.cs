@@ -16,6 +16,6 @@ namespace NolowaFrontend.Models.Base
     {
         public int StatusCode { get; set; }
         public string Message { get; set; }
-        public T Data { get; set; } // 이름이 너무 일반적임
+        public T ResponseData { get; set; } // 이름이 너무 일반적임
     }
 }

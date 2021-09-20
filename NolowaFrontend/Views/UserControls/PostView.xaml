@@ -3,11 +3,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NolowaFrontend.Views"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:NolowaFrontend.Views" 
              Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}, Path=ViewportWidth}"
              d:Height="450" d:Width="450"
              mc:Ignorable="d">
-    <DockPanel>
+    <!--<i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedEventCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>-->
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Ellipse Grid.Column="0" Grid.Row="1" Width="50" Height="50">
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="{Binding ProfileImageSource}"/>
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="{Binding Id, FallbackValue=pinnieminnie}" FontWeight="Bold"/>
+            <TextBlock Grid.Row="1" Text="{Binding Message, FallbackValue=asdfsdfsadf}"/>
+        </Grid>
+    </Grid>
+    <!--<DockPanel>
         <DockPanel DockPanel.Dock="Top" Height="50">
             <Ellipse Width="50" Height="50" Margin="10,0,0,0">
                 <Ellipse.Fill>
@@ -49,5 +83,5 @@
         <Grid Height="300">
             <Rectangle Fill="Bisque"/>
         </Grid>
-    </DockPanel>
+    </DockPanel>-->
 </UserControl>

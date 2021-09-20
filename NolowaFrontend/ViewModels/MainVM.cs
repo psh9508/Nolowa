@@ -9,16 +9,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Drawing;
+using NolowaFrontend.Servicies;
+using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace NolowaFrontend.ViewModels
 {
     public class MainVM : ViewModelBase
     {
         private readonly User _user;
+        private readonly IPostService _service;
 
-        private List<PostVM> _posts = new List<PostVM>();
+        private ObservableCollection<PostVM> _posts = new ObservableCollection<PostVM>();
 
-        public List<PostVM> Posts
+        public ObservableCollection<PostVM> Posts
         {
             get { return _posts; }
             set { 
@@ -49,22 +53,39 @@ namespace NolowaFrontend.ViewModels
             return arr;
         }
 
+        #region ICommands
+        private ICommand loadedEventCommand;
 
+        public ICommand LoadedEventCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref loadedEventCommand, async x =>
+                {
+                    var newPosts = new ObservableCollection<PostVM>();
+                    var posts = await _service.GetPosts(id: 1);
+
+                    foreach (var post in posts.ResponseData)
+                    {
+                        newPosts.Add(new PostVM()
+                        {
+                            Message = post.Message,
+                        });                      
+                    }
+
+                    Posts = newPosts;
+                });
+            }
+        }
+        #endregion
 
 
         public MainVM(User user)
         {
             _user = user;
+            _service = new PostService();
 
-            var byteArray = GetByteFrom();
-
-            for (int i = 0; i < _user.FollowIds.Count; i++)
-            {
-                Posts.Add(new PostVM()
-                {
-                    array = byteArray,
-                });
-            }
+            LoadedEventCommand.Execute(null);
         }
 
     }

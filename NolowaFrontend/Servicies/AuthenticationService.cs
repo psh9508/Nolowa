@@ -17,7 +17,7 @@ namespace NolowaFrontend.Servicies
 
     public class AuthenticationService : ServiceBase, IAuthenticationService
     {
-        private const string parentEndPoint = "Authentication/";
+        private const string parentEndPoint = "Authentication";
 
         public async Task<ResponseBaseEntity<User>> Login(string id, string password)
         {

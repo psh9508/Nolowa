@@ -34,8 +34,8 @@ namespace NolowaFrontend.ViewModels
 
                     var response = await _service.Login(email, password);
 
-                    if (response?.Data != null)
-                        SuccessLogin?.Invoke(response.Data);
+                    if (response?.ResponseData != null)
+                        SuccessLogin?.Invoke(response.ResponseData);
                     else
                         FailLogin?.Invoke();
                 });

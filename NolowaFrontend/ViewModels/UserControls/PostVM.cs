@@ -72,6 +72,15 @@ namespace NolowaFrontend.ViewModels.UserControls
             }
         }
 
+        private string _message = string.Empty;
+
+        public string Message
+        {
+            get { return _message; }
+            set { _message = value; OnPropertyChanged(); }
+        }
+
+
         public PostVM()
         {
             ProfileImageSource = @"~\..\Resources\ProfilePicture.jpg";

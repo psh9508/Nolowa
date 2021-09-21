@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +15,8 @@ namespace NolowaFrontend.Models
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public List<Image> Contents { get; set; } = new List<Image>();
         public string Message { get; set; } = string.Empty;
+
+        [JsonProperty("id")]
+        public long ID { get; set; }
     }
 }

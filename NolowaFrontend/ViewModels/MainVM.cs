@@ -12,6 +12,7 @@ using System.Drawing;
 using NolowaFrontend.Servicies;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
+using NolowaFrontend.Views.UserControls;
 
 namespace NolowaFrontend.ViewModels
 {
@@ -20,15 +21,12 @@ namespace NolowaFrontend.ViewModels
         private readonly User _user;
         private readonly IPostService _service;
 
-        private ObservableCollection<PostVM> _posts = new ObservableCollection<PostVM>();
+        private ObservableCollection<PostView> _posts = new ObservableCollection<PostView>();
 
-        public ObservableCollection<PostVM> Posts
+        public ObservableCollection<PostView> Posts
         {
             get { return _posts; }
-            set { 
-                _posts = value;
-                OnPropertyChanged();
-            }
+            set { _posts = value; OnPropertyChanged(); }
         }
 
         public Image byteArrayToImage(byte[] bytesArr)
@@ -54,26 +52,24 @@ namespace NolowaFrontend.ViewModels
         }
 
         #region ICommands
-        private ICommand loadedEventCommand;
+        private ICommand _loadedEventCommand;
 
         public ICommand LoadedEventCommand
         {
             get
             {
-                return GetRelayCommand(ref loadedEventCommand, async x =>
+                return GetRelayCommand(ref _loadedEventCommand, async x =>
                 {
-                    var newPosts = new ObservableCollection<PostVM>();
                     var posts = await _service.GetPosts(id: 1);
 
                     foreach (var post in posts.ResponseData)
                     {
-                        newPosts.Add(new PostVM()
+                        Posts.Add(new PostView()
                         {
+                            ID = post.ID.ToString(),
                             Message = post.Message,
-                        });                      
+                        });
                     }
-
-                    Posts = newPosts;
                 });
             }
         }

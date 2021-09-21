@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:NolowaFrontend.Views" 
              Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}, Path=ViewportWidth}"
@@ -24,64 +25,21 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Ellipse Grid.Column="0" Grid.Row="1" Width="50" Height="50">
+        <Ellipse Grid.Column="0" Grid.Row="1" Width="50" Height="50" Margin="0,5,2,0" VerticalAlignment="Top">
             <Ellipse.Fill>
                 <ImageBrush ImageSource="{Binding ProfileImageSource}"/>
             </Ellipse.Fill>
         </Ellipse>
 
-        <Grid Grid.Column="1" Grid.Row="1">
+        <Grid Grid.Column="1" Grid.Row="1" Margin="0,0,20,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="{Binding Id, FallbackValue=pinnieminnie}" FontWeight="Bold"/>
-            <TextBlock Grid.Row="1" Text="{Binding Message, FallbackValue=asdfsdfsadf}"/>
+            <TextBlock Text="{Binding ID, FallbackValue=pinnieminnie}" FontWeight="Bold"/>
+            <TextBlock Grid.Row="1" Text="{Binding Path=Message}" TextWrapping="Wrap"/>
         </Grid>
     </Grid>
-    <!--<DockPanel>
-        <DockPanel DockPanel.Dock="Top" Height="50">
-            <Ellipse Width="50" Height="50" Margin="10,0,0,0">
-                <Ellipse.Fill>
-                    <ImageBrush ImageSource="{Binding ProfileImageSource}"/>
-                </Ellipse.Fill>
-            </Ellipse>
-
-            <Button>
-                <Button.Template>
-                    <ControlTemplate>
-                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                            <Ellipse Width="5" Height="5" Fill="Red" Margin="0,0,3,0"/>
-                            <Ellipse Width="5" Height="5" Fill="Red" Margin="0,0,3,0"/>
-                            <Ellipse Width="5" Height="5" Fill="Red" Margin="0,0,10,0"/>
-                        </StackPanel>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-        </DockPanel>
-
-        <Grid DockPanel.Dock="Bottom" Height="120">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <Image Stretch="Fill" Width="50" Source="{Binding ProfileImage}"/>
-                <Button Width="50"/>
-                <Button Width="50"/>
-                <Image Stretch="Fill" Width="50" Source="{Binding Bitmap}"/>
-                <Button Width="50"/>            
-            </StackPanel>
-            <Grid Grid.Row="2">
-                <TextBlock Text="❤ 355 Likes" Foreground="Red"/>
-            </Grid>
-        </Grid>
-
-        <Grid Height="300">
-            <Rectangle Fill="Bisque"/>
-        </Grid>
-    </DockPanel>-->
 </UserControl>

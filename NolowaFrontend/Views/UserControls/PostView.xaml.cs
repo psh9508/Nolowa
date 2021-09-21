@@ -23,10 +23,38 @@ namespace NolowaFrontend.Views.UserControls
     /// </summary>
     public partial class PostView : UserControl
     {
+        public string ID
+        {
+            get { return (string)GetValue(IDProperty); }
+            set { SetValue(IDProperty, value); }
+        }
+
+        public static readonly DependencyProperty IDProperty =
+            DependencyProperty.Register("ID", typeof(string), typeof(PostView), new PropertyMetadata(""));
+
+        public string Message
+        {
+            get { return (string)GetValue(MessageProperty); }
+            set { SetValue(MessageProperty, value); }
+        }
+
+        public static readonly DependencyProperty MessageProperty =
+            DependencyProperty.Register("Message", typeof(string), typeof(PostView), new PropertyMetadata(""));
+
+        public string ProfileImageSource
+        {
+            get { return (string)GetValue(ProfileImageSourceProperty); }
+            set { SetValue(ProfileImageSourceProperty, value); }
+        }
+
+        public static readonly DependencyProperty ProfileImageSourceProperty =
+            DependencyProperty.Register("ProfileImageSource", typeof(string), typeof(PostView), new PropertyMetadata(""));
+
+
         public PostView()
         {
             InitializeComponent();
-            this.DataContext = new PostVM();
+            ProfileImageSource = @"~\..\Resources\ProfilePicture.jpg";
         }
     }
 }

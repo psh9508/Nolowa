@@ -1,6 +1,5 @@
 ﻿using NolowaFrontend.ViewModels;
 using NolowaFrontend.ViewModels.Base;
-using NolowaFrontend.ViewModels.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +31,15 @@ namespace NolowaFrontend.Views.UserControls
         public static readonly DependencyProperty IDProperty =
             DependencyProperty.Register("ID", typeof(string), typeof(PostView), new PropertyMetadata(""));
 
+        public string UserID
+        {
+            get { return (string)GetValue(UserIDProperty); }
+            set { SetValue(UserIDProperty, value); }
+        }
+
+        public static readonly DependencyProperty UserIDProperty =
+            DependencyProperty.Register("UserID", typeof(string), typeof(PostView), new PropertyMetadata(""));
+
         public string Message
         {
             get { return (string)GetValue(MessageProperty); }
@@ -49,6 +57,16 @@ namespace NolowaFrontend.Views.UserControls
 
         public static readonly DependencyProperty ProfileImageSourceProperty =
             DependencyProperty.Register("ProfileImageSource", typeof(string), typeof(PostView), new PropertyMetadata(""));
+
+
+        public string ElapsedTime
+        {
+            get { return (string)GetValue(ElapsedTimeProperty); }
+            set { SetValue(ElapsedTimeProperty, value); }
+        }
+
+        public static readonly DependencyProperty ElapsedTimeProperty =
+            DependencyProperty.Register("ElapsedTime", typeof(string), typeof(PostView), new PropertyMetadata(""));
 
 
         public PostView()

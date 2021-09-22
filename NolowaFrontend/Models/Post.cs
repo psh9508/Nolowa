@@ -18,5 +18,14 @@ namespace NolowaFrontend.Models
 
         [JsonProperty("id")]
         public long ID { get; set; }
+
+        [JsonProperty("userId")]
+        public string UserID { get; set; } = string.Empty;
+
+        [JsonProperty("name")]
+        public string Name { get; set; } = string.Empty;
+
+        [JsonProperty("uploadedDate")]
+        public DateTime UploadedDate { get; set; }
     }
 }

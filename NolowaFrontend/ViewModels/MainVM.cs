@@ -1,6 +1,5 @@
 ﻿using NolowaFrontend.Models;
 using NolowaFrontend.ViewModels.Base;
-using NolowaFrontend.ViewModels.UserControls;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -67,7 +66,9 @@ namespace NolowaFrontend.ViewModels
                         Posts.Add(new PostView()
                         {
                             ID = post.ID.ToString(),
+                            UserID = post.UserID,
                             Message = post.Message,
+                            ElapsedTime = GetElapsedTime(post.UploadedDate),
                         });
                     }
                 });
@@ -84,5 +85,35 @@ namespace NolowaFrontend.ViewModels
             LoadedEventCommand.Execute(null);
         }
 
+
+        private string GetElapsedTime(DateTime creadtedTime)
+        {
+            var timeSpan = DateTime.Now - creadtedTime;
+
+            if(timeSpan.Days == 0 && timeSpan.Hours == 0 && timeSpan.Minutes == 0 && timeSpan.Seconds != 0)
+            {
+                return timeSpan.Seconds + "초";
+            }
+            else if(timeSpan.Days == 0 && timeSpan.Hours == 0 && timeSpan.Minutes != 0)
+            {
+                return timeSpan.Minutes + "분";
+            }
+            else if(timeSpan.Days == 0 && timeSpan.Hours != 0)
+            {
+                return timeSpan.Hours + "시";
+            }
+            else if(timeSpan.Days != 0)
+            {
+                if (timeSpan.Days >= 999)
+                    return "999일";
+
+                return timeSpan.Days + "일";
+            }
+            else
+            {
+                return "1초";
+            }
+        }
     }
 }
+

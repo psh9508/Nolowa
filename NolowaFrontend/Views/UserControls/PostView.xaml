@@ -8,13 +8,7 @@
              xmlns:local="clr-namespace:NolowaFrontend.Views" 
              Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}, Path=ViewportWidth}"
              d:Height="450" d:Width="450"
-             mc:Ignorable="d">
-    <!--<i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedEventCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>-->
-    
+             mc:Ignorable="d">    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -38,8 +32,12 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="{Binding ID, FallbackValue=pinnieminnie}" FontWeight="Bold"/>
-            <TextBlock Grid.Row="1" Text="{Binding Path=Message}" TextWrapping="Wrap"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding ID, FallbackValue=pinnieminnie}" FontWeight="Bold" Margin="0,0,10,0"/>
+                <TextBlock Text="{Binding UserID,FallbackValue=@asdf}" Margin="0,0,10,0"/>
+                <TextBlock Text="{Binding ElapsedTime, FallbackValue=1시간}" Margin="0,0,10,0"/>
+            </StackPanel>
+            <TextBlock Grid.Row="1" Text="{Binding Path=Message, FallbackValue=Message}" TextWrapping="Wrap"/>
         </Grid>
     </Grid>
 </UserControl>

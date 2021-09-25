@@ -75,6 +75,8 @@ namespace NolowaFrontend.Servicies.Base
 
             var result = await httpClient.PostAsync(uri, content);
 
+            var debug = await result.Content.ReadAsStringAsync();
+
             return new ResponseBaseEntity<TResult>()
             {
                 ResponseData = await result.Content.ReadFromJsonAsync<TResult>(),
@@ -87,6 +89,8 @@ namespace NolowaFrontend.Servicies.Base
                 uri = uri.Remove(0, 1);
 
             var result = await httpClient.GetAsync(uri);
+
+            var debug = await result.Content.ReadAsStringAsync();
 
             return new ResponseBaseEntity<TResult>()
             {

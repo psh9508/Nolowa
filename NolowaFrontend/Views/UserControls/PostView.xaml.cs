@@ -22,14 +22,14 @@ namespace NolowaFrontend.Views.UserControls
     /// </summary>
     public partial class PostView : UserControl
     {
-        public string ID
+        public string UserAccountID
         {
-            get { return (string)GetValue(IDProperty); }
-            set { SetValue(IDProperty, value); }
+            get { return (string)GetValue(UserAccountIDProperty); }
+            set { SetValue(UserAccountIDProperty, value); }
         }
 
-        public static readonly DependencyProperty IDProperty =
-            DependencyProperty.Register("ID", typeof(string), typeof(PostView), new PropertyMetadata(""));
+        public static readonly DependencyProperty UserAccountIDProperty =
+            DependencyProperty.Register("UserAccountID", typeof(string), typeof(PostView), new PropertyMetadata(""));
 
         public string UserID
         {
@@ -67,7 +67,6 @@ namespace NolowaFrontend.Views.UserControls
 
         public static readonly DependencyProperty ElapsedTimeProperty =
             DependencyProperty.Register("ElapsedTime", typeof(string), typeof(PostView), new PropertyMetadata(""));
-
 
         public PostView()
         {

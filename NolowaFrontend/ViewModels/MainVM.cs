@@ -59,14 +59,15 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _loadedEventCommand, async x =>
                 {
-                    var posts = await _service.GetPosts(id: 1);
+                    var posts = await _service.GetPosts(id: 5);
 
                     foreach (var post in posts.ResponseData)
                     {
                         Posts.Add(new PostView()
                         {
-                            ID = post.ID.ToString(),
-                            UserID = post.UserID,
+                            Name = post.Name,
+                            UserAccountID = post.UserAccountId,
+                            UserID = post.UserID.ToString(),
                             Message = post.Message,
                             ElapsedTime = GetElapsedTime(post.UploadedDate),
                         });

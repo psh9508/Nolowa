@@ -14,13 +14,21 @@ namespace NolowaFrontend.Models
         public int Likes { get; set; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public List<Image> Contents { get; set; } = new List<Image>();
+
+        [JsonProperty("message")]
         public string Message { get; set; } = string.Empty;
 
-        [JsonProperty("id")]
-        public long ID { get; set; }
+        [JsonProperty("postId")]
+        public long PostID { get; set; }
 
         [JsonProperty("userId")]
-        public string UserID { get; set; } = string.Empty;
+        public long UserID { get; set; }
+
+        [JsonProperty("userAccountId")]
+        public string UserAccountId { get; set; } = string.Empty;
+
+        [JsonProperty("followId")]
+        public long FollowId { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; } = string.Empty;

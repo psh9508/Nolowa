@@ -26,10 +26,10 @@ namespace NolowaFrontend.Models
         [JsonProperty("email")]
         public string Email { get; set; } = string.Empty;
 
-        [JsonProperty("followIds")]
-        public List<long> FollowIds { get; set; } = new List<long>();
+        [JsonProperty("followers")]
+        public List<Follower> Followers { get; set; } = new List<Follower>();
 
         [JsonProperty("profileImage")]
-        public byte[] ProfileImage { get; set; }
+        public NolowaImage ProfileImage { get; set; }
     }
 }

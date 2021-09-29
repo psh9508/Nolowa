@@ -12,6 +12,9 @@ using NolowaFrontend.Servicies;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using NolowaFrontend.Views.UserControls;
+using NolowaFrontend.Extensions;
+using NolowaFrontend.Core;
+using System.Net;
 
 namespace NolowaFrontend.ViewModels
 {
@@ -59,6 +62,8 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _loadedEventCommand, async x =>
                 {
+                    await CachingProfileImageFileToLocal();
+
                     var posts = await _service.GetPosts(id: 5);
 
                     //foreach (var post in posts.ResponseData)
@@ -89,12 +94,30 @@ namespace NolowaFrontend.ViewModels
 
         public MainVM(User user)
         {
+            if (user.IsNull())
+                throw new InvalidOperationException("로그인 된 user는 null일 수 없습니다.");
+
             _user = user;
             _service = new PostService();
 
             LoadedEventCommand.Execute(null);
         }
 
+        private async Task CachingProfileImageFileToLocal()
+        {
+            await Task.Run(() =>
+            {
+                var profileImageCachingFullPath = Constant.PROFILE_IMAGE_ROOT_PATH + _user.ProfileImage.Hash + ".jpg";
+
+                if(File.Exists(profileImageCachingFullPath) == false)
+                {
+                    using (WebClient client = new WebClient())
+                    {
+                        client.DownloadFile(_user.ProfileImage.URL, profileImageCachingFullPath);
+                    }
+                }
+            });
+        }
 
         private string GetElapsedTime(DateTime creadtedTime)
         {

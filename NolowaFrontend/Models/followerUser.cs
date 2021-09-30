@@ -5,14 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NolowaFrontend.Models
+namespace NolowaFrontend.Models.Images
 {
-    public class Follower
+    public class followerUser
     {
+        [JsonProperty("id")]
+        public long ID { get; set; }
+
+        [JsonProperty("email")]
+        public string Email { get; set; } = string.Empty;
+
         [JsonProperty("profileImage")]
         public NolowaImage ProfileImage { get; set; } = new NolowaImage();
-
-        [JsonProperty("userId")]
-        public long UserID { get; set; }
     }
 }

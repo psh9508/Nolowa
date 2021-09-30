@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using Newtonsoft.Json;
 using System.Text.Json.Serialization;
+using NolowaFrontend.Models.Images;
 
 namespace NolowaFrontend.Models
 {
@@ -27,9 +28,9 @@ namespace NolowaFrontend.Models
         public string Email { get; set; } = string.Empty;
 
         [JsonProperty("followers")]
-        public List<Follower> Followers { get; set; } = new List<Follower>();
+        public List<followerUser> Followers { get; set; } = new List<followerUser>();
 
         [JsonProperty("profileImage")]
-        public NolowaImage ProfileImage { get; set; }
+        public ProfileImage ProfileImage { get; set; }
     }
 }

@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Icons\heart.png" />
+    <None Remove="Resources\Icons\retweet.png" />
+    <None Remove="Resources\Icons\share.png" />
+    <None Remove="Resources\Icons\speech-bubble.png" />
     <None Remove="Resources\ProfilePicture.jpg" />
   </ItemGroup>
 
@@ -17,6 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Icons\heart.png" />
+    <Resource Include="Resources\Icons\retweet.png" />
+    <Resource Include="Resources\Icons\share.png" />
+    <Resource Include="Resources\Icons\speech-bubble.png" />
     <Resource Include="Resources\ProfilePicture.jpg" />
   </ItemGroup>
 

@@ -5,42 +5,58 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NolowaFrontend.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="100" d:DesignWidth="150">
     <UserControl.Resources>
         <BitmapImage x:Key="SpeechBubbleImage" UriSource="/NolowaFrontend;component/Resources/Icons/speech-bubble.png" />    
     </UserControl.Resources>
-    
-    <Button Background="Transparent" HorizontalAlignment="Left" Command="{Binding Command}">
-        <Button.Style>
-            <Style TargetType="Button">
-                <Setter Property="OverridesDefaultStyle" Value="True"/>
-                <Setter Property="Margin" Value="5"/>
-                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="Button">
-                            <Grid>
-                                <Image Source="{StaticResource ResourceKey=SpeechBubbleImage}"/>
-                                <Border>
-                                    <Border.Style>
-                                        <Style TargetType="Border">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=IsMouseCaptured}" Value="True">
-                                                    <Setter Property="Background" Value="Gray" />
-                                                    <Setter Property="Opacity" Value="0.9" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                    <Border.OpacityMask>
-                                        <ImageBrush Stretch="Uniform" ImageSource="{StaticResource SpeechBubbleImage}" />
-                                    </Border.OpacityMask>
-                                </Border>
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </Button.Style>
-    </Button>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Button x:Name="button" Background="Transparent" HorizontalAlignment="Left" Click="button_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="OverridesDefaultStyle" Value="True"/>
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Grid>
+                                    <Image Source="{StaticResource ResourceKey=SpeechBubbleImage}"/>
+                                    <Border>
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=IsMouseCaptured}" Value="True">
+                                                        <Setter Property="Background" Value="Gray" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <Border.OpacityMask>
+                                            <ImageBrush Stretch="Uniform" ImageSource="{StaticResource SpeechBubbleImage}" />
+                                        </Border.OpacityMask>
+                                    </Border>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <TextBlock x:Name="txtSpeechBubbleCount" Text="{Binding SpeechBubbleCount, FallbackValue=0, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" FontSize="13" FontWeight="UltraBold">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=button, Path=IsMouseCaptured}" Value="True">
+                            <Setter Property="Foreground" Value="Gray"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+    </Grid>
 </UserControl>

@@ -21,15 +21,8 @@ namespace NolowaFrontend.Views.UserControls
     /// <summary>
     /// PostView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class PostView : UserControl, INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void NotifyPropertyChanged(string info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
-
+    public partial class PostView : UserControl
+    {     
         public string UserAccountID
         {
             get { return (string)GetValue(UserAccountIDProperty); }
@@ -82,14 +75,7 @@ namespace NolowaFrontend.Views.UserControls
         }
 
         public static readonly DependencyProperty SpeechBubbleCountProperty =
-            DependencyProperty.Register("SpeechBubbleCount", 
-                                        typeof(int), 
-                                        typeof(PostView),
-                                        new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                                             (o, e) => {
-                                                 (o as PostView).OnSpeechBubbleCount(e);
-                                             }
-                                        ));
+            DependencyProperty.Register("SpeechBubbleCount", typeof(int), typeof(PostView), new PropertyMetadata(0));
 
         public PostView()
         {
@@ -100,13 +86,6 @@ namespace NolowaFrontend.Views.UserControls
         private void SpeechBubbleButton_Click(object sender, RoutedEventArgs e)
         {
             SpeechBubbleCount++;
-        }
-
-        private void OnSpeechBubbleCount(DependencyPropertyChangedEventArgs e)
-        {
-            int SamplePropertyNewValue = (int)e.NewValue;
-
-            txtSpeechBubbleCount.Text = SamplePropertyNewValue.ToString("N2");
         }
     }
 }

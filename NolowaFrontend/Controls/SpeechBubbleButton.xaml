@@ -4,8 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NolowaFrontend.Controls"
+             xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="150">
+    <!--, diag:PresentationTraceSources.TraceLevel=High-->
+    
     <UserControl.Resources>
         <BitmapImage x:Key="SpeechBubbleImage" UriSource="/NolowaFrontend;component/Resources/Icons/speech-bubble.png" />    
     </UserControl.Resources>
@@ -47,7 +50,8 @@
                 </Style>
             </Button.Style>
         </Button>
-        <TextBlock x:Name="txtSpeechBubbleCount" Text="{Binding SpeechBubbleCount, FallbackValue=0, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" FontSize="13" FontWeight="UltraBold">
+        <TextBlock x:Name="txtSpeechBubbleCount" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" FontSize="13" FontWeight="UltraBold"
+                   Text="{Binding SpeechBubbleCount, RelativeSource={RelativeSource AncestorLevel=2, AncestorType={x:Type UserControl}}, FallbackValue=0}">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Style.Triggers>

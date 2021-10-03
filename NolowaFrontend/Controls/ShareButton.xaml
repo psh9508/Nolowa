@@ -1,25 +1,22 @@
-﻿<UserControl x:Class="NolowaFrontend.Controls.SpeechBubbleButton"
+﻿<UserControl x:Class="NolowaFrontend.Controls.ShareButton"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NolowaFrontend.Controls"
-             xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
-             mc:Ignorable="d" Height="30"
-             d:DesignHeight="40" d:DesignWidth="80">
-    <!--, diag:PresentationTraceSources.TraceLevel=High-->
-    
+             mc:Ignorable="d" Height="30" Width="80"
+             d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <BitmapImage x:Key="SpeechBubbleImage" UriSource="/NolowaFrontend;component/Resources/Icons/speech-bubble.png" />    
+        <BitmapImage x:Key="ShareImage" UriSource="/NolowaFrontend;component/Resources/Icons/Share.png" />
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
-        <Button x:Name="button" Background="Transparent" HorizontalAlignment="Left" Click="button_Click">
+
+        <Button x:Name="button" Background="Transparent" HorizontalAlignment="Left">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -29,7 +26,7 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
                                 <Grid>
-                                    <Image Source="{StaticResource ResourceKey=SpeechBubbleImage}"/>
+                                    <Image Source="{StaticResource ResourceKey=ShareImage}"/>
                                     <Border>
                                         <Border.Style>
                                             <Style TargetType="Border">
@@ -41,7 +38,7 @@
                                             </Style>
                                         </Border.Style>
                                         <Border.OpacityMask>
-                                            <ImageBrush Stretch="Uniform" ImageSource="{StaticResource SpeechBubbleImage}" />
+                                            <ImageBrush Stretch="Uniform" ImageSource="{StaticResource ShareImage}" />
                                         </Border.OpacityMask>
                                     </Border>
                                 </Grid>
@@ -51,17 +48,5 @@
                 </Style>
             </Button.Style>
         </Button>
-        <TextBlock x:Name="txtSpeechBubbleCount" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" FontSize="13" FontWeight="UltraBold"
-                   Text="{Binding SpeechBubbleCount, RelativeSource={RelativeSource AncestorLevel=2, AncestorType={x:Type UserControl}}, StringFormat=N0, FallbackValue=0}">
-            <TextBlock.Style>
-                <Style TargetType="TextBlock">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=button, Path=IsMouseCaptured}" Value="True">
-                            <Setter Property="Foreground" Value="Gray"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBlock.Style>
-        </TextBlock>
     </Grid>
 </UserControl>

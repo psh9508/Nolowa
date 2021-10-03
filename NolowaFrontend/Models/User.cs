@@ -31,6 +31,6 @@ namespace NolowaFrontend.Models
         public List<followerUser> Followers { get; set; } = new List<followerUser>();
 
         [JsonProperty("profileImage")]
-        public ProfileImage ProfileImage { get; set; }
+        public ProfileImage ProfileImage { get; set; } = new ProfileImage();
     }
 }

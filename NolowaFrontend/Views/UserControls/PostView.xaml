@@ -8,7 +8,7 @@
              xmlns:local="clr-namespace:NolowaFrontend.Views" 
              xmlns:uc="clr-namespace:NolowaFrontend.Controls"
              Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}, Path=ViewportWidth}"
-             d:Height="450" d:Width="450"
+             d:Height="250" d:Width="300"
              mc:Ignorable="d">    
     <!--, diag:PresentationTraceSources.TraceLevel=High-->
     
@@ -22,7 +22,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Ellipse Grid.Column="0" Grid.Row="1" Width="50" Height="50" Margin="0,5,2,0" VerticalAlignment="Top">
+        <Ellipse Grid.Column="0" Grid.Row="1" Width="50" Height="50" Margin="0,5,10,0" VerticalAlignment="Top">
             <Ellipse.Fill>
                 <ImageBrush ImageSource="{Binding ProfileImageSource}"/>
             </Ellipse.Fill>
@@ -33,7 +33,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="100"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal">
@@ -50,24 +50,10 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <uc:SpeechBubbleButton Height="40" 
-                                       Click="SpeechBubbleButton_Click"/>
-                
-                <Button Width="20" Grid.Column="1">
-                    <Button.Content>
-                        <Image Source="/NolowaFrontend;component/Resources/Icons/retweet.png"/>
-                    </Button.Content>
-                </Button>
-                <Button Width="20" HorizontalAlignment="Left" Grid.Column="2">
-                    <Button.Content>
-                        <Image Source="/NolowaFrontend;component/Resources/Icons/heart.png"/>
-                    </Button.Content>
-                </Button>
-                <Button Width="20" HorizontalAlignment="Left" Grid.Column="3" Click="SpeechBubbleButton_Click">
-                    <Button.Content>
-                        <Image Source="/NolowaFrontend;component/Resources/Icons/share.png"/>
-                    </Button.Content>
-                </Button>
+                <uc:SpeechBubbleButton Click="SpeechBubbleButton_Click"/>
+                <uc:RetweetButton Grid.Column="1"/>
+                <uc:HeartButton Grid.Column="2"/>
+                <uc:ShareButton Grid.Column="3"/>                
             </Grid>
         </Grid>
     </Grid>

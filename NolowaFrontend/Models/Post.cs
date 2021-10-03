@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using NolowaFrontend.Models.Images;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,6 @@ namespace NolowaFrontend.Models
 {
     public class Post
     {
-        public Image ProfileImage { get; set; }
         public int Likes { get; set; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public List<Image> Contents { get; set; } = new List<Image>();
@@ -35,5 +35,11 @@ namespace NolowaFrontend.Models
 
         [JsonProperty("uploadedDate")]
         public DateTime UploadedDate { get; set; }
+
+        [JsonProperty("postedUser")]
+        public User PostedUser { get; set; } = new User();
+
+        [JsonProperty("profileImage")]
+        public ProfileImage ProfileImage { get; set; } = new ProfileImage();
     }
 }

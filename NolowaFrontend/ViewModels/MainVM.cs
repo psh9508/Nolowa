@@ -60,11 +60,11 @@ namespace NolowaFrontend.ViewModels
         {
             get
             {
-                return GetRelayCommand(ref _loadedEventCommand, async x =>
+                return GetRelayCommand(ref _loadedEventCommand, async _ =>
                 {
                     await CachingProfileImageFileToLocal();
 
-                    var posts = await _service.GetPosts(id: 5);
+                    var posts = await _service.GetPosts(_user.ID);
 
                     foreach (var post in posts.ResponseData)
                     {
@@ -75,7 +75,8 @@ namespace NolowaFrontend.ViewModels
                             UserID = post.UserID.ToString(),
                             Message = post.Message,
                             ElapsedTime = GetElapsedTime(post.UploadedDate),
-                            //ProfileImageSource = $"{Constant.PROFILE_IMAGE_ROOT_PATH}{}.jpg",
+                            //ProfileImageSource = $"{Constant.PROFILE_IMAGE_ROOT_PATH}{post.PostedUser.ProfileImage?.Hash}.jpg",
+                            ProfileImageSource = post.PostedUser.ProfileImage.IsNull() ? @"~\..\Resources\ProfilePicture.jpg" : $"{Constant.PROFILE_IMAGE_ROOT_PATH}{post.PostedUser.ProfileImage?.Hash}.jpg",
                         });
                     }
                     //Posts.Add(new PostView()
@@ -108,9 +109,12 @@ namespace NolowaFrontend.ViewModels
         {
             await Task.Run(() =>
             {
-                var profileImageCachingFullPath = Constant.PROFILE_IMAGE_ROOT_PATH + _user.ProfileImage.Hash + ".jpg";
+                if (_user.ProfileImage.IsNull())
+                    return;
 
-                if(File.Exists(profileImageCachingFullPath) == false)
+                string profileImageCachingFullPath = _user.ProfileImage.URL;
+
+                if (File.Exists(profileImageCachingFullPath) == false)
                 {
                     using (WebClient client = new WebClient())
                     {

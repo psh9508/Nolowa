@@ -1,4 +1,5 @@
-﻿using NolowaFrontend.ViewModels;
+﻿using NolowaFrontend.Extensions;
+using NolowaFrontend.ViewModels;
 using NolowaFrontend.ViewModels.Base;
 using System;
 using System.Collections.Generic;
@@ -75,12 +76,14 @@ namespace NolowaFrontend.Views.UserControls
         }
 
         public static readonly DependencyProperty SpeechBubbleCountProperty =
-            DependencyProperty.Register("SpeechBubbleCount", typeof(int), typeof(PostView), new PropertyMetadata(0));
+            DependencyProperty.Register("SpeechBubbleCount", typeof(int), typeof(PostView), new PropertyMetadata(1000));
 
         public PostView()
         {
             InitializeComponent();
-            ProfileImageSource = @"~\..\Resources\ProfilePicture.jpg";
+
+            //if (ProfileImageSource.IsNotVaild())
+            //    ProfileImageSource = @"~\..\Resources\ProfilePicture.jpg";
         }
 
         private void SpeechBubbleButton_Click(object sender, RoutedEventArgs e)

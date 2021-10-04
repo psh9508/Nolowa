@@ -7,6 +7,7 @@
         xmlns:uc="clr-namespace:NolowaFrontend.Views.UserControls"
         xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d" WindowStyle="None" 
         MouseDown="Window_MouseDown" Closed="Window_Closed"        
         Title="MainView" d:Height="600" d:Width="400"
@@ -62,7 +63,7 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
-            </Button.Style>    
+            </Button.Style>
         </Button>
 
         <Grid x:Name="TweetViewGrid">
@@ -71,26 +72,8 @@
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding ShowTweetView}" Value="True">
+                        <DataTrigger Binding="{Binding ElementName=TweetButton, Path=IsMouseCaptured}" Value="True">
                             <Setter Property="Visibility" Value="Visible"/>
-                            <!--<DataTrigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ThicknessAnimation Storyboard.TargetProperty="Margin" 
-                                                            From="0,500,0,0"
-                                                            To="0,0,0,0"
-                                                            Duration="0:0:0.5">
-                                            <ThicknessAnimation.EasingFunction>
-                                                <QuarticEase EasingMode="EaseOut" />
-                                            </ThicknessAnimation.EasingFunction>
-                                        </ThicknessAnimation>
-                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" 
-                                                         From="0"
-                                                         To="1" 
-                                                         Duration="0:0:0.2"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </DataTrigger.EnterActions>-->
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

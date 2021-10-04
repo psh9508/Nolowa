@@ -7,13 +7,15 @@
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              mc:Ignorable="d" 
+             x:Name="_this"
              d:DesignHeight="450" d:DesignWidth="400">
     <!--, diag:PresentationTraceSources.TraceLevel=High-->
     
     <UserControl.Resources>
         <Storyboard x:Key="ShowAnimation">
             <!-- 위로 올라옴 -->
-            <ThicknessAnimation Storyboard.TargetProperty="Margin" 
+            <ThicknessAnimation Storyboard.TargetName="_this"
+                                Storyboard.TargetProperty="Margin" 
                                 From="0,500,0,0"
                                 To="0,0,0,0"
                                 Duration="0:0:0.5">
@@ -22,16 +24,17 @@
                 </ThicknessAnimation.EasingFunction>
             </ThicknessAnimation>            
             <!-- 점점 진하게-->
-            <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+            <DoubleAnimation Storyboard.TargetName="_this"
+                             Storyboard.TargetProperty="Opacity" 
                              From="0"
                              To="1" 
                              Duration="0:0:0.2"/>
         </Storyboard>
     </UserControl.Resources>
 
-    <!-- 폼이 나올 때 애님이션 하게 작업 중-->
+    <!-- 폼이 보여질 때 에니메이션 -->
     <behaviors:Interaction.Triggers>
-        <behaviors:DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl, diag:PresentationTraceSources.TraceLevel=High}, Path=IsVisible}" Value="Visible">
+        <behaviors:DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsVisible}" Value="True">
             <behaviors:ControlStoryboardAction Storyboard="{StaticResource ShowAnimation}"
                                                ControlStoryboardOption="Play"/>
         </behaviors:DataTrigger>

@@ -31,27 +31,14 @@ namespace NolowaFrontend.ViewModels
             set { _posts = value; OnPropertyChanged(); }
         }
 
-        public Image byteArrayToImage(byte[] bytesArr)
+        private bool _showTweetView;
+
+        public bool ShowTweetView
         {
-            using (MemoryStream memstr = new MemoryStream(bytesArr))
-            {
-                Image img = Image.FromStream(memstr);
-                return img;
-            }
+            get { return _showTweetView; }
+            set { _showTweetView = value; OnPropertyChanged(); }
         }
 
-        public byte[] GetByteFrom()
-        {
-            Image img = Image.FromFile(@"C:\Users\psh02\source\repos\NolowaFrontend\NolowaFrontend\Resources\1.jpg");
-            byte[] arr;
-            using (MemoryStream ms = new MemoryStream())
-            {
-                img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                arr = ms.ToArray();
-            }
-
-            return arr;
-        }
 
         #region ICommands
         private ICommand _loadedEventCommand;
@@ -79,15 +66,19 @@ namespace NolowaFrontend.ViewModels
                             ProfileImageSource = post.PostedUser.ProfileImage.IsNull() ? @"~\..\Resources\ProfilePicture.jpg" : $"{Constant.PROFILE_IMAGE_ROOT_PATH}{post.PostedUser.ProfileImage?.Hash}.jpg",
                         });
                     }
-                    //Posts.Add(new PostView()
-                    //{
-                    //    Name = "Name",
-                    //    UserAccountID = "1",
-                    //    UserID = "@ID",
-                    //    Message = "자주 사용하는 유저의 프로필 사진 데이터를 필요할 때마다 서버에서 가져오는 것이 아니라 로그인 시 한번 다운로드 받아 로컬에 캐싱해둔다. 서버에선 로그인시 저장된 유저의 프로필 사진의 해시값을 이용해서 현재 로컬에 다운로드 되어있는 파일과 서버에 있는 파일이 같은지 확인하고 같지 않을 시만 로컬에 재다운로드를 한다.",
-                    //    ElapsedTime = DateTime.Now.ToString(),
-                    //    ProfileImageSource = @"C:\Users\psh02\OneDrive\사진\Nolowa\ProfileImages\844b2e56483db6f6f75611e891a84e9c38c727d02655f3d211a837f0aadfa31c.jpg",
-                    //});
+                });
+            }
+        }
+
+        private ICommand _tweetCommand;
+
+        public ICommand TweetCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _tweetCommand, _ =>
+                {
+                    ShowTweetView = true;
                 });
             }
         }

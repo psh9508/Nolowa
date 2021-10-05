@@ -22,11 +22,11 @@ namespace NolowaFrontend.Views.UserControls
     /// </summary>
     public partial class TweetView : UserControl
     {
-        public TweetView()
+        public TweetView(User user)
         {
             InitializeComponent();
 
-            this.DataContext = new TweetVM();
+            this.DataContext = new TweetVM(user);
         }
     }
 }

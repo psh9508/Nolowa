@@ -78,7 +78,7 @@ namespace NolowaFrontend.ViewModels
                 return GetRelayCommand(ref _tweetCommand, _ =>
                 {
                     // 미리 폼을 만들어 놓고 사용하는게 성능에 좋지 않을까?
-                    TweetView = new TweetView();
+                    TweetView = new TweetView(_user);
                 });
             }
         }
@@ -103,7 +103,7 @@ namespace NolowaFrontend.ViewModels
                 if (_user.ProfileImage.IsNull())
                     return;
 
-                string profileImageCachingFullPath = _user.ProfileImage.URL;
+                var profileImageCachingFullPath = Constant.PROFILE_IMAGE_ROOT_PATH + _user.ProfileImage.Hash + ".jpg";
 
                 if (File.Exists(profileImageCachingFullPath) == false)
                 {

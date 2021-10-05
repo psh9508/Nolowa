@@ -1,4 +1,6 @@
-﻿using NolowaFrontend.Models;
+﻿using NolowaFrontend.Core;
+using NolowaFrontend.Extensions;
+using NolowaFrontend.Models;
 using NolowaFrontend.ViewModels.Base;
 using System;
 using System.Collections.Generic;
@@ -47,8 +49,12 @@ namespace NolowaFrontend.ViewModels
         }
         #endregion
 
-        public TweetVM()
+        public TweetVM(User user)
         {
+            _user = user;
+
+            if(_user.ProfileImage?.Hash.IsValid() == true)
+                ProfileImageSource = Constant.PROFILE_IMAGE_ROOT_PATH + _user.ProfileImage.Hash + ".jpg";
         }
     }
 }

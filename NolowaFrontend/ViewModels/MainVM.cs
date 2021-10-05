@@ -31,14 +31,13 @@ namespace NolowaFrontend.ViewModels
             set { _posts = value; OnPropertyChanged(); }
         }
 
-        private bool _showTweetView;
+        private object _tweetView;
 
-        public bool ShowTweetView
+        public object TweetView
         {
-            get { return _showTweetView; }
-            set { _showTweetView = value; OnPropertyChanged(); }
+            get { return _tweetView; }
+            set { _tweetView = value; OnPropertyChanged(); }
         }
-
 
         #region ICommands
         private ICommand _loadedEventCommand;
@@ -78,7 +77,8 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _tweetCommand, _ =>
                 {
-                    ShowTweetView = true;
+                    // 미리 폼을 만들어 놓고 사용하는게 성능에 좋지 않을까?
+                    TweetView = new TweetView();
                 });
             }
         }

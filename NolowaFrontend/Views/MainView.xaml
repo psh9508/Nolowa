@@ -66,18 +66,6 @@
             </Button.Style>
         </Button>
 
-        <Grid x:Name="TweetViewGrid">
-            <uc:TweetView/>
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=TweetButton, Path=IsMouseCaptured}" Value="True">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
-        </Grid>
+        <ContentControl Content="{Binding TweetView}"/>
     </Grid>
 </Window>

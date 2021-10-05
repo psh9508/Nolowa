@@ -5,14 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NolowaFrontend.ViewModels
 {
     public class TweetVM : ViewModelBase
     {
-        public event Action Close;
-
         private readonly User _user;
 
         #region Props
@@ -22,7 +21,15 @@ namespace NolowaFrontend.ViewModels
         {
             get { return _profileImageSource; }
             set { _profileImageSource = value; OnPropertyChanged(); }
-        } 
+        }
+
+        private bool _isHide = false;
+
+        public bool IsHide
+        {
+            get { return _isHide; }
+            set { _isHide = value; OnPropertyChanged(); }
+        }
         #endregion
 
         #region ICommands
@@ -34,7 +41,7 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _closeCommand, _ =>
                 {
-                    Close?.Invoke();
+                    IsHide = true;
                 });
             }
         }

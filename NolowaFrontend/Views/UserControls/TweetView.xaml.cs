@@ -26,14 +26,7 @@ namespace NolowaFrontend.Views.UserControls
         {
             InitializeComponent();
 
-            var viewModel = new TweetVM();
-
-            viewModel.Close += () =>
-            {
-
-            };
-
-            this.DataContext = viewModel;
+            this.DataContext = new TweetVM();
         }
     }
 }

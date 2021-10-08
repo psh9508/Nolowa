@@ -15,6 +15,9 @@ namespace NolowaFrontend.Models
         [JsonProperty("id")]
         public long ID { get; set; }
 
+        [JsonProperty("accountId")]
+        public string AccountID { get; set; } = string.Empty;
+
         [JsonProperty("name")]
         public string Name { get; set; } = string.Empty;
 

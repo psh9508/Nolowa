@@ -6,51 +6,58 @@
              xmlns:local="clr-namespace:NolowaFrontend.Views.UserControls"
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              x:Name="_this"
              d:DesignHeight="450" d:DesignWidth="400">
     <!--, diag:PresentationTraceSources.TraceLevel=High-->
-    
-    <UserControl.Resources>
-        <!-- 나타나는 에니메이션 -->
-        <Storyboard x:Key="ShowAnimation">
-            <!-- 위로 올라옴 -->
-            <ThicknessAnimation Storyboard.TargetName="_this"
-                                Storyboard.TargetProperty="Margin" 
-                                From="0,500,0,0"
-                                To="0,0,0,0"
-                                Duration="0:0:0.5">
-                <ThicknessAnimation.EasingFunction>
-                    <QuarticEase EasingMode="EaseOut" />
-                </ThicknessAnimation.EasingFunction>         
-            </ThicknessAnimation>            
-            <!-- 점점 진하게-->
-            <DoubleAnimation Storyboard.TargetName="_this"
-                             Storyboard.TargetProperty="Opacity" 
-                             From="0"
-                             To="1" 
-                             Duration="0:0:0.2"/>
-        </Storyboard>
 
-        <!-- 사라지는 에니메이션 -->
-        <Storyboard x:Key="HideAnimation" RepeatBehavior="1x">
-            <!-- 아래로 내려감 -->
-            <ThicknessAnimation Storyboard.TargetName="_this"
-                                Storyboard.TargetProperty="Margin" 
-                                From="0,0,0,0"
-                                To="0,500,0,0"
-                                Duration="0:0:0.5">
-                <ThicknessAnimation.EasingFunction>
-                    <QuarticEase EasingMode="EaseOut" />
-                </ThicknessAnimation.EasingFunction>
-            </ThicknessAnimation>
-            <!-- 점점 흐리게-->
-            <DoubleAnimation Storyboard.TargetName="_this"
-                             Storyboard.TargetProperty="Opacity" 
-                             From="1"
-                             To="0" 
-                             Duration="0:0:0.2"/>
-        </Storyboard>
+    <UserControl.Resources>        
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/NolowaFrontend;component/ResourceDictionary/ValueConverterDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        
+            <!-- 나타나는 에니메이션 -->
+            <Storyboard x:Key="ShowAnimation">
+                <!-- 위로 올라옴 -->
+                <ThicknessAnimation Storyboard.TargetName="_this"
+                                    Storyboard.TargetProperty="Margin" 
+                                    From="0,500,0,0"
+                                    To="0,0,0,0"
+                                    Duration="0:0:0.5">
+                    <ThicknessAnimation.EasingFunction>
+                        <QuarticEase EasingMode="EaseOut" />
+                    </ThicknessAnimation.EasingFunction>         
+                </ThicknessAnimation>            
+                <!-- 점점 진하게-->
+                <DoubleAnimation Storyboard.TargetName="_this"
+                                 Storyboard.TargetProperty="Opacity" 
+                                 From="0"
+                                 To="1" 
+                                 Duration="0:0:0.2"/>
+            </Storyboard>
+
+            <!-- 사라지는 에니메이션 -->
+            <Storyboard x:Key="HideAnimation" RepeatBehavior="1x">
+                <!-- 아래로 내려감 -->
+                <ThicknessAnimation Storyboard.TargetName="_this"
+                                    Storyboard.TargetProperty="Margin" 
+                                    From="0,0,0,0"
+                                    To="0,500,0,0"
+                                    Duration="0:0:0.5">
+                    <ThicknessAnimation.EasingFunction>
+                        <QuarticEase EasingMode="EaseOut" />
+                    </ThicknessAnimation.EasingFunction>
+                </ThicknessAnimation>
+                <!-- 점점 흐리게-->
+                <DoubleAnimation Storyboard.TargetName="_this"
+                                 Storyboard.TargetProperty="Opacity" 
+                                 From="1"
+                                 To="0" 
+                                 Duration="0:0:0.2"/>
+            </Storyboard>
+        </ResourceDictionary>
     </UserControl.Resources>
     
     <!-- 폼 에니메이션 트리거-->
@@ -99,17 +106,26 @@
                     </Style>
                 </Button.Style>
             </Button>
-            
-            <Button HorizontalAlignment="Right" Width="70" Height="25">
+
+            <Button HorizontalAlignment="Right" Width="70" Height="25" Command="{Binding MakeTweetCommand}">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="Button">
-                                    <Border CornerRadius="10" Background="CadetBlue">
-                                        <TextBlock Text="트윗하기" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <Border x:Name="br" CornerRadius="10" Background="CadetBlue">
+                                        <TextBlock x:Name="text" Text="트윗하기" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                     </Border>
+                                    <ControlTemplate.Triggers>                                   
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter TargetName="text" Property="TextBlock.Margin" Value="1,1,0,0" />
+                                        </Trigger>
+                                        <DataTrigger Binding="{Binding ElementName=txtMessage, Path=Text.Length, FallbackValue=0, TargetNullValue=0}" Value="0">
+                                            <Setter TargetName="br" Property="Opacity" Value="0.4"/>
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
@@ -117,7 +133,7 @@
                 </Button.Style>
             </Button>
         </Grid>
-        
+
         <StackPanel DockPanel.Dock="Bottom">
             <TextBlock Text="이곳엔 버튼이 올 것입니다." Margin="7,7,0,7"/>
         </StackPanel>
@@ -139,7 +155,8 @@
                 </Ellipse.Fill>
             </Ellipse>
 
-            <TextBox Grid.Column="1" Margin="0,0,10,0" BorderThickness="0" FontSize="20" TextWrapping="WrapWithOverflow"/>
+            <TextBox x:Name="txtMessage" Text="{Binding Message}"
+                     Grid.Column="1" Margin="0,0,10,0" BorderThickness="0" FontSize="20" TextWrapping="WrapWithOverflow"/>
         </Grid>
     </DockPanel>
 </UserControl>

@@ -56,12 +56,11 @@ namespace NolowaFrontend.ViewModels
                     {
                         Posts.Add(new PostView()
                         {
-                            Name = post.Name,
-                            UserAccountID = post.UserAccountId,
-                            UserID = post.UserID.ToString(),
+                            Name = post.PostedUser.Name,
+                            UserAccountID = post.PostedUser.AccountID,
+                            UserID = post.PostedUser.ID.ToString(),
                             Message = post.Message,
                             ElapsedTime = GetElapsedTime(post.UploadedDate),
-                            //ProfileImageSource = $"{Constant.PROFILE_IMAGE_ROOT_PATH}{post.PostedUser.ProfileImage?.Hash}.jpg",
                             ProfileImageSource = post.PostedUser.ProfileImage.IsNull() ? @"~\..\Resources\ProfilePicture.jpg" : $"{Constant.PROFILE_IMAGE_ROOT_PATH}{post.PostedUser.ProfileImage?.Hash}.jpg",
                         });
                     }

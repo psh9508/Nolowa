@@ -22,5 +22,10 @@ namespace NolowaFrontend.Servicies
         {
             return await DoGet<List<Post>>($"{parentEndPoint}/{id}/Followers");
         }
+
+        public async Task<ResponseBaseEntity<Post>> InsertPost(Post post)
+        {
+            return await DoPost<Post, Post>($"{parentEndPoint}/New", post);
+        }
     }
 }

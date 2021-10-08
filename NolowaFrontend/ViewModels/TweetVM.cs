@@ -1,6 +1,7 @@
 ﻿using NolowaFrontend.Core;
 using NolowaFrontend.Extensions;
 using NolowaFrontend.Models;
+using NolowaFrontend.Servicies;
 using NolowaFrontend.ViewModels.Base;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace NolowaFrontend.ViewModels
     public class TweetVM : ViewModelBase
     {
         private readonly User _user;
+        private readonly PostService _postService;
 
         #region Props
         private string _profileImageSource = string.Empty;
@@ -32,6 +34,15 @@ namespace NolowaFrontend.ViewModels
             get { return _isHide; }
             set { _isHide = value; OnPropertyChanged(); }
         }
+
+        private string _message;
+
+        public string Message
+        {
+            get { return _message; }
+            set { _message = value; OnPropertyChanged(); }
+        }
+
         #endregion
 
         #region ICommands
@@ -47,13 +58,40 @@ namespace NolowaFrontend.ViewModels
                 });
             }
         }
+
+        private ICommand _makeTweetCommand;
+
+        public ICommand MakeTweetCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _makeTweetCommand, async _ =>  
+                {
+                    if (Message.IsNotVaild())
+                        return;
+
+                    var newTweet = new Post()
+                    {
+                        Message = Message,
+                        Name = _user.Name,
+                        PostedUser = _user, 
+                    };
+
+                    var response = await _postService.InsertPost(newTweet);
+
+                    int a = 0;
+                });
+            }
+           
+        }
         #endregion
 
         public TweetVM(User user)
         {
             _user = user;
+            _postService = new PostService();
 
-            if(_user.ProfileImage?.Hash.IsValid() == true)
+            if (_user.ProfileImage?.Hash.IsValid() == true)
                 ProfileImageSource = Constant.PROFILE_IMAGE_ROOT_PATH + _user.ProfileImage.Hash + ".jpg";
         }
     }

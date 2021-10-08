@@ -31,12 +31,20 @@ namespace NolowaFrontend.ViewModels
             set { _posts = value; OnPropertyChanged(); }
         }
 
-        private object _tweetView;
+        private object _twitterView;
 
-        public object TweetView
+        public object TwitterView
         {
-            get { return _tweetView; }
-            set { _tweetView = value; OnPropertyChanged(); }
+            get { return _twitterView; }
+            set { _twitterView = value; OnPropertyChanged(); }
+        }
+
+        private object _twitterResultView;
+
+        public object TwitterResultView
+        {
+            get { return _twitterResultView; }
+            set { _twitterResultView = value; OnPropertyChanged(); }
         }
 
         #region ICommands
@@ -54,30 +62,36 @@ namespace NolowaFrontend.ViewModels
 
                     foreach (var post in posts.ResponseData)
                     {
-                        Posts.Add(new PostView()
-                        {
-                            Name = post.PostedUser.Name,
-                            UserAccountID = post.PostedUser.AccountID,
-                            UserID = post.PostedUser.ID.ToString(),
-                            Message = post.Message,
-                            ElapsedTime = GetElapsedTime(post.UploadedDate),
-                            ProfileImageSource = post.PostedUser.ProfileImage.IsNull() ? @"~\..\Resources\ProfilePicture.jpg" : $"{Constant.PROFILE_IMAGE_ROOT_PATH}{post.PostedUser.ProfileImage?.Hash}.jpg",
-                        });
+                        Posts.Add(new PostView(post));
                     }
                 });
             }
         }
 
-        private ICommand _tweetCommand;
+        private ICommand _twitterCommand;
 
-        public ICommand TweetCommand
+        public ICommand TwitterCommand
         {
             get
             {
-                return GetRelayCommand(ref _tweetCommand, _ =>
+                return GetRelayCommand(ref _twitterCommand, _ =>
                 {
-                    // 미리 폼을 만들어 놓고 사용하는게 성능에 좋지 않을까?
-                    TweetView = new TweetView(_user);
+                    var twitterView = new TwitterView(_user);
+                    PostView postView = null;
+
+                    twitterView.MadeNewTwitter += newTwitter => {
+                        postView = new PostView(newTwitter);
+                        postView.IsEnabled = false;
+
+                        Posts.Insert(0, postView);
+                    };
+
+                    twitterView.CompleteTwitter += () => {
+                        TwitterResultView = new TwitterResultView();
+                        postView?.CompleteUpload();
+                    };
+
+                    TwitterView = twitterView;
                 });
             }
         }
@@ -112,35 +126,6 @@ namespace NolowaFrontend.ViewModels
                     }
                 }
             });
-        }
-
-        private string GetElapsedTime(DateTime creadtedTime)
-        {
-            var timeSpan = DateTime.Now - creadtedTime;
-
-            if(timeSpan.Days == 0 && timeSpan.Hours == 0 && timeSpan.Minutes == 0 && timeSpan.Seconds != 0)
-            {
-                return timeSpan.Seconds + "초";
-            }
-            else if(timeSpan.Days == 0 && timeSpan.Hours == 0 && timeSpan.Minutes != 0)
-            {
-                return timeSpan.Minutes + "분";
-            }
-            else if(timeSpan.Days == 0 && timeSpan.Hours != 0)
-            {
-                return timeSpan.Hours + "시";
-            }
-            else if(timeSpan.Days != 0)
-            {
-                if (timeSpan.Days >= 999)
-                    return "999일";
-
-                return timeSpan.Days + "일";
-            }
-            else
-            {
-                return "1초";
-            }
         }
     }
 }

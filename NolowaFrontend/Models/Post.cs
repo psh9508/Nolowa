@@ -12,7 +12,6 @@ namespace NolowaFrontend.Models
     public class Post
     {
         [JsonProperty("postId")]
-
         public long PostID { get; set; }
         public int Likes { get; set; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
@@ -27,8 +26,8 @@ namespace NolowaFrontend.Models
         [JsonProperty("name")]
         public string Name { get; set; } = string.Empty;
 
-        [JsonProperty("uploadedDate")]
-        public DateTime UploadedDate { get; set; }
+        [JsonProperty("uploadedDateTime")]
+        public DateTime UploadedDateTime { get; set; }
 
         [JsonProperty("postedUser")]
         public User PostedUser { get; set; } = new User();

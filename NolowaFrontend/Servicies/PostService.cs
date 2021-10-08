@@ -12,6 +12,7 @@ namespace NolowaFrontend.Servicies
     public interface IPostService
     {
         Task<ResponseBaseEntity<List<Post>>> GetPosts(long id);
+        Task<ResponseBaseEntity<Post>> InsertPost(Post post);
     }
 
     public class PostService : ServiceBase, IPostService

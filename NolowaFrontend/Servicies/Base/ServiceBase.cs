@@ -44,23 +44,25 @@ namespace NolowaFrontend.Servicies.Base
             if (uri.StartsWith("/"))
                 uri = uri.Remove(0, 1);
 
-            var response = await httpClient.PostAsJsonAsync(uri, body);
-
             try
             {
+                var response = await httpClient.PostAsJsonAsync(uri, body);
+
+                var debug = await response.Content.ReadAsStringAsync();
+
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadFromJsonAsync<TResult>();
-                    return GetResponseModel("성공", responseContent);
+                    return GetResponseModel(true, "성공", responseContent);
                 }
             }
             catch (NotSupportedException) // When content type is not valid
             {
-                return GetResponseModel("The content type is not supported.", default(TResult));
+                return GetResponseModel(false, "The content type is not supported.", default(TResult));
             }
             catch (JsonException) // Invalid JSON
             {
-                return GetResponseModel("Invalid JSON.", default(TResult));
+                return GetResponseModel(false, "Invalid JSON.", default(TResult));
             }
 
             return new ResponseBaseEntity<TResult>();
@@ -108,12 +110,13 @@ namespace NolowaFrontend.Servicies.Base
         //    };
         //}
 
-        private ResponseBaseEntity<T> GetResponseModel<T>(string message, T data)
+        private ResponseBaseEntity<T> GetResponseModel<T>(bool isSuccess, string message, T data)
         {
             Console.WriteLine(message);
 
             return new ResponseBaseEntity<T>
             {
+                IsSuccess = isSuccess,
                 Message = message,
                 ResponseData = data,
             };

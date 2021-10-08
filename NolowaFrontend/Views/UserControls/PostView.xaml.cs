@@ -1,4 +1,7 @@
-﻿using NolowaFrontend.Extensions;
+﻿using NolowaFrontend.Core;
+using NolowaFrontend.Extensions;
+using NolowaFrontend.Models;
+using NolowaFrontend.Models.Base;
 using NolowaFrontend.ViewModels;
 using NolowaFrontend.ViewModels.Base;
 using System;
@@ -81,9 +84,20 @@ namespace NolowaFrontend.Views.UserControls
         public PostView()
         {
             InitializeComponent();
+        }
 
-            //if (ProfileImageSource.IsNotVaild())
-            //    ProfileImageSource = @"~\..\Resources\ProfilePicture.jpg";
+        public PostView(Post post) : base()
+        {
+            UserAccountID = post.PostedUser.AccountID;
+            UserID = post.PostedUser.ID.ToString();
+            Message = post.Message;
+            ElapsedTime = post.UploadedDateTime.ToElapsedTime();
+            ProfileImageSource = post.PostedUser.ProfileImage.IsNull() ? @"~\..\Resources\ProfilePicture.jpg" : $"{Constant.PROFILE_IMAGE_ROOT_PATH}{post.PostedUser.ProfileImage?.Hash}.jpg";
+        }
+
+        public void CompleteUpload()
+        {
+            this.IsEnabled = true;
         }
 
         private void SpeechBubbleButton_Click(object sender, RoutedEventArgs e)

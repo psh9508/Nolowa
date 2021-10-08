@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="NolowaFrontend.Views.UserControls.TweetView"
+﻿<UserControl x:Class="NolowaFrontend.Views.UserControls.TwitterView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -39,7 +39,7 @@
             </Storyboard>
 
             <!-- 사라지는 에니메이션 -->
-            <Storyboard x:Key="HideAnimation" RepeatBehavior="1x">
+            <Storyboard x:Key="HideAnimation" Completed="Storyboard_Completed">
                 <!-- 아래로 내려감 -->
                 <ThicknessAnimation Storyboard.TargetName="_this"
                                     Storyboard.TargetProperty="Margin" 

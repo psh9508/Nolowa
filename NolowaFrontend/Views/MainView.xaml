@@ -67,5 +67,7 @@
         </Button>
 
         <ContentControl Content="{Binding TweetView}"/>
+        <!--<uc:TweetResultView VerticalAlignment="Bottom" Margin="0,0,0,80"/>-->
+        <ContentControl Content="{Binding TweetResultView}" VerticalAlignment="Bottom" Margin="0,0,0,80"/>
     </Grid>
 </Window>

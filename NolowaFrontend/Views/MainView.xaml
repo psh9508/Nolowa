@@ -14,7 +14,7 @@
         Height="600" Width="400">
     <!--, diag:PresentationTraceSources.TraceLevel=High-->
     <Window.Resources>
-        <sys:Double x:Key="diameterOfTweet">50</sys:Double>
+        <sys:Double x:Key="diameterOfTweitterButton">50</sys:Double>
     </Window.Resources>
 
     <Grid>      
@@ -46,8 +46,8 @@
             </Grid>
         </DockPanel>
 
-        <Button x:Name="TweetButton" Width="{StaticResource diameterOfTweet}" Height="{StaticResource diameterOfTweet}" Margin="0,0,20,80"
-                VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding TweetCommand}">
+        <Button Width="{StaticResource diameterOfTweitterButton}" Height="{StaticResource diameterOfTweitterButton}" Margin="0,0,20,80"
+                VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding TwitterCommand}">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
@@ -55,8 +55,8 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
                                 <Grid >
-                                    <Ellipse Width="{StaticResource diameterOfTweet}" Height="{StaticResource diameterOfTweet}" Fill="Aquamarine"/>
-                                    <Image Source="/Resources/Icons/pencil.png" Margin="5"/>
+                                    <Ellipse Width="{StaticResource diameterOfTweitterButton}" Height="{StaticResource diameterOfTweitterButton}" Fill="Aquamarine"/>
+                                        <Image Source="/Resources/Icons/pencil.png" Margin="5"/>
                                     <ContentControl/>
                                 </Grid>
                             </ControlTemplate>
@@ -66,8 +66,8 @@
             </Button.Style>
         </Button>
 
-        <ContentControl Content="{Binding TweetView}"/>
+        <ContentControl Content="{Binding TwitterView}"/>
         <!--<uc:TweetResultView VerticalAlignment="Bottom" Margin="0,0,0,80"/>-->
-        <ContentControl Content="{Binding TweetResultView}" VerticalAlignment="Bottom" Margin="0,0,0,80"/>
+        <ContentControl Content="{Binding TwitterResultView}" VerticalAlignment="Bottom" Margin="0,0,0,80"/>
     </Grid>
 </Window>

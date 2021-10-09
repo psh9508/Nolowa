@@ -107,7 +107,7 @@
                 </Button.Style>
             </Button>
 
-            <Button HorizontalAlignment="Right" Width="70" Height="25" Command="{Binding MakeTweetCommand}">
+            <Button HorizontalAlignment="Right" Width="70" Height="25" Command="{Binding MakeTwitterCommand}">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>

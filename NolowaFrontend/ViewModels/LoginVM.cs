@@ -19,28 +19,62 @@ namespace NolowaFrontend.ViewModels
 
         private readonly IAuthenticationService _service;
 
+        #region Props
+        private bool _isLogining;
 
+        public bool IsLogining
+        {
+            get { return _isLogining; }
+            set { _isLogining = value; OnPropertyChanged(); }
+        }
+
+        private bool _isLoginFailed;
+
+        public bool IsLoginFailed
+        {
+            get { return _isLoginFailed; }
+            set { _isLoginFailed = value; OnPropertyChanged(); }
+        }
+
+        #endregion
+
+        #region Commands
         private ICommand loginCommand;
 
         public ICommand LoginCommand
         {
             get
             {
-                return GetRelayCommand(ref loginCommand, async x => {
-                    var args = (object[])x;
+                return GetRelayCommand(ref loginCommand, async x =>
+                {
+                    try
+                    {
+                        IsLogining = true;
 
-                    var email = (string)args[0];
-                    var password = (string)args[1];
+                        var args = (object[])x;
 
-                    var response = await _service.Login(email, password);
+                        var email = (string)args[0];
+                        var password = (string)args[1];
 
-                    if (response?.ResponseData != null)
-                        SuccessLogin?.Invoke(response.ResponseData);
-                    else
-                        FailLogin?.Invoke();
+                        var response = await _service.Login(email, password);
+
+                        if (response?.IsSuccess == true)
+                            SuccessLogin?.Invoke(response.ResponseData);
+                        else
+                        {
+                            IsLoginFailed = true;
+                            FailLogin?.Invoke();
+                        }
+                    }
+                    finally
+                    {
+                        IsLogining = false;
+                        IsLoginFailed = false;
+                    }
                 });
             }
-        }        
+        }         
+        #endregion
 
         public LoginVM()
         {

@@ -3,5 +3,6 @@
                     xmlns:converter="clr-namespace:NolowaFrontend.ValueConverters">
 
     <converter:MultiParametersConverter x:Key="MultiParametersConverter"/>
+    <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
 
 </ResourceDictionary>

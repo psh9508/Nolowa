@@ -73,16 +73,33 @@ namespace NolowaFrontend.Servicies.Base
             if (uri.StartsWith("/"))
                 uri = uri.Remove(0, 1);
 
-            var content = new StringContent(jsonRowData, Encoding.UTF8, "application/json");
-
-            var result = await httpClient.PostAsync(uri, content);
-
-            var debug = await result.Content.ReadAsStringAsync();
-
-            return new ResponseBaseEntity<TResult>()
+            try
             {
-                ResponseData = await result.Content.ReadFromJsonAsync<TResult>(),
-            };
+                var content = new StringContent(jsonRowData, Encoding.UTF8, "application/json");
+
+                var result = await httpClient.PostAsync(uri, content);
+
+                var debug = await result.Content.ReadAsStringAsync();
+
+                return new ResponseBaseEntity<TResult>()
+                {
+                    IsSuccess = result.IsSuccessStatusCode,
+                    ResponseData = await result.Content.ReadFromJsonAsync<TResult>(),
+                };
+            }
+            catch(HttpRequestException ex)
+            {
+                return new ResponseBaseEntity<TResult>()
+                {
+                    IsSuccess = false,
+                    ResponseData = default(TResult),
+                    Message = ex.Message,
+                };
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         protected async Task<ResponseBaseEntity<TResult>> DoGet<TResult>(string uri)
@@ -90,14 +107,31 @@ namespace NolowaFrontend.Servicies.Base
             if (uri.StartsWith("/"))
                 uri = uri.Remove(0, 1);
 
-            var result = await httpClient.GetAsync(uri);
-
-            var debug = await result.Content.ReadAsStringAsync();
-
-            return new ResponseBaseEntity<TResult>()
+            try
             {
-                ResponseData = await result.Content.ReadFromJsonAsync<TResult>(),
-            };
+                var result = await httpClient.GetAsync(uri);
+
+                var debug = await result.Content.ReadAsStringAsync();
+
+                return new ResponseBaseEntity<TResult>()
+                {
+                    IsSuccess = result.IsSuccessStatusCode,
+                    ResponseData = await result.Content.ReadFromJsonAsync<TResult>(),
+                };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ResponseBaseEntity<TResult>()
+                {
+                    IsSuccess = false,
+                    ResponseData = default(TResult),
+                    Message = ex.Message,
+                };
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         //private ResponseBaseEntity GetResponseModel(string message)

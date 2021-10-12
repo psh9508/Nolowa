@@ -87,7 +87,7 @@ namespace NolowaFrontend.Servicies.Base
                     ResponseData = await result.Content.ReadFromJsonAsync<TResult>(),
                 };
             }
-            catch(HttpRequestException ex)
+            catch (Exception ex)
             {
                 return new ResponseBaseEntity<TResult>()
                 {
@@ -95,10 +95,6 @@ namespace NolowaFrontend.Servicies.Base
                     ResponseData = default(TResult),
                     Message = ex.Message,
                 };
-            }
-            catch (Exception ex)
-            {
-                return null;
             }
         }
 
@@ -119,7 +115,7 @@ namespace NolowaFrontend.Servicies.Base
                     ResponseData = await result.Content.ReadFromJsonAsync<TResult>(),
                 };
             }
-            catch (HttpRequestException ex)
+            catch (Exception ex)
             {
                 return new ResponseBaseEntity<TResult>()
                 {
@@ -127,10 +123,6 @@ namespace NolowaFrontend.Servicies.Base
                     ResponseData = default(TResult),
                     Message = ex.Message,
                 };
-            }
-            catch (Exception ex)
-            {
-                return null;
             }
         }
 

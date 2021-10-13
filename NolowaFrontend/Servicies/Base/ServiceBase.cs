@@ -1,4 +1,5 @@
-﻿using NolowaFrontend.Models;
+﻿using NolowaFrontend.Extensions;
+using NolowaFrontend.Models;
 using NolowaFrontend.Models.Base;
 using System;
 using System.Collections.Generic;
@@ -15,14 +16,15 @@ namespace NolowaFrontend.Servicies.Base
 {
     public class ServiceBase
     {
-        protected static readonly HttpClient httpClient = new HttpClient();
+        protected static string _jwtToken = string.Empty;
+        protected static readonly HttpClient _httpClient = new HttpClient();
 
         public ServiceBase()
         {
-            if(httpClient.BaseAddress == null)
+            if(_httpClient.BaseAddress == null)
             {
-                httpClient.BaseAddress = new Uri("http://localhost:8080/");
-                httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                _httpClient.BaseAddress = new Uri("http://localhost:8080/");
+                _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             }
         }
 
@@ -31,7 +33,9 @@ namespace NolowaFrontend.Servicies.Base
             if (uri.StartsWith("/"))
                 uri = uri.Remove(0, 1);
 
-            var response = await httpClient.GetAsync(uri);
+            SetJWTToken();
+
+            var response = await _httpClient.GetAsync(uri);
 
             if (response.IsSuccessStatusCode)
                 return await response.Content.ReadFromJsonAsync<TModel>();
@@ -39,14 +43,16 @@ namespace NolowaFrontend.Servicies.Base
             throw new Exception();
         }
 
-        protected async Task<ResponseBaseEntity<TResult>> DoPost<TResult, TRequest>(string uri, TRequest body)
+        protected async Task<ResponseBaseEntity<TResult>> DoPost<TResult, TRequest>(string uri, TRequest body) where TResult : new()
         {
             if (uri.StartsWith("/"))
                 uri = uri.Remove(0, 1);
 
+            SetJWTToken();
+
             try
             {
-                var response = await httpClient.PostAsJsonAsync(uri, body);
+                var response = await _httpClient.PostAsJsonAsync(uri, body);
 
                 var debug = await response.Content.ReadAsStringAsync();
 
@@ -68,16 +74,18 @@ namespace NolowaFrontend.Servicies.Base
             return new ResponseBaseEntity<TResult>();
         }
 
-        protected async Task<ResponseBaseEntity<TResult>> DoPost<TResult, TRequest>(string uri, string jsonRowData)
+        protected async Task<ResponseBaseEntity<TResult>> DoPost<TResult, TRequest>(string uri, string jsonRowData) where TResult : new()
         {
             if (uri.StartsWith("/"))
                 uri = uri.Remove(0, 1);
+
+            SetJWTToken();
 
             try
             {
                 var content = new StringContent(jsonRowData, Encoding.UTF8, "application/json");
 
-                var result = await httpClient.PostAsync(uri, content);
+                var result = await _httpClient.PostAsync(uri, content);
 
                 var debug = await result.Content.ReadAsStringAsync();
 
@@ -98,14 +106,16 @@ namespace NolowaFrontend.Servicies.Base
             }
         }
 
-        protected async Task<ResponseBaseEntity<TResult>> DoGet<TResult>(string uri)
+        protected async Task<ResponseBaseEntity<TResult>> DoGet<TResult>(string uri) where TResult : new()
         {
             if (uri.StartsWith("/"))
                 uri = uri.Remove(0, 1);
 
             try
             {
-                var result = await httpClient.GetAsync(uri);
+                SetJWTToken();
+
+                var result = await _httpClient.GetAsync(uri);
 
                 var debug = await result.Content.ReadAsStringAsync();
 
@@ -120,11 +130,11 @@ namespace NolowaFrontend.Servicies.Base
                 return new ResponseBaseEntity<TResult>()
                 {
                     IsSuccess = false,
-                    ResponseData = default(TResult),
+                    ResponseData = new TResult(),
                     Message = ex.Message,
                 };
             }
-        }
+        }    
 
         //private ResponseBaseEntity GetResponseModel(string message)
         //{
@@ -136,7 +146,7 @@ namespace NolowaFrontend.Servicies.Base
         //    };
         //}
 
-        private ResponseBaseEntity<T> GetResponseModel<T>(bool isSuccess, string message, T data)
+        private ResponseBaseEntity<T> GetResponseModel<T>(bool isSuccess, string message, T data) where T : new()
         {
             Console.WriteLine(message);
 
@@ -146,6 +156,14 @@ namespace NolowaFrontend.Servicies.Base
                 Message = message,
                 ResponseData = data,
             };
+        }
+
+        private void SetJWTToken()
+        {
+            var hasAuthorizationHeader = _httpClient.DefaultRequestHeaders.Contains("Authorization");
+
+            if (_jwtToken.IsValid() && hasAuthorizationHeader == false)
+                _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + _jwtToken);
         }
     }
 }

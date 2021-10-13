@@ -26,7 +26,12 @@ namespace NolowaFrontend.Servicies
                 password = password,
             });
 
-            return await DoPost<User, string>($"{parentEndPoint}/Login", json);
+            var loginResponse = await DoPost<User, string>($"{parentEndPoint}/Login", json);
+
+            if (loginResponse.IsSuccess)
+                _jwtToken = loginResponse.ResponseData.JWTToken;
+
+            return loginResponse;
         }
     }
 }

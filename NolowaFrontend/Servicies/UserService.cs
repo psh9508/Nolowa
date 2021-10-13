@@ -15,7 +15,6 @@ namespace NolowaFrontend.Servicies
     {
         Task<List<User>> GetAllUsers();
         Task<User> GetUser(long id);
-        Task<ResponseBaseEntity<User>> Login(User user);
     }
 
     public class UserService : ServiceBase, IUserService
@@ -28,11 +27,6 @@ namespace NolowaFrontend.Servicies
         public async Task<User> GetUser(long id)
         {
             return await GetTFromService<User>($"users/{id}");
-        }
-
-        public async Task<ResponseBaseEntity<User>> Login(User user)
-        {
-            return await DoPost<User, User>($"login", user);
         }
     }
 }

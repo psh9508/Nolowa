@@ -35,5 +35,8 @@ namespace NolowaFrontend.Models
 
         [JsonProperty("profileImage")]
         public ProfileImage ProfileImage { get; set; } = new ProfileImage();
+
+        [JsonProperty("jwtToken")]
+        public string JWTToken { get; set; } = string.Empty;
     }
 }

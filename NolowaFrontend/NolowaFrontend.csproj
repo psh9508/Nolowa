@@ -14,6 +14,11 @@
     <None Remove="Resources\Icons\share.png" />
     <None Remove="Resources\Icons\speech-bubble.png" />
     <None Remove="Resources\ProfilePicture.jpg" />
+    <None Remove="Resources\SNS\googleLogo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\SNS\googleLogo.png" />
   </ItemGroup>
 
   <ItemGroup>

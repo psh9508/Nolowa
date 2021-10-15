@@ -1,4 +1,5 @@
-﻿using NolowaFrontend.Models;
+﻿using NolowaFrontend.Core.SNSLogin;
+using NolowaFrontend.Models;
 using NolowaFrontend.Servicies;
 using NolowaFrontend.ViewModels.Base;
 using NolowaFrontend.Views;
@@ -73,7 +74,22 @@ namespace NolowaFrontend.ViewModels
                     }
                 });
             }
-        }         
+        }
+
+        private ICommand _googleLoginCommand;
+
+        public ICommand GoogleLoginCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _googleLoginCommand, x =>
+                {
+                    var googleLoginProvider = new GoogleLoginProvider();
+                    googleLoginProvider.ShowLoginPage();
+                });
+            }
+        }
+
         #endregion
 
         public LoginVM()

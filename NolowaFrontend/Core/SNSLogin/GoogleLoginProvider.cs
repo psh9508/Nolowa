@@ -11,16 +11,13 @@ using NolowaFrontend.Configurations;
 
 namespace NolowaFrontend.Core.SNSLogin
 {
-    public class GoogleLoginProvider : ISNSLogin
+    public class GoogleLoginProvider : SNSLoginBase<GoogleLoginConfiguration>
     {
-        private readonly GoogleLoginConfiguration _configuration;
-
-        public GoogleLoginProvider()
+        public GoogleLoginProvider() : base(configPath: "SNSLoginGroup/GoogleLogin")
         {
-            _configuration = (GoogleLoginConfiguration)ConfigurationManager.GetSection("GoogleLogin");
         }
 
-        public void ShowLoginPage()
+        public override void ShowLoginPage()
         {
             var authorizationRequestBuilder = new StringBuilder();
 

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using NolowaFrontend.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +26,15 @@ namespace NolowaFrontend.Core.SNSLogin
         public SNSLoginBase(string configPath)
         {
             _configuration = ConfigurationManager.GetSection(configPath) as TConfig;
+        }
+
+        protected string RandomDataBase64url(uint length)
+        {
+            var rng = new RNGCryptoServiceProvider();
+            byte[] bytes = new byte[length];
+            rng.GetBytes(bytes);
+
+            return bytes.Base64UrlEncodeNoPadding();
         }
 
         abstract public void ShowLoginPage();

@@ -32,19 +32,8 @@ namespace NolowaFrontend.Core.SNSLogin
             authorizationRequestBuilder.Append($"redirect_uri={_configuration.RedirectURI}");
             authorizationRequestBuilder.Append("&");
             authorizationRequestBuilder.Append($"client_id={_configuration.GoogleClientID}");
-            //authorizationRequestBuilder.Append("&");
-            //authorizationRequestBuilder.Append($"code_challenge={GetCodeChallenge()}");
-            //authorizationRequestBuilder.Append("&");
-            //authorizationRequestBuilder.Append($"code_challenge_method=S256");
 
             Process.Start(new ProcessStartInfo(authorizationRequestBuilder.ToString()) { UseShellExecute = true });
-        }
-
-        private string GetCodeChallenge()
-        {
-            string codeVerifier = RandomDataBase64url(32);
-
-            return codeVerifier.ToSha256().Base64UrlEncodeNoPadding();
         }
     }
 }

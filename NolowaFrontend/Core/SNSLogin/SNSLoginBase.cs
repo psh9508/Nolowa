@@ -28,15 +28,6 @@ namespace NolowaFrontend.Core.SNSLogin
             _configuration = ConfigurationManager.GetSection(configPath) as TConfig;
         }
 
-        protected string RandomDataBase64url(uint length)
-        {
-            var rng = new RNGCryptoServiceProvider();
-            byte[] bytes = new byte[length];
-            rng.GetBytes(bytes);
-
-            return bytes.Base64UrlEncodeNoPadding();
-        }
-
         abstract public void ShowLoginPage();
     }
 }

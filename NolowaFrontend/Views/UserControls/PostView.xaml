@@ -60,7 +60,7 @@
 
                 <uc:SpeechBubbleButton Click="SpeechBubbleButton_Click"/>
                 <uc:RetweetButton Grid.Column="1"/>
-                <uc:HeartButton Grid.Column="2"/>
+                <uc:HeartButton Grid.Column="2" Click="HeartButton_Click"/>
                 <uc:ShareButton Grid.Column="3"/>                
             </Grid>
         </Grid>

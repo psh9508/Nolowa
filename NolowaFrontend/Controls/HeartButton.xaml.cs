@@ -20,9 +20,29 @@ namespace NolowaFrontend.Controls
     /// </summary>
     public partial class HeartButton : UserControl
     {
+        public event RoutedEventHandler Click;
+
+        public bool HasBeenLiked
+        {
+            get { return (bool)GetValue(HasBeenLikedProperty); }
+            set { SetValue(HasBeenLikedProperty, value); }
+        }
+
+        public static readonly DependencyProperty HasBeenLikedProperty =
+            DependencyProperty.Register("HasBeenLiked", typeof(bool), typeof(HeartButton), new PropertyMetadata(false));
+
         public HeartButton()
         {
             InitializeComponent();
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.Click != null)
+            {
+                HasBeenLiked = !HasBeenLiked;
+                this.Click(this, e);
+            }
         }
     }
 }

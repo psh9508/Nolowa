@@ -81,6 +81,15 @@ namespace NolowaFrontend.Views.UserControls
         public static readonly DependencyProperty SpeechBubbleCountProperty =
             DependencyProperty.Register("SpeechBubbleCount", typeof(int), typeof(PostView), new PropertyMetadata(1000));
 
+        public int LikeCount
+        {
+            get { return (int)GetValue(LikeCountProperty); }
+            set { SetValue(LikeCountProperty, value); }
+        }
+
+        public static readonly DependencyProperty LikeCountProperty =
+            DependencyProperty.Register("LikeCount", typeof(int), typeof(PostView), new PropertyMetadata(0));
+
         public PostView()
         {
             InitializeComponent();
@@ -103,6 +112,11 @@ namespace NolowaFrontend.Views.UserControls
         private void SpeechBubbleButton_Click(object sender, RoutedEventArgs e)
         {
             SpeechBubbleCount++;
+        }
+
+        private void HeartButton_Click(object sender, RoutedEventArgs e)
+        {
+            LikeCount++;
         }
     }
 }

@@ -82,10 +82,10 @@ namespace NolowaFrontend.ViewModels
         {
             get
             {
-                return GetRelayCommand(ref _googleLoginCommand, x =>
+                return GetRelayCommand(ref _googleLoginCommand, async x =>
                 {
                     var googleLoginProvider = new GoogleLoginProvider();
-                    googleLoginProvider.ShowLoginPage();
+                    await googleLoginProvider.ShowLoginPage();
                 });
             }
         }

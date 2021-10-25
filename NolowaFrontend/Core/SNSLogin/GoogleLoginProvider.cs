@@ -19,7 +19,7 @@ namespace NolowaFrontend.Core.SNSLogin
         {
         }
 
-        public override void ShowLoginPage()
+        public override string GetAuthorizationRequestURI()
         {
             var authorizationRequestBuilder = new StringBuilder();
 
@@ -33,7 +33,7 @@ namespace NolowaFrontend.Core.SNSLogin
             authorizationRequestBuilder.Append("&");
             authorizationRequestBuilder.Append($"client_id={_configuration.GoogleClientID}");
 
-            Process.Start(new ProcessStartInfo(authorizationRequestBuilder.ToString()) { UseShellExecute = true });
+            return authorizationRequestBuilder.ToString();
         }
     }
 }

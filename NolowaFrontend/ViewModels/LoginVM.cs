@@ -37,6 +37,22 @@ namespace NolowaFrontend.ViewModels
             set { _isLoginFailed = value; OnPropertyChanged(); }
         }
 
+        private Visibility _signupViewVisibility = Visibility.Hidden;
+
+        public Visibility SignupViewVisibility
+        {
+            get { return _signupViewVisibility; }
+            set { _signupViewVisibility = value; OnPropertyChanged(); }
+        }
+
+        private Visibility _loginViewVisibility = Visibility.Visible;
+
+        public Visibility LoginViewVisibility
+        {
+            get { return _loginViewVisibility; }
+            set { _loginViewVisibility = value; OnPropertyChanged(); }
+        }
+
         #endregion
 
         #region Commands
@@ -90,11 +106,40 @@ namespace NolowaFrontend.ViewModels
             }
         }
 
+        public ICommand _singupCommand;
+
+        public ICommand SignupCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _singupCommand, _ =>
+                {
+                    ToggleSignupVisibility();
+                    ToggleLoginVisibility();
+                });
+            }
+        }
         #endregion
 
         public LoginVM()
         {
             _service = new AuthenticationService();
+        }
+
+        private void ToggleSignupVisibility()
+        {
+            if (SignupViewVisibility == Visibility.Hidden)
+                SignupViewVisibility = Visibility.Visible;
+            else
+                SignupViewVisibility = Visibility.Hidden;
+        }
+
+        public void ToggleLoginVisibility()
+        {
+            if (LoginViewVisibility == Visibility.Hidden)
+                LoginViewVisibility = Visibility.Visible;
+            else
+                LoginViewVisibility = Visibility.Hidden;
         }
     }
 }

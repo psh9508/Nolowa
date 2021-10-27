@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:NolowaFrontend"
+        xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:ctrl="clr-namespace:NolowaFrontend.Controls"
         mc:Ignorable="d" WindowStyle="None" MouseDown="Window_MouseDown"
         Title="MainWindow" Height="500" Width="350"
@@ -59,61 +60,67 @@
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
-            <Rectangle RadiusX="15" RadiusY="15" Fill="White">
-                <Rectangle.Effect>
-                    <DropShadowEffect Color="#FFC4C4C4" BlurRadius="10" Direction="315"/>
-                </Rectangle.Effect>
-            </Rectangle>
-            <Grid  Width="250" Height="200" Grid.RowSpan="2">
-                <TextBlock Text="LOGIN" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" FontWeight="Bold" FontSize="15"/>
-                <StackPanel VerticalAlignment="Center" Margin="10">
-                    <ctrl:WatermarkMoveUpsideTextBox x:Name="txtEmail" Title="EMAIL" Margin="0,10" TextBoxType="Normal"/>
-                    <ctrl:WatermarkMoveUpsideTextBox x:Name="txtPassword" Title="PASSWORD" Margin="0,10" TextBoxType="Password"/>
-                    <Button Width="100" Height="15" Margin="0,10">
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="OverridesDefaultStyle" Value="True"/>
-                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Button">
-                                            <TextBlock x:Name="text" Text="SIGN UP" HorizontalAlignment="Center" TextDecorations="Underline"/>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsPressed" Value="True">
-                                                    <Setter TargetName="text" Property="TextBlock.Margin" Value="1,1,0,0" />
-                                                    <Setter TargetName="text" Property="TextBlock.Foreground" Value="SkyBlue"/>
-                                                </Trigger>                                               
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                </StackPanel>
+
+            <Grid Visibility="{Binding LoginViewVisibility, Mode=TwoWay}">
+                <Rectangle RadiusX="15" RadiusY="15" Fill="White">
+                    <Rectangle.Effect>
+                        <DropShadowEffect Color="#FFC4C4C4" BlurRadius="10" Direction="315"/>
+                    </Rectangle.Effect>
+                </Rectangle>
+
+                <Grid  Width="250" Height="200" Grid.RowSpan="2">                                  
+                    <TextBlock Text="LOGIN" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" FontWeight="Bold" FontSize="15"/>
+                    <StackPanel VerticalAlignment="Center" Margin="10">
+                        <ctrl:WatermarkMoveUpsideTextBox x:Name="txtEmail" Title="EMAIL" Margin="0,10" TextBoxType="Normal"/>
+                        <ctrl:WatermarkMoveUpsideTextBox x:Name="txtPassword" Title="PASSWORD" Margin="0,10" TextBoxType="Password"/>
+                        <Button Width="100" Height="15" Margin="0,10" Command="{Binding SignupCommand}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <TextBlock x:Name="text" Text="SIGN UP" HorizontalAlignment="Center" TextDecorations="Underline"/>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="text" Property="TextBlock.Margin" Value="1,1,0,0" />
+                                                        <Setter TargetName="text" Property="TextBlock.Foreground" Value="SkyBlue"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <Button Height="30" Width="100" Background="Beige" Margin="75,185,75,-15" Grid.RowSpan="2"
+                        Content="LOGIN" Command="{Binding LoginCommand}"
+                        IsEnabled="{Binding IsLogining, Converter={StaticResource InverseBooleanConverter}}">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="3"/>
+                        </Style>
+                    </Button.Resources>
+                    <Button.Effect>
+                        <DropShadowEffect Color="#FFC4C4C4" BlurRadius="10" Direction="315"/>
+                    </Button.Effect>
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiParametersConverter}">
+                            <Binding Path="InputText" ElementName="txtEmail"/>
+                            <Binding Path="InputText" ElementName="txtPassword"/>
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
             </Grid>
         </Grid>
 
-        <Button Height="30" Width="100" Background="Beige" Margin="0,200,0,0" Grid.RowSpan="2"
-                Content="LOGIN" Command="{Binding LoginCommand}"
-                IsEnabled="{Binding IsLogining, Converter={StaticResource InverseBooleanConverter}}">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="3"/>
-                </Style>
-            </Button.Resources>
-            <Button.Effect>
-                <DropShadowEffect Color="#FFC4C4C4" BlurRadius="10" Direction="315"/>
-            </Button.Effect>
-            <Button.CommandParameter>
-                <MultiBinding Converter="{StaticResource MultiParametersConverter}">
-                    <Binding Path="InputText" ElementName="txtEmail"/>
-                    <Binding Path="InputText" ElementName="txtPassword"/>
-                </MultiBinding>
-            </Button.CommandParameter>
-        </Button>
-
-        <Grid Grid.RowSpan="2" IsEnabled="{Binding IsLogining, Converter={StaticResource InverseBooleanConverter}}">
+        <Grid Grid.RowSpan="2" 
+              IsEnabled="{Binding IsLogining, Converter={StaticResource InverseBooleanConverter}}"
+              Visibility="{Binding LoginViewVisibility, Mode=TwoWay}">
             <Button Width="40" Height="40" Grid.RowSpan="2" Margin="0,300,160,0" Command="{Binding GoogleLoginCommand}">
                 <Button.Style>
                     <Style TargetType="Button">
@@ -132,5 +139,22 @@
                 </Button.Style>
             </Button>
         </Grid>
-    </Grid>
+
+        <ctrl:SignUpControl x:Name="SignUpControl" Grid.RowSpan="2" Visibility="{Binding SignupViewVisibility, Mode=TwoWay, FallbackValue=Hidden}">
+            <behaviors:Interaction.Triggers>
+                <behaviors:EventTrigger EventName="ClickedCancel">
+                    <behaviors:CallMethodAction TargetObject="{Binding}" MethodName="ToggleLoginVisibility"/>
+                </behaviors:EventTrigger>
+                <behaviors:EventTrigger EventName="CompleteSignup">
+                    <behaviors:CallMethodAction TargetObject="{Binding}" MethodName="ToggleLoginVisibility"/>
+                </behaviors:EventTrigger>
+            </behaviors:Interaction.Triggers>
+            
+            <ctrl:SignUpControl.Style>
+                <Style TargetType="ctrl:SignUpControl">
+                    <Setter Property="Visibility" Value="Hidden"/>                  
+                </Style>
+            </ctrl:SignUpControl.Style>
+        </ctrl:SignUpControl>
+    </Grid>    
 </Window>

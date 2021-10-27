@@ -59,6 +59,12 @@ namespace NolowaFrontend.Controls
             InitializeComponent();
         }
 
+        public void ClearText()
+        {
+            textBox.Clear();
+            passwordBox.Clear();
+        }
+
         private void PasswordBox_LostFocus(object sender, RoutedEventArgs e)
         {
             InputText = ((PasswordBox)sender).Password;

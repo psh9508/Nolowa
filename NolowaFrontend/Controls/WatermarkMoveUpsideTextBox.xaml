@@ -11,7 +11,7 @@
         <TextBlock Text="{Binding Title, ElementName=_this, FallbackValue=Title}"/>
         
         <!-- 일반 텍스트 박스 -->
-        <TextBox Background="Transparent" BorderThickness="0"
+        <TextBox x:Name="textBox" Background="Transparent" BorderThickness="0"
                  Text="{Binding Path=InputText, ElementName=_this}" d:Text="Design time value"
                  FontSize="{Binding InputTextSize, FallbackValue=15}">
             <TextBox.Style>
@@ -27,7 +27,7 @@
         </TextBox>
        
         <!-- 비밀번호 텍스트 박스 -->
-        <PasswordBox Background="Transparent" BorderThickness="0" d:Password="TestValue"
+        <PasswordBox x:Name="passwordBox" Background="Transparent" BorderThickness="0" d:Password="TestValue"
                      FontSize="{Binding InputTextSize, FallbackValue=15}" LostFocus="PasswordBox_LostFocus">
             <PasswordBox.Style>
                 <Style TargetType="PasswordBox">

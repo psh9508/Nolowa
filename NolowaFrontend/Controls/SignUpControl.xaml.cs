@@ -1,4 +1,6 @@
 ﻿using NolowaFrontend.Extensions;
+using NolowaFrontend.Models;
+using NolowaFrontend.Servicies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +30,12 @@ namespace NolowaFrontend.Controls
         private const string CANCLE_ANIMATION = "CancleAnimation";
         private const string CONFIRM_ANIMATION = "ConfirmAnimation";
 
+        private readonly UserService _userService;
+
         public SignUpControl()
         {
             InitializeComponent();
+            _userService = new UserService();
         }
 
         private void CancleButton_Click(object sender, RoutedEventArgs e)
@@ -48,7 +53,7 @@ namespace NolowaFrontend.Controls
             hideAnimation.Begin();
         }
 
-        private void SignupButton_Click(object sender, RoutedEventArgs e)
+        private async void SignupButton_Click(object sender, RoutedEventArgs e)
         {
             if (ValidateInputText() == false)
                 return;
@@ -59,8 +64,22 @@ namespace NolowaFrontend.Controls
                 return;
             }
 
+            var rseponse = await Save(new User()
+            {   
+                Email = txtEmail.InputText,
+                Password = txtPassword.InputText,
+                // The ProfileImage is needed to be here somewhere.
+            });
+
+            if (rseponse.IsNull())
+            {
+                // Save Failed
+                return;
+            }
+
             Storyboard hideAnimation = (Storyboard)this.Resources[CONFIRM_ANIMATION];
-            hideAnimation.Completed += (_, _) => {
+            hideAnimation.Completed += (_, _) =>
+            {
                 this.Visibility = Visibility.Hidden;
             };
 
@@ -85,6 +104,18 @@ namespace NolowaFrontend.Controls
                 return false;
 
             return true;
+        }
+
+        private async Task<User> Save(User user)
+        {
+            try
+            {
+                return await _userService.Save(user);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         private void ProfileImageButton_Click(object sender, RoutedEventArgs e)

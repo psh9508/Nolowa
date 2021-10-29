@@ -15,6 +15,7 @@ namespace NolowaFrontend.Servicies
     {
         Task<List<User>> GetAllUsers();
         Task<User> GetUser(long id);
+        Task<User> Save(User user);
     }
 
     public class UserService : ServiceBase, IUserService
@@ -27,6 +28,13 @@ namespace NolowaFrontend.Servicies
         public async Task<User> GetUser(long id)
         {
             return await GetTFromService<User>($"users/{id}");
+        }
+
+        public async Task<User> Save(User user)
+        {
+            var response = await DoPost<User, User>("users/save", user);
+
+            return response.IsSuccess ? response.ResponseData : null;
         }
     }
 }

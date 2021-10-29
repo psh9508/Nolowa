@@ -28,84 +28,6 @@ namespace NolowaFrontend.Servicies.Base
             }
         }
 
-        protected async Task<TModel> GetTFromService<TModel>(string uri)
-        {
-            if (uri.StartsWith("/"))
-                uri = uri.Remove(0, 1);
-
-            SetJWTToken();
-
-            var response = await _httpClient.GetAsync(uri);
-
-            if (response.IsSuccessStatusCode)
-                return await response.Content.ReadFromJsonAsync<TModel>();
-
-            throw new Exception();
-        }
-
-        protected async Task<ResponseBaseEntity<TResult>> DoPost<TResult, TRequest>(string uri, TRequest body) where TResult : new()
-        {
-            if (uri.StartsWith("/"))
-                uri = uri.Remove(0, 1);
-
-            SetJWTToken();
-
-            try
-            {
-                var response = await _httpClient.PostAsJsonAsync(uri, body);
-
-                var debug = await response.Content.ReadAsStringAsync();
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseContent = await response.Content.ReadFromJsonAsync<TResult>();
-                    return GetResponseModel(true, "성공", responseContent);
-                }
-            }
-            catch (NotSupportedException) // When content type is not valid
-            {
-                return GetResponseModel(false, "The content type is not supported.", default(TResult));
-            }
-            catch (JsonException) // Invalid JSON
-            {
-                return GetResponseModel(false, "Invalid JSON.", default(TResult));
-            }
-
-            return new ResponseBaseEntity<TResult>();
-        }
-
-        protected async Task<ResponseBaseEntity<TResult>> DoPost<TResult, TRequest>(string uri, string jsonRowData) where TResult : new()
-        {
-            if (uri.StartsWith("/"))
-                uri = uri.Remove(0, 1);
-
-            SetJWTToken();
-
-            try
-            {
-                var content = new StringContent(jsonRowData, Encoding.UTF8, "application/json");
-
-                var result = await _httpClient.PostAsync(uri, content);
-
-                var debug = await result.Content.ReadAsStringAsync();
-
-                return new ResponseBaseEntity<TResult>()
-                {
-                    IsSuccess = result.IsSuccessStatusCode,
-                    ResponseData = await result.Content.ReadFromJsonAsync<TResult>(),
-                };
-            }
-            catch (Exception ex)
-            {
-                return new ResponseBaseEntity<TResult>()
-                {
-                    IsSuccess = false,
-                    ResponseData = default(TResult),
-                    Message = ex.Message,
-                };
-            }
-        }
-
         protected async Task<ResponseBaseEntity<TResult>> DoGet<TResult>(string uri) where TResult : new()
         {
             if (uri.StartsWith("/"))
@@ -134,17 +56,82 @@ namespace NolowaFrontend.Servicies.Base
                     Message = ex.Message,
                 };
             }
-        }    
+        }
+
+        protected async Task<TModel> GetTFromService<TModel>(string uri)
+        {
+            if (uri.StartsWith("/"))
+                uri = uri.Remove(0, 1);
+
+            SetJWTToken();
+
+            var response = await _httpClient.GetAsync(uri);
+
+            if (response.IsSuccessStatusCode)
+                return await response.Content.ReadFromJsonAsync<TModel>();
+
+            throw new Exception();
+        }
+
+        protected async Task<ResponseBaseEntity<TResult>> DoPost<TResult, TRequest>(string uri, TRequest body) where TResult : new()
+        {
+            return await DoPostBodyAsync<TResult, TRequest>(async () =>
+            {
+                return await _httpClient.PostAsJsonAsync(uri, body);
+            });
+        }
+
+        protected async Task<ResponseBaseEntity<TResult>> DoPost<TResult, TRequest>(string uri, string jsonRowData) where TResult : new()
+        {
+            return await DoPostBodyAsync<TResult, TRequest>(async () =>
+            {
+                var content = new StringContent(jsonRowData, Encoding.UTF8, "application/json");
+
+                return await _httpClient.PostAsync(uri, content);
+            });         
+        }
+
+        private async Task<ResponseBaseEntity<TResult>> DoPostBodyAsync<TResult, TRequest>(Func<Task<HttpResponseMessage>> postAsync) where TResult : new()
+        {
+            //if (uri.StartsWith("/"))
+            //    uri = uri.Remove(0, 1);
+
+            SetJWTToken();
+
+            try
+            {
+                var response = await postAsync();
+
+                var debug = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadFromJsonAsync<TResult>();
+                    return GetResponseModel(true, "성공", responseContent);
+                }
+            }
+            catch (NotSupportedException) // When content type is not valid
+            {
+                return GetResponseModel(false, "The content type is not supported.", default(TResult));
+            }
+            catch (JsonException) // Invalid JSON
+            {
+                return GetResponseModel(false, "Invalid JSON.", default(TResult));
+            }
+
+            return new ResponseBaseEntity<TResult>();
+        }
+
 
         //private ResponseBaseEntity GetResponseModel(string message)
         //{
         //    Console.WriteLine(message);
 
-        //    return new ResponseBaseEntity
-        //    {
-        //        Message = message,
-        //    };
-        //}
+            //    return new ResponseBaseEntity
+            //    {
+            //        Message = message,
+            //    };
+            //}
 
         private ResponseBaseEntity<T> GetResponseModel<T>(bool isSuccess, string message, T data) where T : new()
         {

@@ -10,5 +10,6 @@ namespace NolowaFrontend.Core
     {
         public const string IMAGE_ROOT_PATH = @"C:\Users\psh02\OneDrive\사진\Nolowa\";
         public const string PROFILE_IMAGE_ROOT_PATH = @"C:\Users\psh02\OneDrive\사진\Nolowa\ProfileImages\";
+        public const string DEFAULT_PROFILE_IMAGE_FULL_PATH = @"C:\Users\psh02\OneDrive\사진\Nolowa\ProfileImages\ProfilePicture.jpg";
     }
 }

@@ -116,6 +116,13 @@ namespace NolowaFrontend.ViewModels
                 if (_user.ProfileImage.IsNull())
                     return;
 
+                // No need to caching a file when it's a default profile image file.
+                if (File.Exists(_user.ProfileImage.URL) == false)
+                {
+                    // LOG
+                    return;
+                }
+
                 var profileImageCachingFullPath = Constant.PROFILE_IMAGE_ROOT_PATH + _user.ProfileImage.Hash + ".jpg";
 
                 if (File.Exists(profileImageCachingFullPath) == false)

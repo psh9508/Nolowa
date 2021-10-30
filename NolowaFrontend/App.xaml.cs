@@ -1,9 +1,12 @@
-﻿using NolowaFrontend.Views;
+﻿using NolowaFrontend.Core;
+using NolowaFrontend.Views;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -16,6 +19,8 @@ namespace NolowaFrontend
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            DownloadDefaultProfileImageFile();
+
             var loginView = new LoginView();
 
             loginView.SuccessLogin += user => {
@@ -26,6 +31,20 @@ namespace NolowaFrontend
             };
 
             loginView.ShowDialog();
+        }
+
+        private void DownloadDefaultProfileImageFile()
+        {
+            using (var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream(@"NolowaFrontend.Resources.ProfilePicture.jpg"))
+            using (var file = File.OpenWrite(Constant.DEFAULT_PROFILE_IMAGE_FULL_PATH))
+            {
+                var buffer = new byte[1024];
+                int len;
+                while ((len = resource.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    file.Write(buffer, 0, len);
+                }
+            }
         }
     }
 }

@@ -34,7 +34,7 @@
     <Resource Include="Resources\Icons\retweet.png" />
     <Resource Include="Resources\Icons\share.png" />
     <Resource Include="Resources\Icons\speech-bubble.png" />
-    <Resource Include="Resources\ProfilePicture.jpg" />
+    <EmbeddedResource Include="Resources\ProfilePicture.jpg" />
   </ItemGroup>
 
 </Project>

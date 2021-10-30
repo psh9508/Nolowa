@@ -1,4 +1,5 @@
-﻿using NolowaFrontend.Models;
+﻿using NolowaFrontend.Extensions;
+using NolowaFrontend.Models;
 using NolowaFrontend.Models.Base;
 using NolowaFrontend.Servicies.Base;
 using System;
@@ -29,7 +30,16 @@ namespace NolowaFrontend.Servicies
             var loginResponse = await DoPost<User, string>($"{parentEndPoint}/Login", json);
 
             if (loginResponse.IsSuccess)
+            {
                 _jwtToken = loginResponse.ResponseData.JWTToken;
+
+                if (loginResponse.ResponseData.ProfileImage.IsNull())
+                {
+                    loginResponse.ResponseData.ProfileImage = new Models.Images.ProfileImage() {
+                        Hash = "ProfilePicture",
+                    };
+                }
+            }
 
             return loginResponse;
         }

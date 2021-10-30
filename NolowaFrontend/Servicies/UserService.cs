@@ -20,6 +20,8 @@ namespace NolowaFrontend.Servicies
 
     public class UserService : ServiceBase, IUserService
     {
+        private const string parentEndPoint = "User";
+
         public async Task<List<User>> GetAllUsers()
         {
             return await GetTFromService<List<User>>("/users");
@@ -32,7 +34,9 @@ namespace NolowaFrontend.Servicies
 
         public async Task<User> Save(User user)
         {
-            var response = await DoPost<User, User>("users/save", user);
+            string debug = Newtonsoft.Json.JsonConvert.SerializeObject(user);
+
+            var response = await DoPost<User, User>($"{parentEndPoint}/Save", user);
 
             return response.IsSuccess ? response.ResponseData : null;
         }

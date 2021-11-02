@@ -23,6 +23,7 @@ namespace NolowaFrontend.Views.UserControls
     public partial class TwitterView : UserControl
     {
         public event Action<Post> MadeNewTwitter;
+        public event Action<Guid> FailedUploadTwitter;
         public event Action CompleteTwitter;
 
         private readonly TwitterVM _twitterVM;
@@ -35,6 +36,10 @@ namespace NolowaFrontend.Views.UserControls
 
             _twitterVM.MadeNewTwitter += newTweet => {
                 MadeNewTwitter?.Invoke(newTweet);
+            };
+
+            _twitterVM.FailedUploadTwitter += guid => {
+                FailedUploadTwitter?.Invoke(guid);
             };
 
             _twitterVM.UploadedTwitter += response => {

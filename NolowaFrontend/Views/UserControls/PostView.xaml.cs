@@ -90,19 +90,23 @@ namespace NolowaFrontend.Views.UserControls
         public static readonly DependencyProperty LikeCountProperty =
             DependencyProperty.Register("LikeCount", typeof(int), typeof(PostView), new PropertyMetadata(0));
 
+        // Client에서 Post를 고유하게 식별하는 값
+        public Guid Guid { get; set; } = new Guid();
+
         public PostView()
         {
             InitializeComponent();
         }
 
-        public PostView(Post post) : base()
+        public PostView(Post post)
         {
             UserAccountID = post.PostedUser.AccountID;
             UserID = post.PostedUser.ID.ToString();
             Message = post.Message;
             ElapsedTime = post.UploadedDateTime.ToElapsedTime();
-            ProfileImageSource = post.PostedUser.ProfileImage.IsNull() ? Constant.DEFAULT_PROFILE_IMAGE_FULL_PATH 
+            ProfileImageSource = post.PostedUser.ProfileImage.IsNull() ? Constant.DEFAULT_PROFILE_IMAGE_FULL_PATH
                                                                        : $"{Constant.PROFILE_IMAGE_ROOT_PATH}{post.PostedUser.ProfileImage?.Hash}.jpg";
+            Guid = post.Guid;
         }
 
         public void CompleteUpload()

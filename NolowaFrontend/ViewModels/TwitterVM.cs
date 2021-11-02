@@ -15,9 +15,15 @@ using System.Windows.Input;
 
 namespace NolowaFrontend.ViewModels
 {
+    public class UploadFailException : Exception
+    {
+        
+    }
+
     public class TwitterVM : ViewModelBase
     {
         public event Action<Post> MadeNewTwitter;
+        public event Action<Guid> FailedUploadTwitter;
         public event Action<ResponseBaseEntity<Post>> UploadedTwitter;
 
         private readonly User _user;
@@ -78,29 +84,38 @@ namespace NolowaFrontend.ViewModels
                         return;
 
                     IsHide = true;
+                    var guid = Guid.NewGuid();
 
-                    var newTwitter = new Post()
+                    try
                     {
-                        Message = Message,
-                        Name = _user.Name,
-                        PostedUser = _user,
-                    };
+                        var newTwitter = new Post()
+                        {
+                            Message = Message,
+                            Name = _user.Name,
+                            PostedUser = _user,
+                            Guid = guid,
+                        };
 
-                    MadeNewTwitter?.Invoke(newTwitter);
+                        MadeNewTwitter?.Invoke(newTwitter);
 
-                    var response = await _postService.InsertPost(newTwitter);
+                        var response = await _postService.InsertPost(newTwitter);
 
-                    if (response.IsSuccess == false)
-                    {
+                        if (response.IsSuccess == false)
+                            throw new UploadFailException();
 
+                        await Task.Delay(3000);
+
+                        var uploadResult = await WaitUntilHideCompleteAsync();
+
+                        if (uploadResult == false)
+                            throw new UploadFailException();
+
+                        UploadedTwitter?.Invoke(response);
                     }
-
-                    await Task.Delay(3000);
-
-                    await WaitUntilHideCompleteAsync();
-
-                    UploadedTwitter?.Invoke(response);
-
+                    catch (Exception ex)
+                    {
+                        FailedUploadTwitter?.Invoke(guid);
+                    }
                 });
             }
            
@@ -116,11 +131,11 @@ namespace NolowaFrontend.ViewModels
                 ProfileImageSource = Constant.PROFILE_IMAGE_ROOT_PATH + _user.ProfileImage.Hash + ".jpg";
         }
 
-        private async Task WaitUntilHideCompleteAsync()
+        private async Task<bool> WaitUntilHideCompleteAsync()
         {
-            const int TIME_OUT = 2000;
+            const int TIME_OUT = 5000;
 
-            await Task.Run(() =>
+            return await Task.Run(() =>
             {
                 var timer = new Stopwatch();
                 timer.Start();
@@ -128,9 +143,11 @@ namespace NolowaFrontend.ViewModels
                 do
                 {
                     if (timer.ElapsedMilliseconds >= TIME_OUT)
-                        break;
+                        return false;
 
                 } while (HideComplete != true);
+
+                return true;
             });
         }
     }

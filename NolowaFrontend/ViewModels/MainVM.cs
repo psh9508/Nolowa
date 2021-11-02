@@ -86,6 +86,14 @@ namespace NolowaFrontend.ViewModels
                         Posts.Insert(0, postView);
                     };
 
+                    twitterView.FailedUploadTwitter += async guid => {
+                        await Task.Delay(2000);
+
+                        var uploadFailedTwitter = Posts.Where(x => x.Guid == guid).FirstOrDefault() ;
+
+                        Posts.Remove(uploadFailedTwitter);
+                    };
+
                     twitterView.CompleteTwitter += () => {
                         TwitterResultView = new TwitterResultView();
                         postView?.CompleteUpload();

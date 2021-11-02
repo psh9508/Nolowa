@@ -32,7 +32,7 @@ namespace NolowaFrontend.Models
         [JsonProperty("postedUser")]
         public User PostedUser { get; set; } = new User();
 
-        [JsonProperty("profileImage")]
-        public ProfileImage ProfileImage { get; set; } = new ProfileImage();
+        [JsonIgnore]
+        public Guid Guid { get; set; }
     }
 }

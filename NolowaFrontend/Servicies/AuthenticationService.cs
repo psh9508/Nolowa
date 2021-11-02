@@ -33,10 +33,14 @@ namespace NolowaFrontend.Servicies
             {
                 _jwtToken = loginResponse.ResponseData.JWTToken;
 
-                if (loginResponse.ResponseData.ProfileImage.IsNull())
+                if (loginResponse.ResponseData.ProfileImage.IsNull()
+                    || loginResponse.ResponseData.ProfileImage?.Hash.IsNotVaild() == true
+                    || loginResponse.ResponseData.ProfileImage?.URL.IsNotVaild() == true)
                 {
+                    const string defaultProfileImageName = "ProfilePicture";
+
                     loginResponse.ResponseData.ProfileImage = new Models.Images.ProfileImage() {
-                        Hash = "ProfilePicture",
+                        Hash = defaultProfileImageName,
                     };
                 }
             }

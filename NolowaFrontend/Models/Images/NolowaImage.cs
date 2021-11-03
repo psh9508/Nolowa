@@ -9,6 +9,9 @@ namespace NolowaFrontend.Models
 {
     public class NolowaImage
     {
+        [JsonProperty("id")]
+        public long ID { get; set; }
+
         [JsonProperty("url")]
         public string URL { get; set; } = string.Empty;
 

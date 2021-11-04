@@ -104,8 +104,7 @@ namespace NolowaFrontend.Views.UserControls
             UserID = post.PostedUser.ID.ToString();
             Message = post.Message;
             ElapsedTime = post.UploadedDateTime.ToElapsedTime();
-            ProfileImageSource = post.PostedUser.ProfileImage.IsNull() ? Constant.DEFAULT_PROFILE_IMAGE_FULL_PATH
-                                                                       : $"{Constant.PROFILE_IMAGE_ROOT_PATH}{post.PostedUser.ProfileImage?.Hash}.jpg";
+            ProfileImageSource = post.PostedUser.GetProfileImageFile();
             Guid = post.Guid;
         }
 

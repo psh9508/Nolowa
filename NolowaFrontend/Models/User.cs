@@ -7,6 +7,8 @@ using System.Text.Json;
 using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 using NolowaFrontend.Models.Images;
+using NolowaFrontend.Core;
+using NolowaFrontend.Extensions;
 
 namespace NolowaFrontend.Models
 {
@@ -38,5 +40,10 @@ namespace NolowaFrontend.Models
 
         [JsonProperty("jwtToken")]
         public string JWTToken { get; set; } = string.Empty;
+
+        public string GetProfileImageFile()
+        {
+            return Constant.PROFILE_IMAGE_ROOT_PATH + ProfileImage.Hash + ".jpg";
+        }
     }
 }

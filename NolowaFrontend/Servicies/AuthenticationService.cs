@@ -30,20 +30,7 @@ namespace NolowaFrontend.Servicies
             var loginResponse = await DoPost<User, string>($"{parentEndPoint}/Login", json);
 
             if (loginResponse.IsSuccess)
-            {
                 _jwtToken = loginResponse.ResponseData.JWTToken;
-
-                if (loginResponse.ResponseData.ProfileImage.IsNull()
-                    || loginResponse.ResponseData.ProfileImage?.Hash.IsNotVaild() == true
-                    || loginResponse.ResponseData.ProfileImage?.URL.IsNotVaild() == true)
-                {
-                    const string defaultProfileImageName = "ProfilePicture";
-
-                    loginResponse.ResponseData.ProfileImage = new Models.Images.ProfileImage() {
-                        Hash = defaultProfileImageName,
-                    };
-                }
-            }
 
             return loginResponse;
         }

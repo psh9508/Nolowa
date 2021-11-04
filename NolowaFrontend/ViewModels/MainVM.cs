@@ -23,6 +23,8 @@ namespace NolowaFrontend.ViewModels
         private readonly User _user;
         private readonly IPostService _service;
 
+        public string ProfileImageSource => _user.GetProfileImageFile();
+
         private ObservableCollection<PostView> _posts = new ObservableCollection<PostView>();
 
         public ObservableCollection<PostView> Posts

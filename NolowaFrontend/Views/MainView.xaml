@@ -19,8 +19,20 @@
 
     <Grid>      
         <DockPanel>
-            <Grid DockPanel.Dock="Top" Height="50" Background="Red">
+            <Grid DockPanel.Dock="Top" Height="45" Background="LightGray">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="60"/>
+                </Grid.ColumnDefinitions>
                 
+                <Ellipse Grid.Column="0" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{Binding ProfileImageSource}"/>
+                    </Ellipse.Fill>
+                </Ellipse>          
+
+                <Ellipse Grid.Column="2" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Fill="Red"/>
             </Grid>
 
             <Grid DockPanel.Dock="Bottom" Height="70" Background="Aqua">

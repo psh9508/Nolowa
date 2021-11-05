@@ -27,12 +27,24 @@ namespace NolowaFrontend.Servicies
                 password = password,
             });
 
-            var loginResponse = await DoPost<User, string>($"{parentEndPoint}/Login", json);
+            try
+            {
+                var loginResponse = await DoPost<User, string>($"{parentEndPoint}/Login", json);
 
-            if (loginResponse.IsSuccess)
-                _jwtToken = loginResponse.ResponseData.JWTToken;
+                if (loginResponse.IsSuccess)
+                    _jwtToken = loginResponse.ResponseData.JWTToken;
 
-            return loginResponse;
+                return loginResponse;
+            }
+            catch (Exception ex)
+            {
+                return new ResponseBaseEntity<User>()
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                    ResponseData = null,
+                };
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ namespace NolowaFrontend.Views.UserControls
     /// <summary>
     /// TweetView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class TwitterView : UserControl
+    public partial class MakeTwitterView : UserControl
     {
         public event Action<Post> MadeNewTwitter;
         public event Action<Guid> FailedUploadTwitter;
@@ -28,7 +28,7 @@ namespace NolowaFrontend.Views.UserControls
 
         private readonly TwitterVM _twitterVM;
 
-        public TwitterView(User user)
+        public MakeTwitterView(User user)
         {
             InitializeComponent();
 

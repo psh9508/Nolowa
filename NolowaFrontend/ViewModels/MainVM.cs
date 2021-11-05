@@ -78,7 +78,7 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _twitterCommand, _ =>
                 {
-                    var twitterView = new TwitterView(_user);
+                    var twitterView = new MakeTwitterView(_user);
                     PostView postView = null;
 
                     twitterView.MadeNewTwitter += newTwitter => {

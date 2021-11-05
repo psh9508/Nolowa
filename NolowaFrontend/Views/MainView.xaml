@@ -8,14 +8,12 @@
         xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:view="clr-namespace:NolowaFrontend.Views.MainViews"
         mc:Ignorable="d" WindowStyle="None" 
         MouseDown="Window_MouseDown" Closed="Window_Closed"        
         Title="MainView" d:Height="600" d:Width="400"
         Height="600" Width="400">
     <!--, diag:PresentationTraceSources.TraceLevel=High-->
-    <Window.Resources>
-        <sys:Double x:Key="diameterOfTweitterButton">50</sys:Double>
-    </Window.Resources>
 
     <Grid>      
         <DockPanel>
@@ -37,46 +35,18 @@
 
             <Grid DockPanel.Dock="Bottom" Height="70" Background="Aqua">
                 <StackPanel Orientation="Horizontal">
-                    <Button Width="80"/>
-                    <Button Width="80"/>
-                    <Button Width="80"/>
-                    <Button Width="80"/>
-                    <Button Width="80"/>
+                    <Button Width="100"/>
+                    <Button Width="100" Content="검색"/>
+                    <Button Width="100"/>
+                    <Button Width="100"/>
                 </StackPanel>
             </Grid>
 
+            <!-- 중앙 메인 화면-->
             <Grid>
-                <ListBox ItemsSource="{Binding Posts}"
-                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <uc:PostView/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <view:TwitterView/>
             </Grid>
         </DockPanel>
-
-        <Button Width="{StaticResource diameterOfTweitterButton}" Height="{StaticResource diameterOfTweitterButton}" Margin="0,0,20,80"
-                VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding TwitterCommand}">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="Button">
-                                <Grid >
-                                    <Ellipse Width="{StaticResource diameterOfTweitterButton}" Height="{StaticResource diameterOfTweitterButton}" Fill="Aquamarine"/>
-                                        <Image Source="/Resources/Icons/pencil.png" Margin="5"/>
-                                    <ContentControl/>
-                                </Grid>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
-        </Button>
 
         <ContentControl Content="{Binding TwitterView}"/>
         <!--<uc:TweetResultView VerticalAlignment="Bottom" Margin="0,0,0,80"/>-->

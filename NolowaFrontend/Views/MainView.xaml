@@ -35,8 +35,8 @@
 
             <Grid DockPanel.Dock="Bottom" Height="70" Background="Aqua">
                 <StackPanel Orientation="Horizontal">
-                    <Button Width="100"/>
-                    <Button Width="100" Content="검색"/>
+                    <Button Width="100" Content="Home" Command="{Binding HomeCommand}"/>
+                    <Button Width="100" Content="검색" Command="{Binding SearchCommand}"/>
                     <Button Width="100"/>
                     <Button Width="100"/>
                 </StackPanel>
@@ -44,7 +44,7 @@
 
             <!-- 중앙 메인 화면-->
             <Grid>
-                <view:TwitterView/>
+                <ContentControl Content="{Binding MainView}"/>
             </Grid>
         </DockPanel>
 

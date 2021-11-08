@@ -15,6 +15,7 @@ using NolowaFrontend.Views.UserControls;
 using NolowaFrontend.Extensions;
 using NolowaFrontend.Core;
 using System.Net;
+using NolowaFrontend.Views.MainViews;
 
 namespace NolowaFrontend.ViewModels
 {
@@ -39,6 +40,14 @@ namespace NolowaFrontend.ViewModels
         {
             get { return _twitterView; }
             set { _twitterView = value; OnPropertyChanged(); }
+        }
+
+        private object _mainView = new TwitterView();
+
+        public object MainView
+        {
+            get { return _mainView; }
+            set { _mainView = value; OnPropertyChanged(); }
         }
 
         private object _twitterResultView;
@@ -102,6 +111,32 @@ namespace NolowaFrontend.ViewModels
                     };
 
                     TwitterView = twitterView;
+                });
+            }
+        }
+
+        private ICommand _searchCommand;
+
+        public ICommand SearchCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _searchCommand, _ =>
+                {
+                    MainView = new SearchView();
+                });
+            }
+        }
+
+        private ICommand _homeCommand;
+
+        public ICommand HomeCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _homeCommand, _ =>
+                {
+                    MainView = new TwitterView();
                 });
             }
         }

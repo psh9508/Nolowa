@@ -1,4 +1,5 @@
-﻿using NolowaFrontend.Views.UserControls;
+﻿using NolowaFrontend.Models;
+using NolowaFrontend.Views.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,7 +27,45 @@ namespace NolowaFrontend.Views
 
             Posts.Add(new PostView()
             {
-                Message = "AddRange()라는 함수가 있었다면 좋았을뻔 했습니다. It'd have been better, it had AddRange() method."
+                Message = "AddRange()라는 함수가 있었다면 좋았을뻔 했습니다. It'd have been better, it had AddRange() method in the ObservableCollection type."
+            });
+        }
+    }
+
+    public class SearchViewDesignTimeVM
+    {
+        public ObservableCollection<SearchedUser> SearchedUser { get; set; } = new ObservableCollection<SearchedUser>();
+
+        public SearchViewDesignTimeVM()
+        {
+            SearchedUser.Add(new SearchedUser()
+            {
+                AccountID = "AccountID",
+                Name = "Name",
+                ProfileImage = new Models.Images.ProfileImage()
+                {
+                    Hash = "이승국",
+                }
+            });
+
+            SearchedUser.Add(new SearchedUser()
+            {
+                AccountID = "@Gold_Moon",
+                Name = "마수리",
+                ProfileImage = new Models.Images.ProfileImage()
+                {
+                    Hash = "844b2e56483db6f6f75611e891a84e9c38c727d02655f3d211a837f0aadfa31c",
+                }
+            });
+
+            SearchedUser.Add(new SearchedUser()
+            {
+                AccountID = "@xxxxbxxx",
+                Name = "랜더스",
+                ProfileImage = new Models.Images.ProfileImage()
+                {
+                    Hash = "aa",
+                }
             });
         }
     }

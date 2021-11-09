@@ -4,9 +4,53 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NolowaFrontend.Views.MainViews"
+             xmlns:designTime="clr-namespace:NolowaFrontend.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="250" d:DesignWidth="300" d:Background="White">
+    <UserControl.Resources>
+        <designTime:SearchViewDesignTimeVM x:Key="SearchViewDesignTimeVM"/>
+    </UserControl.Resources>
+    
     <Grid>
-        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="== 검색뷰 =="/>
+        <ListBox d:DataContext="{Binding Source={StaticResource SearchViewDesignTimeVM}}"
+                 ItemsSource="{Binding SearchedUser}"
+                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Ellipse Grid.Column="0" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding ProfileImage.ProfileImageFile}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+
+                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                            <TextBlock Text="{Binding Path=Name}" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Path=AccountID}"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center"
+                   Text="사용자, 화제, 키워드를 검색해보세요"
+                   Margin="0,30,0,0" FontSize="14" FontWeight="Bold">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SearchedUser.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
     </Grid>
 </UserControl>

@@ -52,6 +52,7 @@ namespace NolowaFrontend.Views.UserControls
         private void Storyboard_Completed(object sender, EventArgs e)
         {
             _twitterVM.HideComplete = true;
+            this.Visibility = Visibility.Collapsed;
         }
     }
 }

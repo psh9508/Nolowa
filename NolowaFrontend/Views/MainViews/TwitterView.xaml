@@ -25,25 +25,5 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
-        <Button Width="{StaticResource diameterOfTweitterButton}" Height="{StaticResource diameterOfTweitterButton}" Margin="0,0,20,20"
-                VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding TwitterCommand}">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="Button">
-                                <Grid >
-                                    <Ellipse Width="{StaticResource diameterOfTweitterButton}" Height="{StaticResource diameterOfTweitterButton}" Fill="Aquamarine"/>
-                                    <Image Source="/Resources/Icons/pencil.png" Margin="5"/>
-                                    <ContentControl/>
-                                </Grid>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
-        </Button>
     </Grid>
 </UserControl>

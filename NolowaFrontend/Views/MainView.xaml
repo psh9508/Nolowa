@@ -14,6 +14,9 @@
         Title="MainView" d:Height="600" d:Width="400"
         Height="600" Width="400">
     <!--, diag:PresentationTraceSources.TraceLevel=High-->
+    <Window.Resources>
+        <sys:Double x:Key="diameterOfTweitterButton">50</sys:Double>
+    </Window.Resources>
 
     <Grid>      
         <DockPanel>
@@ -47,6 +50,27 @@
                 <ContentControl Content="{Binding MainView}"/>
             </Grid>
         </DockPanel>
+
+        <!-- 트위터 작성 연필 버튼 -->
+        <Button Width="{StaticResource diameterOfTweitterButton}" Height="{StaticResource diameterOfTweitterButton}" Margin="0,0,20,90"
+                    VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding TwitterCommand}">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Grid >
+                                    <Ellipse Width="{StaticResource diameterOfTweitterButton}" Height="{StaticResource diameterOfTweitterButton}" Fill="Aquamarine"/>
+                                    <Image Source="/Resources/Icons/pencil.png" Margin="5"/>
+                                    <ContentControl/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
 
         <ContentControl Content="{Binding TwitterView}"/>
         <!--<uc:TweetResultView VerticalAlignment="Bottom" Margin="0,0,0,80"/>-->

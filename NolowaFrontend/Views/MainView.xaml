@@ -31,7 +31,10 @@
                     <Ellipse.Fill>
                         <ImageBrush ImageSource="{Binding ProfileImageSource}"/>
                     </Ellipse.Fill>
-                </Ellipse>          
+                </Ellipse>
+
+                <!--<ContentControl Grid.Column="1" Content="{Binding TopDockController}"/>-->
+                <TextBox Grid.Column="1" Text="{Binding SearchText, Mode=TwoWay}"/>
 
                 <Ellipse Grid.Column="2" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Fill="Red"/>
             </Grid>
@@ -40,7 +43,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Button Width="100" Content="Home" Command="{Binding HomeCommand}"/>
                     <Button Width="100" Content="검색" Command="{Binding SearchCommand}"/>
-                    <Button Width="100"/>
+                    <Button Width="100" Content="실험" Command="{Binding TestCommand}"/>
                     <Button Width="100"/>
                 </StackPanel>
             </Grid>

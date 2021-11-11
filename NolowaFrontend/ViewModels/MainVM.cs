@@ -23,8 +23,17 @@ namespace NolowaFrontend.ViewModels
     {
         private readonly User _user;
         private readonly IPostService _service;
+        private readonly ISearchService _searchService;
 
         public string ProfileImageSource => _user.GetProfileImageFile();
+
+        private ObservableCollection<SearchedUser> _searchedUser = new ObservableCollection<SearchedUser>();
+
+        public ObservableCollection<SearchedUser> SearchedUser
+        {
+            get { return _searchedUser; }
+            set { _searchedUser = value; OnPropertyChanged(); }
+        }
 
         private ObservableCollection<PostView> _posts = new ObservableCollection<PostView>();
 
@@ -57,6 +66,15 @@ namespace NolowaFrontend.ViewModels
             get { return _twitterResultView; }
             set { _twitterResultView = value; OnPropertyChanged(); }
         }
+
+        private string _searchText;
+
+        public string SearchText
+        {
+            get { return _searchText; }
+            set { _searchText = value; OnPropertyChanged(); }
+        }
+
 
         #region ICommands
         private ICommand _loadedEventCommand;
@@ -140,6 +158,23 @@ namespace NolowaFrontend.ViewModels
                 });
             }
         }
+
+        private ICommand _testCommand;
+
+        public ICommand TestCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _testCommand, async _ =>
+                {
+                    var test = await _searchService.Search(_user.ID, SearchText);
+
+                    var data = test.ResponseData.ToObservableCollection();
+
+                    SearchedUser = data;
+                });
+            }
+        }
         #endregion
 
 
@@ -150,6 +185,7 @@ namespace NolowaFrontend.ViewModels
 
             _user = user;
             _service = new PostService();
+            _searchService = new SearchService(); // TEST
 
             LoadedEventCommand.Execute(null);
         }

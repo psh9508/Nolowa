@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:NolowaFrontend.Views.MainViews"
              xmlns:designTime="clr-namespace:NolowaFrontend.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="250" d:DesignWidth="300" d:Background="White">
+             d:DesignHeight="300" d:DesignWidth="400" d:Background="White">
     <UserControl.Resources>
         <designTime:SearchViewDesignTimeVM x:Key="SearchViewDesignTimeVM"/>
     </UserControl.Resources>
@@ -24,15 +24,15 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Ellipse Grid.Column="0" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Ellipse Grid.Column="0" Width="45" Height="45" VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Ellipse.Fill>
                                 <ImageBrush ImageSource="{Binding ProfileImage.ProfileImageFile}"/>
                             </Ellipse.Fill>
                         </Ellipse>
 
                         <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                            <TextBlock Text="{Binding Path=Name}" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding Path=AccountID}"/>
+                            <TextBlock Text="{Binding Path=Name}" FontWeight="Bold" FontSize="14"/>
+                            <TextBlock Text="{Binding Path=AccountID}" FontSize="14"/>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

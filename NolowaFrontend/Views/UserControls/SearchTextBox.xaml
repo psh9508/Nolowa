@@ -7,7 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="200">
     <Grid>
-        <TextBox x:Name="searchTextBox" Text="검색어" VerticalContentAlignment="Center" Padding="7,0,0,0" Height="30">
+        <TextBox x:Name="searchTextBox" VerticalContentAlignment="Center" Padding="7,0,0,0" Height="30"
+                 Text="{Binding SearchText, Mode=TwoWay, FallbackValue=입력된_검색어}" 
+                 TextChanged="searchTextBox_TextChanged" KeyUp="searchTextBox_KeyUp">
             <TextBox.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="10"/>

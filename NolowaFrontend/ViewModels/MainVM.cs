@@ -67,15 +67,6 @@ namespace NolowaFrontend.ViewModels
             set { _twitterResultView = value; OnPropertyChanged(); }
         }
 
-        private string _searchText;
-
-        public string SearchText
-        {
-            get { return _searchText; }
-            set { _searchText = value; OnPropertyChanged(); }
-        }
-
-
         #region ICommands
         private ICommand _loadedEventCommand;
 
@@ -146,6 +137,23 @@ namespace NolowaFrontend.ViewModels
             }
         }
 
+        private ICommand _userSearchCommand;
+
+        public ICommand UserSearchCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _userSearchCommand, async searchText =>
+                {
+                    var test = await _searchService.Search(_user.ID, searchText.ToString());
+
+                    var data = test.ResponseData.ToObservableCollection();
+
+                    SearchedUser = data;
+                });
+            }
+        }
+
         private ICommand _homeCommand;
 
         public ICommand HomeCommand
@@ -155,23 +163,6 @@ namespace NolowaFrontend.ViewModels
                 return GetRelayCommand(ref _homeCommand, _ =>
                 {
                     MainView = new TwitterView();
-                });
-            }
-        }
-
-        private ICommand _testCommand;
-
-        public ICommand TestCommand
-        {
-            get
-            {
-                return GetRelayCommand(ref _testCommand, async _ =>
-                {
-                    var test = await _searchService.Search(_user.ID, SearchText);
-
-                    var data = test.ResponseData.ToObservableCollection();
-
-                    SearchedUser = data;
                 });
             }
         }

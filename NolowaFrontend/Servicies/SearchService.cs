@@ -11,16 +11,16 @@ namespace NolowaFrontend.Servicies
 {
     public interface ISearchService
     {
-        Task<ResponseBaseEntity<List<SearchedUser>>> Search(long userId, string username);
+        Task<ResponseBaseEntity<List<SearchedUser>>> Search(long userIdWhoSearches, string usernameBeSearched);
     }
 
     public class SearchService : ServiceBase, ISearchService
     {
         private const string parentEndPoint = "Search";
 
-        public async Task<ResponseBaseEntity<List<SearchedUser>>> Search(long userId, string username)
+        public async Task<ResponseBaseEntity<List<SearchedUser>>> Search(long userIdWhoSearches, string usernameBeSearched)
         {
-            return await DoGet<List<SearchedUser>>($"{parentEndPoint}/{username}?userId={userId}");
+            return await DoGet<List<SearchedUser>>($"{parentEndPoint}/{usernameBeSearched}?userId={userIdWhoSearches}");
         }
     }
 }

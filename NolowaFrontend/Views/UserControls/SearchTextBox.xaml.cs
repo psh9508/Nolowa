@@ -69,12 +69,19 @@ namespace NolowaFrontend.Views.UserControls
         {
             Dispatcher.Invoke(() =>
             {
-                if (searchTextBox.Text.IsValid())
+                try
                 {
-                    if (SearchCommand.IsNull())
-                        throw new NotImplementedException("SearchCommand이 설정 하지 않은채 검색을 시도 하였습니다.");
+                    if (searchTextBox.Text.IsValid())
+                    {
+                        if (SearchCommand.IsNull())
+                            throw new NotImplementedException("SearchCommand이 설정 하지 않은채 검색을 시도 하였습니다.");
 
-                    SearchCommand.Execute(searchTextBox.Text);
+                        SearchCommand.Execute(searchTextBox.Text);
+                    }
+                }
+                finally
+                {
+                    _timer.Stop();
                 }
             });
         }

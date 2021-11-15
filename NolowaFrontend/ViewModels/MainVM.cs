@@ -124,15 +124,32 @@ namespace NolowaFrontend.ViewModels
             }
         }
 
+        private ICommand _searchViewCommand;
+
+        public ICommand SearchViewCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _searchViewCommand, _ =>
+                {
+                    MainView = new SearchView();
+                });
+            }
+        }
+
         private ICommand _searchCommand;
 
         public ICommand SearchCommand
         {
             get
             {
-                return GetRelayCommand(ref _searchCommand, _ =>
+                return GetRelayCommand(ref _searchCommand, async searchText =>
                 {
-                    MainView = new SearchView();
+                    var test = await _searchService.Search(_user.ID, searchText.ToString());
+
+                    var data = test.ResponseData.ToObservableCollection();
+
+                    int breakPointStopsHere = 0;
                 });
             }
         }
@@ -145,22 +162,20 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _userSearchCommand, async searchText =>
                 {
-                    var test = await _searchService.Search(_user.ID, searchText.ToString());
+                    var response = await _searchService.SearchUser(searchText.ToString());
 
-                    var data = test.ResponseData.ToObservableCollection();
-
-                    SearchedUser = data;
+                    SearchedUser = response.ResponseData.ToObservableCollection();
                 });
             }
         }
 
-        private ICommand _homeCommand;
+        private ICommand _homeViewCommand;
 
-        public ICommand HomeCommand
+        public ICommand HomeViewCommand
         {
             get
             {
-                return GetRelayCommand(ref _homeCommand, _ =>
+                return GetRelayCommand(ref _homeViewCommand, _ =>
                 {
                     MainView = new TwitterView();
                 });
@@ -176,7 +191,7 @@ namespace NolowaFrontend.ViewModels
 
             _user = user;
             _service = new PostService();
-            _searchService = new SearchService(); // TEST
+            _searchService = new SearchService();
 
             LoadedEventCommand.Execute(null);
         }

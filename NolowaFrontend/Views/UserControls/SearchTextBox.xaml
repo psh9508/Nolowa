@@ -8,7 +8,7 @@
              d:DesignHeight="50" d:DesignWidth="200">
     <Grid>
         <TextBox x:Name="searchTextBox" VerticalContentAlignment="Center" Padding="7,0,0,0" Height="30"
-                 Text="{Binding SearchText, Mode=TwoWay, FallbackValue=입력된_검색어}" 
+                 Text="{Binding SearchText, Mode=TwoWay}" 
                  TextChanged="searchTextBox_TextChanged" KeyUp="searchTextBox_KeyUp">
             <TextBox.Resources>
                 <Style TargetType="{x:Type Border}">
@@ -18,7 +18,7 @@
         </TextBox>
         
         <!-- Watermark -->
-        <TextBlock Text="검색어 입력" VerticalAlignment="Center" Margin="10,0,0,0">
+        <TextBlock Text="검색어 입력" VerticalAlignment="Center" Margin="10,0,0,0" IsHitTestVisible="False">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Setter Property="Visibility" Value="Collapsed"/>

@@ -25,28 +25,29 @@ namespace NolowaFrontend.Views.UserControls
         private readonly Timer _timer;
 
         /// <summary>
-        /// 검색할 때 수행할 명령어
+        /// 타이머를 이용한 검색을 수행할 명령어
         /// </summary>
-        public ICommand SearchCommand
+        public ICommand TimerSearchCommand
         {
-            get { return (ICommand)GetValue(SearchCommandProperty); }
-            set { SetValue(SearchCommandProperty, value); }
+            get { return (ICommand)GetValue(TimerSearchCommandProperty); }
+            set { SetValue(TimerSearchCommandProperty, value); }
         }
 
-        public static readonly DependencyProperty SearchCommandProperty =
-            DependencyProperty.Register("SearchCommand", typeof(ICommand), typeof(SearchTextBox));
+        public static readonly DependencyProperty TimerSearchCommandProperty =
+            DependencyProperty.Register("TimerSearchCommand", typeof(ICommand), typeof(SearchTextBox));
 
         /// <summary>
-        /// 엔터를 쳐서 유저를 검색할 때 수행할 명령어
+        /// 엔터를 쳐서 검색을 할 때 수행할 명령어
         /// </summary>
-        public ICommand SearchUserCommand
+        public ICommand EnterSearchCommand
         {
-            get { return (ICommand)GetValue(SearchUserCommandProperty); }
-            set { SetValue(SearchUserCommandProperty, value); }
+            get { return (ICommand)GetValue(EnterSearchCommandProperty); }
+            set { SetValue(EnterSearchCommandProperty, value); }
         }
 
-        public static readonly DependencyProperty SearchUserCommandProperty =
-            DependencyProperty.Register("SearchUserCommand", typeof(ICommand), typeof(SearchTextBox));
+        public static readonly DependencyProperty EnterSearchCommandProperty =
+            DependencyProperty.Register("EnterSearchCommand", typeof(ICommand), typeof(SearchTextBox));
+
 
 
         public SearchTextBox()
@@ -82,14 +83,14 @@ namespace NolowaFrontend.Views.UserControls
         private void Search()
         {
             Dispatcher.Invoke(() => {
-                Search(SearchCommand);
+                Search(TimerSearchCommand);
             });
         }
 
         private void SearchUser()
         {
             Dispatcher.Invoke(() => {
-                Search(SearchUserCommand);
+                Search(EnterSearchCommand);
             });
         }
 

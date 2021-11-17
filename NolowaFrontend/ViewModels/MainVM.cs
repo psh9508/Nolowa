@@ -27,12 +27,12 @@ namespace NolowaFrontend.ViewModels
 
         public string ProfileImageSource => _user.GetProfileImageFile();
 
-        private ObservableCollection<SearchedUser> _searchedUser = new ObservableCollection<SearchedUser>();
+        private ObservableCollection<SearchedUser> _searchedUsers = new ObservableCollection<SearchedUser>();
 
-        public ObservableCollection<SearchedUser> SearchedUser
+        public ObservableCollection<SearchedUser> SearchedUsers
         {
-            get { return _searchedUser; }
-            set { _searchedUser = value; OnPropertyChanged(); }
+            get { return _searchedUsers; }
+            set { _searchedUsers = value; OnPropertyChanged(); }
         }
 
         private ObservableCollection<PostView> _posts = new ObservableCollection<PostView>();
@@ -164,7 +164,7 @@ namespace NolowaFrontend.ViewModels
                 {
                     var response = await _searchService.SearchUser(searchText.ToString());
 
-                    SearchedUser = response.ResponseData.ToObservableCollection();
+                    SearchedUsers = response.ResponseData.ToObservableCollection();
                 });
             }
         }

@@ -4,5 +4,6 @@
 
     <converter:MultiParametersConverter x:Key="MultiParametersConverter"/>
     <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+    <converter:IsGreaterThanZero x:Key="IsGreaterThanZero"/>
 
 </ResourceDictionary>

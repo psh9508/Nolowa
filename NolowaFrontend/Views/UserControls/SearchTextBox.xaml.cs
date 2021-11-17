@@ -98,13 +98,13 @@ namespace NolowaFrontend.Views.UserControls
         {
             try
             {
-                if (searchTextBox.Text.IsValid())
-                {
+                //if (searchTextBox.Text.IsValid())
+                //{
                     if (command.IsNull())
                         throw new NotImplementedException("command가 설정 하지 않은채 검색을 시도 하였습니다.");
 
                     command.Execute(searchTextBox.Text);
-                }
+                //}
             }
             finally
             {

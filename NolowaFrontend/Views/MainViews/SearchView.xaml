@@ -6,51 +6,121 @@
              xmlns:local="clr-namespace:NolowaFrontend.Views.MainViews"
              xmlns:designTime="clr-namespace:NolowaFrontend.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="400" d:Background="White">
-    <UserControl.Resources>
-        <designTime:SearchViewDesignTimeVM x:Key="SearchViewDesignTimeVM"/>
-    </UserControl.Resources>
+             d:DesignHeight="300" d:DesignWidth="350" d:Background="White">
     
+    <UserControl.Resources>
+        <ResourceDictionary>         
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/NolowaFrontend;component/ResourceDictionary/ValueConverterDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <designTime:SearchViewDesignTimeVM x:Key="SearchViewDesignTimeVM"/>
+        </ResourceDictionary>        
+    </UserControl.Resources>
+
     <Grid>
-        <ListBox d:DataContext="{Binding Source={StaticResource SearchViewDesignTimeVM}}"
-                 ItemsSource="{Binding SearchedUser}"
-                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Ellipse Grid.Column="0" Width="45" Height="45" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="{Binding ProfileImage.ProfileImageFile}"/>
-                            </Ellipse.Fill>
-                        </Ellipse>
-
-                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                            <TextBlock Text="{Binding Path=Name}" FontWeight="Bold" FontSize="14"/>
-                            <TextBlock Text="{Binding Path=AccountID}" FontSize="14"/>
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center"
-                   Text="사용자, 화제, 키워드를 검색해보세요"
-                   Margin="0,30,0,0" FontSize="14" FontWeight="Bold">
-            <TextBlock.Style>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Visibility" Value="Collapsed"/>
+        <!-- 프로필 검색 결과 -->
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding SearchedUser.Count}" Value="0">
-                            <Setter Property="Visibility" Value="Visible"/>
+                        <DataTrigger Binding="{Binding ElementName=listboxUsers, Path=Items.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </TextBlock.Style>
-        </TextBlock>
+            </Grid.Style>
+            <ListBox x:Name="listboxUsers" d:DataContext="{Binding Source={StaticResource SearchViewDesignTimeVM}}"
+                     ItemsSource="{Binding SearchedUsers}"
+                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"> 
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Ellipse Grid.Column="0" Width="45" Height="45" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{Binding ProfileImage.ProfileImageFile}"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+
+                            <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                <TextBlock Text="{Binding Path=Name}" FontWeight="Bold" FontSize="14"/>
+                                <TextBlock Text="{Binding Path=AccountID}" FontSize="14"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>           
+        </Grid>
+
+        <!--최근 검색어-->
+        <StackPanel x:Name="stackpanelRecentSearchedKeywords" Margin="5">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Style.Triggers>                        
+                        <DataTrigger Binding="{Binding ElementName=listboxUsers, Path=Items.Count, Converter={StaticResource IsGreaterThanZero}}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=listboxSearchedKeywords, Path=Items.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <Grid>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock Grid.Column="1" Text="최근" FontSize="15" FontWeight="Bold" Foreground="DimGray"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Grid>
+                        <Line X1="0" Y1="0" X2="15" Y2="15" Stroke="Black" StrokeThickness="2" />
+                        <Line X1="0" Y1="15" X2="15" Y2="0" Stroke="Black" StrokeThickness="2" />
+                    </Grid>
+                </StackPanel>
+            </Grid>
+            <ListBox x:Name="listboxSearchedKeywords" d:DataContext="{Binding Source={StaticResource SearchViewDesignTimeVM}}"
+                     ItemsSource="{Binding SearchedKeywords}" HorizontalContentAlignment="Stretch">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <TextBlock Text="{Binding Keyword}" FontSize="13"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock Text="✔"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+         
+        <!-- 기본 페이지 -->
+        <Grid>
+            <Grid>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed"/>                        
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=listboxUsers, Path=Items.Count}" Value="0"/>
+                                    <Condition Binding="{Binding ElementName=listboxSearchedKeywords, Path=Items.Count}" Value="0"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </MultiDataTrigger>
+                        </Style.Triggers>                        
+                    </Style>
+                </Grid.Style>
+
+                <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center"
+                           Text="사용자, 화제, 키워드를 검색해보세요"
+                           Margin="0,30,0,0" FontSize="14" FontWeight="Bold"/>
+            </Grid>            
+        </Grid>
     </Grid>
 </UserControl>

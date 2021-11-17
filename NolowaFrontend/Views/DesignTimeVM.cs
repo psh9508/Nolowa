@@ -34,11 +34,12 @@ namespace NolowaFrontend.Views
 
     public class SearchViewDesignTimeVM
     {
-        public ObservableCollection<SearchedUser> SearchedUser { get; set; } = new ObservableCollection<SearchedUser>();
+        public ObservableCollection<SearchedUser> SearchedUsers { get; set; } = new ObservableCollection<SearchedUser>();
+        public ObservableCollection<SearchedKeyword> SearchedKeywords { get; set; } = new ObservableCollection<SearchedKeyword>();
 
         public SearchViewDesignTimeVM()
         {
-            SearchedUser.Add(new SearchedUser()
+            SearchedUsers.Add(new SearchedUser()
             {
                 AccountID = "AccountID",
                 Name = "Name",
@@ -48,7 +49,7 @@ namespace NolowaFrontend.Views
                 }
             });
 
-            SearchedUser.Add(new SearchedUser()
+            SearchedUsers.Add(new SearchedUser()
             {
                 AccountID = "@Gold_Moon",
                 Name = "마수리",
@@ -58,7 +59,7 @@ namespace NolowaFrontend.Views
                 }
             });
 
-            SearchedUser.Add(new SearchedUser()
+            SearchedUsers.Add(new SearchedUser()
             {
                 AccountID = "@xxxxbxxx",
                 Name = "랜더스",
@@ -67,6 +68,28 @@ namespace NolowaFrontend.Views
                     Hash = "aa",
                 }
             });
+
+
+            SearchedKeywords.Add(new SearchedKeyword()
+            {
+                Keyword = "마우스"
+            });
+
+            SearchedKeywords.Add(new SearchedKeyword()
+            {
+                Keyword = "범죄와의 전쟁"
+            });
+
+            SearchedKeywords.Add(new SearchedKeyword()
+            {
+                Keyword = "행복한 가정"
+            });
+
+            SearchedKeywords.Add(new SearchedKeyword()
+            {
+                Keyword = "즐거운 하루"
+            });
         }
     }
+
 }

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NolowaFrontend.Core;
+using NolowaFrontend.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,6 @@ namespace NolowaFrontend.Models
         [JsonProperty("hash")]
         public string Hash { get; set; } = string.Empty;
 
-        public string ProfileImageFile => Constant.PROFILE_IMAGE_ROOT_PATH + Hash + ".jpg";
+        public string ProfileImageFile => this.Hash.IsNotVaild() ? Constant.DEFAULT_PROFILE_IMAGE_FULL_PATH : Constant.PROFILE_IMAGE_ROOT_PATH + Hash + ".jpg";
     }
 }

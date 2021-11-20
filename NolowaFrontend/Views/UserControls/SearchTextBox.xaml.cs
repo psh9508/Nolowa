@@ -24,6 +24,23 @@ namespace NolowaFrontend.Views.UserControls
     {
         private readonly Timer _timer;
 
+        //public event Action<string> GotTimerSearchTriggered;
+        public RoutedEventHandler GotTimerSearchTriggered;
+        public event Action<string> GotEnterSearchTriggered;
+
+
+        /// <summary>
+        /// 타이머로 검색 될 때 발생하는 이벤트
+        /// </summary>
+        public static readonly RoutedEvent TimerSearchEvent = 
+            EventManager.RegisterRoutedEvent("TimerSearchEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SearchTextBox));
+
+        public event RoutedEventHandler TimerSearch
+        {
+            add => AddHandler(TimerSearchEvent, value);
+            remove => RemoveHandler(TimerSearchEvent, value);
+        }
+
         /// <summary>
         /// 타이머를 이용한 검색을 수행할 명령어
         /// </summary>
@@ -48,8 +65,6 @@ namespace NolowaFrontend.Views.UserControls
         public static readonly DependencyProperty EnterSearchCommandProperty =
             DependencyProperty.Register("EnterSearchCommand", typeof(ICommand), typeof(SearchTextBox));
 
-
-
         public SearchTextBox()
         {
             InitializeComponent();
@@ -58,7 +73,10 @@ namespace NolowaFrontend.Views.UserControls
             _timer.AutoReset = false;
             _timer.Interval = 700;
             _timer.Elapsed += (s, e) => {
-                Search();
+                Dispatcher.Invoke(() => {
+                    var newEventArgs = new RoutedEventArgs(TimerSearchEvent, searchTextBox.Text);
+                    RaiseEvent(newEventArgs);
+                });
             };
         }
 
@@ -80,36 +98,24 @@ namespace NolowaFrontend.Views.UserControls
             }
         }
 
-        private void Search()
-        {
-            Dispatcher.Invoke(() => {
-                Search(TimerSearchCommand);
-            });
-        }
-
         private void SearchUser()
         {
             Dispatcher.Invoke(() => {
-                Search(EnterSearchCommand);
+                try
+                {
+                    //if (searchTextBox.Text.IsValid())
+                    //{
+                        if (EnterSearchCommand.IsNull())
+                            throw new NotImplementedException("EnterSearchCommand 설정 하지 않은채 검색을 시도 하였습니다.");
+
+                        EnterSearchCommand.Execute(searchTextBox.Text);
+                    //}
+                }
+                finally
+                {
+                    _timer.Stop();
+                }
             });
-        }
-
-        private void Search(ICommand command)
-        {
-            try
-            {
-                //if (searchTextBox.Text.IsValid())
-                //{
-                    if (command.IsNull())
-                        throw new NotImplementedException("command가 설정 하지 않은채 검색을 시도 하였습니다.");
-
-                    command.Execute(searchTextBox.Text);
-                //}
-            }
-            finally
-            {
-                _timer.Stop();
-            }
         }
     }
 }

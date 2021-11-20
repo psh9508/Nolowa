@@ -1,4 +1,5 @@
 ﻿using NolowaFrontend.Extensions;
+using NolowaFrontend.Models.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,11 +25,6 @@ namespace NolowaFrontend.Views.UserControls
     {
         private readonly Timer _timer;
 
-        //public event Action<string> GotTimerSearchTriggered;
-        public RoutedEventHandler GotTimerSearchTriggered;
-        public event Action<string> GotEnterSearchTriggered;
-
-
         /// <summary>
         /// 타이머로 검색 될 때 발생하는 이벤트
         /// </summary>
@@ -42,28 +38,16 @@ namespace NolowaFrontend.Views.UserControls
         }
 
         /// <summary>
-        /// 타이머를 이용한 검색을 수행할 명령어
+        /// 엔터기를 이용해 검색이 될 때 발생하는 이벤트
         /// </summary>
-        public ICommand TimerSearchCommand
+        public static readonly RoutedEvent EnterSearchEvent =
+           EventManager.RegisterRoutedEvent("EnterSearchEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SearchTextBox));
+
+        public event RoutedEventHandler EnterSearch
         {
-            get { return (ICommand)GetValue(TimerSearchCommandProperty); }
-            set { SetValue(TimerSearchCommandProperty, value); }
+            add => AddHandler(EnterSearchEvent, value);
+            remove => RemoveHandler(EnterSearchEvent, value);
         }
-
-        public static readonly DependencyProperty TimerSearchCommandProperty =
-            DependencyProperty.Register("TimerSearchCommand", typeof(ICommand), typeof(SearchTextBox));
-
-        /// <summary>
-        /// 엔터를 쳐서 검색을 할 때 수행할 명령어
-        /// </summary>
-        public ICommand EnterSearchCommand
-        {
-            get { return (ICommand)GetValue(EnterSearchCommandProperty); }
-            set { SetValue(EnterSearchCommandProperty, value); }
-        }
-
-        public static readonly DependencyProperty EnterSearchCommandProperty =
-            DependencyProperty.Register("EnterSearchCommand", typeof(ICommand), typeof(SearchTextBox));
 
         public SearchTextBox()
         {
@@ -73,10 +57,7 @@ namespace NolowaFrontend.Views.UserControls
             _timer.AutoReset = false;
             _timer.Interval = 700;
             _timer.Elapsed += (s, e) => {
-                Dispatcher.Invoke(() => {
-                    var newEventArgs = new RoutedEventArgs(TimerSearchEvent, searchTextBox.Text);
-                    RaiseEvent(newEventArgs);
-                });
+                FireEvent(TimerSearchEvent);
             };
         }
 
@@ -93,29 +74,27 @@ namespace NolowaFrontend.Views.UserControls
         {
             if (e.Key == Key.Enter)
             {
-                _timer.Stop();
-                SearchUser();
+                _timer.Stop(); // 엔터를 누르자마자 timer 검색을 중지
+                FireEvent(EnterSearchEvent);
             }
         }
 
-        private void SearchUser()
+        private void FireEvent(RoutedEvent routedEvent)
         {
-            Dispatcher.Invoke(() => {
-                try
-                {
-                    //if (searchTextBox.Text.IsValid())
-                    //{
-                        if (EnterSearchCommand.IsNull())
-                            throw new NotImplementedException("EnterSearchCommand 설정 하지 않은채 검색을 시도 하였습니다.");
+            try
+            {
+                if (routedEvent.IsNull())
+                    throw new NotImplementedException("eventArgs 설정 하지 않은채 검색을 시도 하였습니다.");
 
-                        EnterSearchCommand.Execute(searchTextBox.Text);
-                    //}
-                }
-                finally
-                {
-                    _timer.Stop();
-                }
-            });
+                Dispatcher.Invoke(() => {
+                    var eventArgs = new StringRoutedEventArgs(routedEvent, searchTextBox.Text);
+                    RaiseEvent(eventArgs);
+                }); 
+            }
+            finally
+            {
+                _timer.Stop();
+            }
         }
     }
 }

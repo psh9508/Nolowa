@@ -63,8 +63,8 @@ namespace NolowaFrontend.Views.UserControls
 
         private void searchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (_timer.IsNull() || searchTextBox.Text.IsNotVaild())
-                return;
+            //if (_timer.IsNull() || searchTextBox.Text.IsNotVaild())
+            //    return;
 
             _timer.Stop();
             _timer.Start();

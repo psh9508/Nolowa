@@ -37,9 +37,16 @@ namespace NolowaFrontend.Views.MainViews
 
         public async Task TimerSearch(string text)
         {
+            if (text.IsNotVaild())
+            {
+                listboxUsers.ItemsSource = new List<SearchedUser>();
+                return;
+            }
+
             var response = await _searchService.SearchUser(text);
 
-            listboxUsers.ItemsSource = response.ResponseData;
+            if(response.IsSuccess)
+                listboxUsers.ItemsSource = response.ResponseData;
         }
     }
 }

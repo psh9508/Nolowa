@@ -77,6 +77,8 @@ namespace NolowaFrontend.Servicies.Base
         {
             return await DoPostBodyAsync<TResult, TRequest>(async () =>
             {
+                var debug = JsonSerializer.Serialize(body);
+
                 return await _httpClient.PostAsJsonAsync(uri, body);
             });
         }

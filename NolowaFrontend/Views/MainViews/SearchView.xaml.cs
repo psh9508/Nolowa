@@ -50,8 +50,11 @@ namespace NolowaFrontend.Views.MainViews
 
             var response = await _searchService.SearchUser(text);
 
-            if(response.IsSuccess)
+            if (response.IsSuccess)
+            {
                 listboxUsers.ItemsSource = response.ResponseData;
+                await InsertSearchKeyword(text);
+            }
         }        
 
         private async Task SetSearchedKeyword()
@@ -60,6 +63,11 @@ namespace NolowaFrontend.Views.MainViews
 
             if (response.IsSuccess)
                 listboxSearchedKeywords.ItemsSource = response.ResponseData;
+        }
+
+        private async Task InsertSearchKeyword(string keyword)
+        {
+            await _searchService.Search(_user.ID, keyword);
         }
     }
 }

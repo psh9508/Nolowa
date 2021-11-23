@@ -35,7 +35,7 @@ namespace NolowaFrontend.Views
     public class SearchViewDesignTimeVM
     {
         public ObservableCollection<SearchedUser> SearchedUsers { get; set; } = new ObservableCollection<SearchedUser>();
-        public ObservableCollection<SearchedKeyword> SearchedKeywords { get; set; } = new ObservableCollection<SearchedKeyword>();
+        public ObservableCollection<string> SearchedKeywords { get; set; } = new ObservableCollection<string>();
 
         public SearchViewDesignTimeVM()
         {
@@ -70,25 +70,13 @@ namespace NolowaFrontend.Views
             });
 
 
-            SearchedKeywords.Add(new SearchedKeyword()
-            {
-                Keyword = "마우스"
-            });
+            SearchedKeywords.Add("마우스");
 
-            SearchedKeywords.Add(new SearchedKeyword()
-            {
-                Keyword = "범죄와의 전쟁"
-            });
+            SearchedKeywords.Add("범죄와의 전쟁");
 
-            SearchedKeywords.Add(new SearchedKeyword()
-            {
-                Keyword = "행복한 가정"
-            });
+            SearchedKeywords.Add("행복한 가정");
 
-            SearchedKeywords.Add(new SearchedKeyword()
-            {
-                Keyword = "즐거운 하루"
-            });
+            SearchedKeywords.Add("즐거운 하루");
         }
     }
 

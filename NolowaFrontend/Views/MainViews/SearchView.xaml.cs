@@ -35,6 +35,11 @@ namespace NolowaFrontend.Views.MainViews
             _searchService = new SearchService();
         }
 
+        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            await SetSearchedKeyword();
+        }
+
         public async Task TimerSearch(string text)
         {
             if (text.IsNotVaild())
@@ -47,6 +52,14 @@ namespace NolowaFrontend.Views.MainViews
 
             if(response.IsSuccess)
                 listboxUsers.ItemsSource = response.ResponseData;
+        }        
+
+        private async Task SetSearchedKeyword()
+        {
+            var response = await _searchService.GetSearchedKeywords(_user.ID);
+
+            if (response.IsSuccess)
+                listboxSearchedKeywords.ItemsSource = response.ResponseData;
         }
     }
 }

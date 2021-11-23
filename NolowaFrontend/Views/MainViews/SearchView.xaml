@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NolowaFrontend.Views.MainViews"
              xmlns:designTime="clr-namespace:NolowaFrontend.Views"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Loaded="UserControl_Loaded"
              d:DesignHeight="300" d:DesignWidth="350" d:Background="White">
     
     <UserControl.Resources>
@@ -88,7 +88,7 @@
                     <DataTemplate>
                         <Grid>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                <TextBlock Text="{Binding Keyword}" FontSize="13"/>
+                                <TextBlock Text="{Binding}" FontSize="13"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                 <TextBlock Text="✔"/>

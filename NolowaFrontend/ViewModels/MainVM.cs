@@ -16,6 +16,7 @@ using NolowaFrontend.Extensions;
 using NolowaFrontend.Core;
 using System.Net;
 using NolowaFrontend.Views.MainViews;
+using NolowaFrontend.Models.Events;
 
 namespace NolowaFrontend.ViewModels
 {
@@ -24,16 +25,9 @@ namespace NolowaFrontend.ViewModels
         private readonly User _user;
         private readonly IPostService _service;
         private readonly ISearchService _searchService;
+        private readonly SearchView _searchView;
 
         public string ProfileImageSource => _user.GetProfileImageFile();
-
-        private ObservableCollection<SearchedUser> _searchedUsers = new ObservableCollection<SearchedUser>();
-
-        public ObservableCollection<SearchedUser> SearchedUsers
-        {
-            get { return _searchedUsers; }
-            set { _searchedUsers = value; OnPropertyChanged(); }
-        }
 
         private ObservableCollection<PostView> _posts = new ObservableCollection<PostView>();
 
@@ -130,41 +124,8 @@ namespace NolowaFrontend.ViewModels
         {
             get
             {
-                return GetRelayCommand(ref _searchViewCommand, _ =>
-                {
-                    MainView = new SearchView();
-                });
-            }
-        }
-
-        private ICommand _searchCommand;
-
-        public ICommand SearchCommand
-        {
-            get
-            {
-                return GetRelayCommand(ref _searchCommand, async searchText =>
-                {
-                    var test = await _searchService.Search(_user.ID, searchText.ToString());
-
-                    var data = test.ResponseData.ToObservableCollection();
-
-                    int breakPointStopsHere = 0;
-                });
-            }
-        }
-
-        private ICommand _userSearchCommand;
-
-        public ICommand UserSearchCommand
-        {
-            get
-            {
-                return GetRelayCommand(ref _userSearchCommand, async searchText =>
-                {
-                    var response = await _searchService.SearchUser(searchText.ToString());
-
-                    SearchedUsers = response.ResponseData.ToObservableCollection();
+                return GetRelayCommand(ref _searchViewCommand, _ => {
+                    MainView = _searchView;
                 });
             }
         }
@@ -181,6 +142,18 @@ namespace NolowaFrontend.ViewModels
                 });
             }
         }
+
+        private ICommand _testCommand;
+
+        public ICommand TestCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _testCommand, text =>
+                {
+                });
+            }
+        }
         #endregion
 
 
@@ -192,8 +165,18 @@ namespace NolowaFrontend.ViewModels
             _user = user;
             _service = new PostService();
             _searchService = new SearchService();
+            _searchView = new SearchView(_user);
 
             LoadedEventCommand.Execute(null);
+        }
+
+        public async void OnTimerSearch(object sender, StringRoutedEventArgs e)
+        {
+            await _searchView.TimerSearch(e.Parameter);
+        }
+
+        public void OnEnterSearch(object sender, StringRoutedEventArgs e)
+        {
         }
 
         private async Task CachingProfileImageFileToLocal()

@@ -1,5 +1,9 @@
-﻿using System;
+﻿using NolowaFrontend.Extensions;
+using NolowaFrontend.Models;
+using NolowaFrontend.Servicies;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +24,22 @@ namespace NolowaFrontend.Views.MainViews
     /// </summary>
     public partial class SearchView : UserControl
     {
-        public SearchView()
+        private readonly User _user;
+        private readonly ISearchService _searchService;
+
+        public SearchView(User user)
         {
             InitializeComponent();
+
+            _user = user;
+            _searchService = new SearchService();
+        }
+
+        public async Task TimerSearch(string text)
+        {
+            var response = await _searchService.SearchUser(text);
+
+            listboxUsers.ItemsSource = response.ResponseData;
         }
     }
 }

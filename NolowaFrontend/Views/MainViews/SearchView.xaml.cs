@@ -57,13 +57,13 @@ namespace NolowaFrontend.Views.MainViews
             {
                 await InsertSearchKeywordAsync(text);
 
+                listboxUsers.ItemsSource = response.ResponseData;
+
                 if (response.ResponseData.Count <= 0)
                 {
                     txtSearchResultEmpty.Text = $"\"{text}\" 검색하기";
                     return;
                 }
-
-                listboxUsers.ItemsSource = response.ResponseData;
             }
         }        
 
@@ -78,6 +78,13 @@ namespace NolowaFrontend.Views.MainViews
         private async Task InsertSearchKeywordAsync(string keyword)
         {
             await _searchService.Search(_user.ID, keyword);
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            await _searchService.DeleteAllSearchedKeywords(_user.ID);
+
+            await SetSearchedKeywordAsync();
         }
     }
 }

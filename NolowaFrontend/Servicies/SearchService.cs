@@ -14,6 +14,7 @@ namespace NolowaFrontend.Servicies
         Task<ResponseBaseEntity<List<SearchedUser>>> Search(long userIdWhoSearches, string usernameBeSearched);
         Task<ResponseBaseEntity<List<SearchedUser>>> SearchUser(string usernameBeSearched);
         Task<ResponseBaseEntity<List<string>>> GetSearchedKeywords(long userId);
+        Task DeleteAllSearchedKeywords(long userId);
     }
 
     public class SearchService : ServiceBase, ISearchService
@@ -33,6 +34,11 @@ namespace NolowaFrontend.Servicies
         public async Task<ResponseBaseEntity<List<string>>> GetSearchedKeywords(long userId)
         {
             return await DoGet<List<string>>($"{parentEndPoint}/Keywords/{userId}");
+        }
+
+        public async Task DeleteAllSearchedKeywords(long userId)
+        {
+            await DoDelete($"{parentEndPoint}/DeleteAll/{userId}");
         }
     }
 }

@@ -37,14 +37,17 @@ namespace NolowaFrontend.Views.MainViews
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            await SetSearchedKeyword();
+            await SetSearchedKeywordAsync();
         }
 
-        public async Task TimerSearch(string text)
+        public async Task TimerSearchAsync(string text)
         {
+            txtSearchResultEmpty.Text = string.Empty;
+
             if (text.IsNotVaild())
             {
                 listboxUsers.ItemsSource = new List<SearchedUser>();
+                await SetSearchedKeywordAsync();
                 return;
             }
 
@@ -52,12 +55,19 @@ namespace NolowaFrontend.Views.MainViews
 
             if (response.IsSuccess)
             {
+                await InsertSearchKeywordAsync(text);
+
+                if (response.ResponseData.Count <= 0)
+                {
+                    txtSearchResultEmpty.Text = $"\"{text}\" 검색하기";
+                    return;
+                }
+
                 listboxUsers.ItemsSource = response.ResponseData;
-                await InsertSearchKeyword(text);
             }
         }        
 
-        private async Task SetSearchedKeyword()
+        private async Task SetSearchedKeywordAsync()
         {
             var response = await _searchService.GetSearchedKeywords(_user.ID);
 
@@ -65,7 +75,7 @@ namespace NolowaFrontend.Views.MainViews
                 listboxSearchedKeywords.ItemsSource = response.ResponseData;
         }
 
-        private async Task InsertSearchKeyword(string keyword)
+        private async Task InsertSearchKeywordAsync(string keyword)
         {
             await _searchService.Search(_user.ID, keyword);
         }

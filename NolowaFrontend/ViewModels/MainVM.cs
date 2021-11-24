@@ -172,7 +172,7 @@ namespace NolowaFrontend.ViewModels
 
         public async void OnTimerSearch(object sender, StringRoutedEventArgs e)
         {
-            await _searchView.TimerSearch(e.Parameter);
+            await _searchView.TimerSearchAsync(e.Parameter);
         }
 
         public void OnEnterSearch(object sender, StringRoutedEventArgs e)

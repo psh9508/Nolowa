@@ -68,6 +68,9 @@
                         <DataTrigger Binding="{Binding ElementName=listboxSearchedKeywords, Path=Items.Count}" Value="0">
                             <Setter Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=txtSearchResultEmpty, Path=Text.Length, Converter={StaticResource IsGreaterThanZero}}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </StackPanel.Style>
@@ -110,6 +113,7 @@
                                 <MultiDataTrigger.Conditions>
                                     <Condition Binding="{Binding ElementName=listboxUsers, Path=Items.Count}" Value="0"/>
                                     <Condition Binding="{Binding ElementName=listboxSearchedKeywords, Path=Items.Count}" Value="0"/>
+                                    <Condition Binding="{Binding ElementName=txtSearchResultEmpty, Path=Text.Length, FallbackValue=0, TargetNullValue=0}" Value="0"/>
                                 </MultiDataTrigger.Conditions>
                                 <Setter Property="Visibility" Value="Visible"/>
                             </MultiDataTrigger>
@@ -122,5 +126,19 @@
                            Margin="0,30,0,0" FontSize="14" FontWeight="Bold"/>
             </Grid>            
         </Grid>
+        
+        <!-- 검색어 없을 때 -->
+        <TextBlock x:Name="txtSearchResultEmpty" VerticalAlignment="Top" HorizontalAlignment="Center"
+                    Margin="0,20,0,0" FontSize="14" FontWeight="Bold">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=txtSearchResultEmpty, Path=Text.Length, FallbackValue=0, TargetNullValue=0}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
     </Grid>
 </UserControl>

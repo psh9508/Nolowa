@@ -6,11 +6,52 @@
              xmlns:local="clr-namespace:NolowaFrontend.Views.MainViews"
              xmlns:uc="clr-namespace:NolowaFrontend.Views.UserControls"
              xmlns:designTime="clr-namespace:NolowaFrontend.Views"
+             xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="450">
     <UserControl.Resources>
-        <designTime:TwitterViewDesignTimeVM x:Key="TwitterViewDesignTimeVM"/>
+        <ResourceDictionary>
+            <designTime:TwitterViewDesignTimeVM x:Key="TwitterViewDesignTimeVM"/>
+
+            <!--나타나는 에니메이션-->
+            <Storyboard x:Key="ShowAnimation">
+            <!--오른쪽에서 왼쪽으로 나타남-->
+            <ThicknessAnimation Storyboard.TargetName="_this"
+                                    Storyboard.TargetProperty="Margin" 
+                                    From="0,0,600,0"
+                                    To="0,0,0,0"
+                                    Duration="0:0:0.5">
+                <ThicknessAnimation.EasingFunction>
+                    <QuarticEase EasingMode="EaseOut" />
+                </ThicknessAnimation.EasingFunction>
+            </ThicknessAnimation>
+            <ThicknessAnimation Storyboard.TargetName="_this"
+                                    Storyboard.TargetProperty="Margin" 
+                                    From="0,0,0,0"
+                                    To="-600,0,0,0"
+                                    Duration="0:0:0.5">
+                <ThicknessAnimation.EasingFunction>
+                    <QuarticEase EasingMode="EaseOut" />
+                </ThicknessAnimation.EasingFunction>
+            </ThicknessAnimation>
+            <!--점점 진하게-->
+            <DoubleAnimation Storyboard.TargetName="_this"
+                                 Storyboard.TargetProperty="Opacity" 
+                                 From="0"
+                                 To="1" 
+                                 Duration="0:0:0.2"/>
+            </Storyboard>
+        </ResourceDictionary>
     </UserControl.Resources>
+    
+    <!-- 폼 에니메이션 트리거-->
+    <behaviors:Interaction.Triggers>
+        <!--화면 보이는 에니메이션 트리거-->
+        <behaviors:DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsVisible}" Value="True">
+            <behaviors:ControlStoryboardAction Storyboard="{StaticResource ShowAnimation}"
+                                               ControlStoryboardOption="Play"/>
+        </behaviors:DataTrigger>
+    </behaviors:Interaction.Triggers>
     
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
         <Grid>

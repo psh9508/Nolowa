@@ -7,6 +7,7 @@
              xmlns:uc="clr-namespace:NolowaFrontend.Views.UserControls"
              xmlns:designTime="clr-namespace:NolowaFrontend.Views"
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+             x:Name="_this"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="450">
     <UserControl.Resources>
@@ -44,7 +45,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     
-    <!-- 폼 에니메이션 트리거-->
+     <!--폼 에니메이션 트리거-->
     <behaviors:Interaction.Triggers>
         <!--화면 보이는 에니메이션 트리거-->
         <behaviors:DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsVisible}" Value="True">
@@ -57,7 +58,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -67,20 +68,24 @@
 
             <Button Grid.Row="1" Content="팔로우" Width="50" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10"/>
 
-            <StackPanel Background="White" Grid.Row="1" Margin="0,25,0,0">
-                <TextBlock Text="@AccountId"/>
+            <StackPanel  Grid.Row="1" Margin="0,25,0,0">
+                <TextBlock Text="{Binding User.AccountID}"/>
                 <TextBlock Text="딥상어동. 5살. 풍선"/>
                 <TextBlock Text="내가 왕이야"/>
                 <TextBlock Text="evernote.com/shard/s592/sh/.."/>
                 <TextBlock Text="2018년 2월에 가입함"/>
-                <TextBlock Text="8 팔로잉 8 팔로워"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="??? 팔로잉"/>
+                    <TextBlock Text="{Binding User.Followers.Count}"/>
+                    <TextBlock Text=" 팔로워"/>
+                </StackPanel>
             </StackPanel>
 
             <Grid Grid.Row="2">
                 <ListBox d:DataContext="{Binding Source={StaticResource TwitterViewDesignTimeVM}}"
-                 ItemsSource="{Binding Posts}"
-                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                         ItemsSource="{Binding Posts}"
+                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <uc:PostView/>

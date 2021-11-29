@@ -21,13 +21,9 @@ namespace NolowaFrontend.Views.MainViews
     /// </summary>
     public partial class ProfileView : UserControl
     {
-        private readonly User _user;
-
-        public ProfileView(User user)
+        public ProfileView()
         {
             InitializeComponent();
-
-            _user = user;
         }
     }
 }

@@ -26,7 +26,9 @@ namespace NolowaFrontend.Views.UserControls
     /// PostView.xaml에 대한 상호 작용 논리
     /// </summary>
     public partial class PostView : UserControl
-    {     
+    {
+        public event RoutedEventHandler ClickedProfileImage;
+
         public string UserAccountID
         {
             get { return (string)GetValue(UserAccountIDProperty); }
@@ -98,7 +100,7 @@ namespace NolowaFrontend.Views.UserControls
             InitializeComponent();
         }
 
-        public PostView(Post post)
+        public PostView(Post post) : base()
         {
             UserAccountID = post.PostedUser.AccountID;
             UserID = post.PostedUser.ID.ToString();
@@ -121,6 +123,11 @@ namespace NolowaFrontend.Views.UserControls
         private void HeartButton_Click(object sender, RoutedEventArgs e)
         {
             LikeCount++;
+        }
+
+        private void Ellipse_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            this.ClickedProfileImage?.Invoke(this, e);
         }
     }
 }

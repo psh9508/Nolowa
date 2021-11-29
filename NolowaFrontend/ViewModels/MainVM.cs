@@ -28,6 +28,7 @@ namespace NolowaFrontend.ViewModels
         private readonly SearchView _searchView;
 
         public string ProfileImageSource => _user.GetProfileImageFile();
+        public User User => _user; 
 
         private ObservableCollection<PostView> _posts = new ObservableCollection<PostView>();
 

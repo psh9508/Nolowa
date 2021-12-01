@@ -25,5 +25,9 @@ namespace NolowaFrontend.Views.MainViews
         {
             InitializeComponent();
         }
+
+        public static void Show(User user)
+        {
+        }
     }
 }

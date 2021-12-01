@@ -2,8 +2,10 @@
 using NolowaFrontend.Extensions;
 using NolowaFrontend.Models;
 using NolowaFrontend.Models.Base;
+using NolowaFrontend.Models.Events;
 using NolowaFrontend.ViewModels;
 using NolowaFrontend.ViewModels.Base;
+using NolowaFrontend.Views.MainViews;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,6 +29,8 @@ namespace NolowaFrontend.Views.UserControls
     /// </summary>
     public partial class PostView : UserControl
     {
+        private readonly User _postedUser;
+
         public event RoutedEventHandler ClickedProfileImage;
 
         public string UserAccountID
@@ -102,11 +106,13 @@ namespace NolowaFrontend.Views.UserControls
 
         public PostView(Post post) : base()
         {
-            UserAccountID = post.PostedUser.AccountID;
-            UserID = post.PostedUser.ID.ToString();
+            _postedUser = post.PostedUser;
+
+            UserAccountID = _postedUser.AccountID;
+            UserID = _postedUser.ID.ToString();
             Message = post.Message;
             ElapsedTime = post.UploadedDateTime.ToElapsedTime();
-            ProfileImageSource = post.PostedUser.GetProfileImageFile();
+            ProfileImageSource = _postedUser.GetProfileImageFile();
             Guid = post.Guid;
         }
 
@@ -127,7 +133,8 @@ namespace NolowaFrontend.Views.UserControls
 
         private void Ellipse_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            this.ClickedProfileImage?.Invoke(this, e);
+            ProfileView.Show(_postedUser);
+            //this.ClickedProfileImage?.Invoke(this, new RoutedEventArgs(null, _postedUser));
         }
     }
 }

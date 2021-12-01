@@ -30,10 +30,10 @@
             </Style>
         </Grid.Style>
 
-        <Ellipse Grid.Column="0" Grid.Row="1" Width="50" Height="50" Margin="0,5,10,0" VerticalAlignment="Top">
+        <Ellipse Grid.Column="0" Grid.Row="1" Width="50" Height="50" Margin="0,5,10,0" VerticalAlignment="Top" MouseLeftButtonUp="Ellipse_MouseLeftButtonUp">
             <Ellipse.Fill>
                 <ImageBrush ImageSource="{Binding ProfileImageSource}"/>
-            </Ellipse.Fill>
+            </Ellipse.Fill>            
         </Ellipse>
       
         <Grid Grid.Column="1" Grid.Row="1" Margin="0,0,20,0">

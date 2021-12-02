@@ -17,6 +17,7 @@ using NolowaFrontend.Core;
 using System.Net;
 using NolowaFrontend.Views.MainViews;
 using NolowaFrontend.Models.Events;
+using System.Windows;
 
 namespace NolowaFrontend.ViewModels
 {
@@ -93,6 +94,11 @@ namespace NolowaFrontend.ViewModels
                 {
                     var twitterView = new MakeTwitterView(_user);
                     PostView postView = null;
+
+                    twitterView.AddHandler(PostView.ClickedProfileImageEvent, new RoutedEventHandler((s, e) =>
+                    {
+                        // 버블링된 이벤트가 이쪽으로 들어올지 확인
+                    }));
 
                     twitterView.MadeNewTwitter += newTwitter => {
                         postView = new PostView(newTwitter);

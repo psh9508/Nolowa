@@ -31,7 +31,19 @@ namespace NolowaFrontend.Views.UserControls
     {
         private readonly User _postedUser;
 
-        public event RoutedEventHandler ClickedProfileImage;
+        //public event RoutedEventHandler ClickedProfileImage;
+
+        /// <summary>
+        /// 프로필 클릭 이벤트를 라우티드이벤트로 만들어서 밖으로 버블링시킴
+        /// </summary>
+        public static readonly RoutedEvent ClickedProfileImageEvent = 
+            EventManager.RegisterRoutedEvent("ClickedProfileImage", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(PostView));
+
+        public event RoutedEventHandler ClickedProfileImage
+        {
+            add { AddHandler(ClickedProfileImageEvent, value); }
+            remove { RemoveHandler(ClickedProfileImageEvent, value); }
+        }
 
         public string UserAccountID
         {
@@ -133,8 +145,10 @@ namespace NolowaFrontend.Views.UserControls
 
         private void Ellipse_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ProfileView.Show(_postedUser);
+            //ProfileView.Show(_postedUser);
             //this.ClickedProfileImage?.Invoke(this, new RoutedEventArgs(null, _postedUser));
+            RoutedEventArgs newEventArgs = new ObjectRoutedEventArgs(ClickedProfileImageEvent, _postedUser);
+            RaiseEvent(newEventArgs);
         }
     }
 }

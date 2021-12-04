@@ -29,22 +29,6 @@ namespace NolowaFrontend.Views.UserControls
     /// </summary>
     public partial class PostView : UserControl
     {
-        private readonly User _postedUser;
-
-        //public event RoutedEventHandler ClickedProfileImage;
-
-        /// <summary>
-        /// 프로필 클릭 이벤트를 라우티드이벤트로 만들어서 밖으로 버블링시킴
-        /// </summary>
-        public static readonly RoutedEvent ClickedProfileImageEvent = 
-            EventManager.RegisterRoutedEvent("ClickedProfileImage", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(PostView));
-
-        public event RoutedEventHandler ClickedProfileImage
-        {
-            add { AddHandler(ClickedProfileImageEvent, value); }
-            remove { RemoveHandler(ClickedProfileImageEvent, value); }
-        }
-
         public string UserAccountID
         {
             get { return (string)GetValue(UserAccountIDProperty); }
@@ -118,13 +102,11 @@ namespace NolowaFrontend.Views.UserControls
 
         public PostView(Post post) : base()
         {
-            _postedUser = post.PostedUser;
-
-            UserAccountID = _postedUser.AccountID;
-            UserID = _postedUser.ID.ToString();
+            UserAccountID = post.PostedUser.AccountID;
+            UserID = post.PostedUser.ID.ToString();
             Message = post.Message;
             ElapsedTime = post.UploadedDateTime.ToElapsedTime();
-            ProfileImageSource = _postedUser.GetProfileImageFile();
+            ProfileImageSource = post.PostedUser.GetProfileImageFile();
             Guid = post.Guid;
         }
 
@@ -141,14 +123,6 @@ namespace NolowaFrontend.Views.UserControls
         private void HeartButton_Click(object sender, RoutedEventArgs e)
         {
             LikeCount++;
-        }
-
-        private void Ellipse_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            //ProfileView.Show(_postedUser);
-            //this.ClickedProfileImage?.Invoke(this, new RoutedEventArgs(null, _postedUser));
-            RoutedEventArgs newEventArgs = new ObjectRoutedEventArgs(ClickedProfileImageEvent, _postedUser);
-            RaiseEvent(newEventArgs);
         }
     }
 }

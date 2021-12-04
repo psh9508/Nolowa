@@ -20,13 +20,7 @@
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <uc:PostView>
-                        <uc:PostView.Style>
-                            <Style TargetType="uc:PostView">
-                                <EventSetter Event="ClickedProfileImage" Handler="PostView_ClickedProfileImage"/>
-                            </Style>
-                        </uc:PostView.Style>
-                    </uc:PostView>
+                    <uc:PostView/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

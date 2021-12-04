@@ -7,6 +7,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:NolowaFrontend.Views" 
              xmlns:uc="clr-namespace:NolowaFrontend.Controls"
+             xmlns:ucv="clr-namespace:NolowaFrontend.Views.UserControls"
              d:Height="250" d:Width="300"
              mc:Ignorable="d"> 
         
@@ -30,12 +31,8 @@
             </Style>
         </Grid.Style>
 
-        <Ellipse Grid.Column="0" Grid.Row="1" Width="50" Height="50" Margin="0,5,10,0" VerticalAlignment="Top" MouseLeftButtonUp="Ellipse_MouseLeftButtonUp">
-            <Ellipse.Fill>
-                <ImageBrush ImageSource="{Binding ProfileImageSource}"/>
-            </Ellipse.Fill>            
-        </Ellipse>
-      
+        <ucv:ProfileImageElipseView Grid.Column="0" Grid.Row="1" VerticalAlignment="Top"/>
+        
         <Grid Grid.Column="1" Grid.Row="1" Margin="0,0,20,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>

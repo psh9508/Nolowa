@@ -24,5 +24,10 @@ namespace NolowaFrontend.Views.MainViews
         {
             InitializeComponent();
         }
+
+        private void PostView_ClickedProfileImage(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace NolowaFrontend.Views.UserControls
     /// </summary>
     public partial class ProfileImageElipseView : UserControl
     {
-        private readonly ProfileImage _profileImage;
+        //private readonly ProfileImage _profileImage;
 
         /// <summary>
         /// 프로필 클릭 이벤트를 라우티드이벤트로 만들어서 밖으로 버블링시킴
@@ -57,8 +57,7 @@ namespace NolowaFrontend.Views.UserControls
 
         private void Ellipse_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            RoutedEventArgs newEventArgs = new ObjectRoutedEventArgs(ClickedProfileImageEvent, ProfileImageSource);
-            RaiseEvent(newEventArgs);
+            RaiseEvent(e);
         }
     }
 }

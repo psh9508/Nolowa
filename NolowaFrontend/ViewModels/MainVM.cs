@@ -18,6 +18,7 @@ using System.Net;
 using NolowaFrontend.Views.MainViews;
 using NolowaFrontend.Models.Events;
 using System.Windows;
+using NolowaFrontend.Views;
 
 namespace NolowaFrontend.ViewModels
 {
@@ -140,6 +141,12 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _homeViewCommand, _ =>
                 {
+                    var postView = new TwitterView();
+                    postView.ClickedProfileImage += (object sender, RoutedEventArgs e) =>
+                    {
+
+                    };
+
                     MainView = new TwitterView();
                 });
             }

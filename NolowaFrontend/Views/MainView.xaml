@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NolowaFrontend.Views"
-        xmlns:uc="clr-namespace:NolowaFrontend.Views.UserControls"
+        xmlns:uc="clr-namespace:NolowaFrontend.Controls"
         xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
@@ -89,6 +89,6 @@
         <ContentControl Content="{Binding TwitterView}"/>
         <!--<uc:TweetResultView VerticalAlignment="Bottom" Margin="0,0,0,80"/>-->
         <ContentControl Content="{Binding TwitterResultView}" VerticalAlignment="Bottom" Margin="0,0,0,80"/>
-        <ContentControl Content="{StaticResource ProfileView}"/>
+        <!--<ContentControl Content="{StaticResource ProfileView}"/>-->
     </Grid>
 </Window>

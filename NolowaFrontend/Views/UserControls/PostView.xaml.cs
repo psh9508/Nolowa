@@ -29,6 +29,18 @@ namespace NolowaFrontend.Views.UserControls
     /// </summary>
     public partial class PostView : UserControl
     {
+        /// <summary>
+        /// 프로필 클릭 이벤트를 라우티드이벤트로 만들어서 밖으로 버블링시킴
+        /// </summary>
+        public static readonly RoutedEvent ClickedProfileImageEvent =
+            EventManager.RegisterRoutedEvent("ClickedProfileImage", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(PostView));
+
+        public event RoutedEventHandler ClickedProfileImage
+        {
+            add { AddHandler(ClickedProfileImageEvent, value); }
+            remove { RemoveHandler(ClickedProfileImageEvent, value); }
+        }
+
         public string UserAccountID
         {
             get { return (string)GetValue(UserAccountIDProperty); }
@@ -123,6 +135,11 @@ namespace NolowaFrontend.Views.UserControls
         private void HeartButton_Click(object sender, RoutedEventArgs e)
         {
             LikeCount++;
+        }
+
+        private void ProfileImageElipseView_ClickedProfileImage(object sender, RoutedEventArgs e)
+        {
+            RaiseEvent(e);
         }
     }
 }

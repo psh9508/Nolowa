@@ -57,7 +57,9 @@ namespace NolowaFrontend.Views.UserControls
 
         private void Ellipse_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            RaiseEvent(e);
+            //RaiseEvent(e);
+            RoutedEventArgs newEventArgs = new RoutedEventArgs(ClickedProfileImageEvent);
+            RaiseEvent(newEventArgs);
         }
     }
 }

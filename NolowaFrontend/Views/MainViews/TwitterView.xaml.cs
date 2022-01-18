@@ -40,7 +40,7 @@ namespace NolowaFrontend.Views.MainViews
         private void PostView_ClickedProfileImage(object sender, RoutedEventArgs e)
         {
             RaiseEvent(e);
-            System.Windows.Forms.MessageBox.Show("Test");
+            ProfileView.Show(new Models.User());
         }
     }
 }

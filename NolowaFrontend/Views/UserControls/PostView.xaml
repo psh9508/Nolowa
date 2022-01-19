@@ -33,7 +33,7 @@
 
         <ucv:ProfileImageElipseView Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" 
                                     ClickedProfileImage="ProfileImageElipseView_ClickedProfileImage" 
-                                    ProfileImageSource="{Binding ProfileImageSource}"/>
+                                    User="{Binding User}"/>
 
         <Grid Grid.Column="1" Grid.Row="1" Margin="0,0,20,0">
             <Grid.RowDefinitions>

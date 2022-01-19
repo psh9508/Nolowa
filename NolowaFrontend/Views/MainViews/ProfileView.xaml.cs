@@ -21,6 +21,16 @@ namespace NolowaFrontend.Views.MainViews
     /// </summary>
     public partial class ProfileView : UserControl
     {
+        public User User
+        {
+            get { return (User)GetValue(UserProperty); }
+            set { SetValue(UserProperty, value); }
+        }
+
+        public static readonly DependencyProperty UserProperty =
+            DependencyProperty.Register("User", typeof(User), typeof(ProfileView), new PropertyMetadata(null));
+
+
         public ProfileView()
         {
             InitializeComponent();
@@ -28,6 +38,7 @@ namespace NolowaFrontend.Views.MainViews
 
         public static void Show(User user)
         {
+
         }
     }
 }

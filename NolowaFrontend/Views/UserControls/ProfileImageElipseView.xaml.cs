@@ -1,4 +1,5 @@
-﻿using NolowaFrontend.Models.Events;
+﻿using NolowaFrontend.Models;
+using NolowaFrontend.Models.Events;
 using NolowaFrontend.Models.Images;
 using System;
 using System.Collections.Generic;
@@ -45,20 +46,25 @@ namespace NolowaFrontend.Views.UserControls
         public static readonly DependencyProperty ProfileImageSourceProperty =
             DependencyProperty.Register("ProfileImageSource", typeof(ImageSource), typeof(ProfileImageElipseView), new PropertyMetadata(null));
 
+        public User User
+        {
+            get { return (User)GetValue(UserProperty); }
+            set { SetValue(UserProperty, value); }
+        }
+
+        public static readonly DependencyProperty UserProperty =
+            DependencyProperty.Register("User", typeof(User), typeof(ProfileImageElipseView), new PropertyMetadata(null));
+
+
         public ProfileImageElipseView()
         {
             InitializeComponent();
         }
 
-        //public ProfileImageElipseView(ProfileImage profileImage) : base()
-        //{
-        //    _profileImage = profileImage;
-        //}
-
         private void Ellipse_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             //RaiseEvent(e);
-            RoutedEventArgs newEventArgs = new RoutedEventArgs(ClickedProfileImageEvent);
+            var newEventArgs = new ObjectRoutedEventArgs(ClickedProfileImageEvent, User);
             RaiseEvent(newEventArgs);
         }
     }

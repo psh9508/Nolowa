@@ -104,6 +104,16 @@ namespace NolowaFrontend.Views.UserControls
         public static readonly DependencyProperty LikeCountProperty =
             DependencyProperty.Register("LikeCount", typeof(int), typeof(PostView), new PropertyMetadata(0));
 
+        // 다른 dp들 이걸로 합쳐야겠다.
+        public User User
+        {
+            get { return (User)GetValue(UserProperty); }
+            set { SetValue(UserProperty, value); }
+        }
+
+        public static readonly DependencyProperty UserProperty =
+            DependencyProperty.Register("User", typeof(User), typeof(PostView), new PropertyMetadata(null));
+
         // Client에서 Post를 고유하게 식별하는 값
         public Guid Guid { get; set; } = new Guid();
 
@@ -120,6 +130,8 @@ namespace NolowaFrontend.Views.UserControls
             ElapsedTime = post.UploadedDateTime.ToElapsedTime();
             ProfileImageSource = post.PostedUser.GetProfileImageFile();
             Guid = post.Guid;
+
+            User = post.PostedUser;
         }
 
         public void CompleteUpload()
@@ -140,8 +152,11 @@ namespace NolowaFrontend.Views.UserControls
         private void ProfileImageElipseView_ClickedProfileImage(object sender, RoutedEventArgs e)
         {
             //RaiseEvent(e);
-            RoutedEventArgs newEventArgs = new RoutedEventArgs(ClickedProfileImageEvent);
-            RaiseEvent(newEventArgs);
+            if(e is ObjectRoutedEventArgs args)
+            {
+                var newEventArgs = new ObjectRoutedEventArgs(ClickedProfileImageEvent, args.Parameter);
+                RaiseEvent(newEventArgs);
+            }
         }
     }
 }

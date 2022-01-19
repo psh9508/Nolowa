@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NolowaFrontend.Models;
+using NolowaFrontend.Models.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,8 +41,12 @@ namespace NolowaFrontend.Views.MainViews
 
         private void PostView_ClickedProfileImage(object sender, RoutedEventArgs e)
         {
+            // 이벤트를 버블링 해서 처리 해도 되고
             RaiseEvent(e);
-            ProfileView.Show(new Models.User());
+
+            // 직접 호출해도 되고.. 작업해보고 리펙토링 해야할듯
+            if (e is ObjectRoutedEventArgs args)
+                ProfileView.Show((User)args.Parameter);
         }
     }
 }

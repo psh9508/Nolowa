@@ -41,12 +41,11 @@ namespace NolowaFrontend.Views.MainViews
 
         private void PostView_ClickedProfileImage(object sender, RoutedEventArgs e)
         {
-            // 이벤트를 버블링 해서 처리 해도 되고
-            RaiseEvent(e);
-
-            // 직접 호출해도 되고.. 작업해보고 리펙토링 해야할듯
             if (e is ObjectRoutedEventArgs args)
-                ProfileView.Show((User)args.Parameter);
+            {
+                var newEventArgs = new ObjectRoutedEventArgs(ClickedProfileImageEvent, args.Parameter);
+                RaiseEvent(newEventArgs);
+            }
         }
     }
 }

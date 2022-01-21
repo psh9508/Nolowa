@@ -5,16 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NolowaFrontend.Controls"
              xmlns:ctrl="clr-namespace:NolowaFrontend.Controls"
+             xmlns:core="clr-namespace:NolowaFrontend.Core"
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              x:Name="_this"
-             mc:Ignorable="d" >
+             mc:Ignorable="d" 
+             DataContext="{Binding UserService, Source={StaticResource ViewModelLocator}}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/NolowaFrontend;component/ResourceDictionary/ValueConverterDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-             <!--나타나는 에니메이션--> 
+            <!--나타나는 에니메이션--> 
             <Storyboard x:Key="ShowAnimation">
                  <!--오른쪽에서 나타남--> 
                 <ThicknessAnimation Storyboard.TargetName="_this"

@@ -30,12 +30,18 @@ namespace NolowaFrontend.Controls
         private const string CANCLE_ANIMATION = "CancleAnimation";
         private const string CONFIRM_ANIMATION = "ConfirmAnimation";
 
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
         public SignUpControl()
         {
             InitializeComponent();
             _userService = new UserService();
+        }
+
+        public SignUpControl(IUserService userService)
+        {
+            InitializeComponent();
+            _userService = userService;
         }
 
         private void CancleButton_Click(object sender, RoutedEventArgs e)

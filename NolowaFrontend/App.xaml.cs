@@ -19,6 +19,8 @@ namespace NolowaFrontend
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            IocKernel.Initialize(new IocConfiguration());
+
             DownloadDefaultProfileImageFile();
 
             var loginView = new LoginView();

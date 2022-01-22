@@ -28,6 +28,23 @@ namespace NolowaFrontend.Servicies.Base
             }
         }
 
+        protected async Task DoDelete(string uri)
+        {
+            if (uri.StartsWith("/"))
+                uri = uri.Remove(0, 1);
+
+            try
+            {
+                SetJWTToken();
+
+                await _httpClient.DeleteAsync(uri);
+            }
+            catch (Exception ex)
+            {
+                
+            }
+        }
+
         protected async Task<ResponseBaseEntity<TResult>> DoGet<TResult>(string uri) where TResult : new()
         {
             if (uri.StartsWith("/"))

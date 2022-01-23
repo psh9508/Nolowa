@@ -33,7 +33,7 @@ namespace NolowaFrontend.Views.UserControls
         /// 프로필 클릭 이벤트를 라우티드이벤트로 만들어서 밖으로 버블링시킴
         /// </summary>
         public static readonly RoutedEvent ClickedProfileImageEvent =
-            EventManager.RegisterRoutedEvent("ClickedProfileImageRouter", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(PostView));
+            EventManager.RegisterRoutedEvent("ClickedProfileImage", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(PostView));
 
         public event RoutedEventHandler ClickedProfileImage
         {

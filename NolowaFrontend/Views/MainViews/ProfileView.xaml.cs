@@ -21,14 +21,27 @@ namespace NolowaFrontend.Views.MainViews
     /// </summary>
     public partial class ProfileView : UserControl
     {
-        public User User
+        /// <summary>
+        /// 프로필 클릭 이벤트를 라우티드이벤트로 만들어서 밖으로 버블링시킴
+        /// </summary>
+        public static readonly RoutedEvent ClickedProfileImageEvent =
+            EventManager.RegisterRoutedEvent("ClickedProfileImage", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ProfileView));
+
+        public event RoutedEventHandler ClickedProfileImage
         {
-            get { return (User)GetValue(UserProperty); }
-            set { SetValue(UserProperty, value); }
+            add { AddHandler(ClickedProfileImageEvent, value); }
+            remove { RemoveHandler(ClickedProfileImageEvent, value); }
         }
 
-        public static readonly DependencyProperty UserProperty =
-            DependencyProperty.Register("User", typeof(User), typeof(ProfileView), new PropertyMetadata(null));
+
+        //public User User
+        //{
+        //    get { return (User)GetValue(UserProperty); }
+        //    set { SetValue(UserProperty, value); }
+        //}
+
+        //public static readonly DependencyProperty UserProperty =
+        //    DependencyProperty.Register("User", typeof(User), typeof(ProfileView), new PropertyMetadata(null));
 
 
         public ProfileView()
@@ -38,7 +51,7 @@ namespace NolowaFrontend.Views.MainViews
 
         public static void Show(User user)
         {
-
+            
         }
     }
 }

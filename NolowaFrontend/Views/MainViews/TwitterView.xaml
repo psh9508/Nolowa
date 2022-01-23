@@ -20,7 +20,7 @@
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <uc:PostView ClickedProfileImage="PostView_ClickedProfileImage"/>
+                    <uc:PostView ClickedProfileImageRouted="PostView_ClickedProfileImage"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

@@ -44,7 +44,7 @@
             </Storyboard>
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
      <!--폼 에니메이션 트리거-->
     <behaviors:Interaction.Triggers>
         <!--화면 보이는 에니메이션 트리거-->
@@ -61,6 +61,12 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="{Binding IsVisible}"/>
+                </Style>
+            </Grid.Style>
 
             <Rectangle Grid.Row="0" Fill="CadetBlue"/>
 

@@ -19,6 +19,7 @@ using NolowaFrontend.Views.MainViews;
 using NolowaFrontend.Models.Events;
 using System.Windows;
 using NolowaFrontend.Views;
+ㅊusing System.Windows.Controls;
 
 namespace NolowaFrontend.ViewModels
 {
@@ -141,13 +142,15 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _homeViewCommand, _ =>
                 {
-                    var postView = new TwitterView();
-                    postView.ClickedProfileImage += (object sender, RoutedEventArgs e) =>
+                    var twitterView = new TwitterView();
+                    twitterView.ClickedProfileImage += (object sender, RoutedEventArgs e) =>
                     {
+                        // VM에서 이벤트를 연결하는게 좋은건가 xaml에서 이벤트를 연결하는게 좋은건가?
 
+                        // 프로필 이미지 화면 출력 
                     };
 
-                    MainView = new TwitterView();
+                    MainView = twitterView;
                 });
             }
         }
@@ -164,7 +167,6 @@ namespace NolowaFrontend.ViewModels
             }
         }
         #endregion
-
 
         public MainVM(User user)
         {

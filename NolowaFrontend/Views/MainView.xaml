@@ -9,7 +9,6 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:view="clr-namespace:NolowaFrontend.Views.MainViews"
-        xmlns:mainView="clr-namespace:NolowaFrontend.Views.MainViews"
         mc:Ignorable="d" WindowStyle="None" 
         MouseDown="Window_MouseDown" Closed="Window_Closed"        
         Title="MainView" d:Height="600" d:Width="400"
@@ -17,7 +16,6 @@
     <!--, diag:PresentationTraceSources.TraceLevel=High-->
     <Window.Resources>
         <sys:Double x:Key="diameterOfTweitterButton">50</sys:Double>
-        <mainView:ProfileView x:Key="ProfileView"/>
     </Window.Resources>
 
     <Grid>      
@@ -89,6 +87,7 @@
         <ContentControl Content="{Binding TwitterView}"/>
         <!--<uc:TweetResultView VerticalAlignment="Bottom" Margin="0,0,0,80"/>-->
         <ContentControl Content="{Binding TwitterResultView}" VerticalAlignment="Bottom" Margin="0,0,0,80"/>
-        <!--<ContentControl Content="{StaticResource ProfileView}"/>-->
+        <!--<ContentControl Content="{Binding UserProfileView}"/>-->
+        <!--<view:ProfileView ClickedProfileImage="{Binding ClickedProfileImage}" Visibility="Collapsed"/>-->
     </Grid>
 </Window>

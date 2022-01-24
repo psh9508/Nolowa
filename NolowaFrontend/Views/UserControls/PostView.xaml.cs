@@ -41,23 +41,14 @@ namespace NolowaFrontend.Views.UserControls
             remove { RemoveHandler(ClickedProfileImageEvent, value); }
         }
 
-        public string UserAccountID
-        {
-            get { return (string)GetValue(UserAccountIDProperty); }
-            set { SetValue(UserAccountIDProperty, value); }
-        }
+        //public string UserID
+        //{
+        //    get { return (string)GetValue(UserIDProperty); }
+        //    set { SetValue(UserIDProperty, value); }
+        //}
 
-        public static readonly DependencyProperty UserAccountIDProperty =
-            DependencyProperty.Register("UserAccountID", typeof(string), typeof(PostView), new PropertyMetadata(""));
-
-        public string UserID
-        {
-            get { return (string)GetValue(UserIDProperty); }
-            set { SetValue(UserIDProperty, value); }
-        }
-
-        public static readonly DependencyProperty UserIDProperty =
-            DependencyProperty.Register("UserID", typeof(string), typeof(PostView), new PropertyMetadata(""));
+        //public static readonly DependencyProperty UserIDProperty =
+        //    DependencyProperty.Register("UserID", typeof(string), typeof(PostView), new PropertyMetadata(""));
 
         public string Message
         {
@@ -104,7 +95,6 @@ namespace NolowaFrontend.Views.UserControls
         public static readonly DependencyProperty LikeCountProperty =
             DependencyProperty.Register("LikeCount", typeof(int), typeof(PostView), new PropertyMetadata(0));
 
-        // 다른 dp들 이걸로 합쳐야겠다.
         public User User
         {
             get { return (User)GetValue(UserProperty); }
@@ -124,8 +114,7 @@ namespace NolowaFrontend.Views.UserControls
 
         public PostView(Post post) : base()
         {
-            UserAccountID = post.PostedUser.AccountID;
-            UserID = post.PostedUser.ID.ToString();
+            //UserID = post.PostedUser.ID.ToString();
             Message = post.Message;
             ElapsedTime = post.UploadedDateTime.ToElapsedTime();
             ProfileImageSource = post.PostedUser.GetProfileImageFile();

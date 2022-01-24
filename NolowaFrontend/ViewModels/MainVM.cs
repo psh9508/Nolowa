@@ -19,7 +19,7 @@ using NolowaFrontend.Views.MainViews;
 using NolowaFrontend.Models.Events;
 using System.Windows;
 using NolowaFrontend.Views;
-ㅊusing System.Windows.Controls;
+using System.Windows.Controls;
 
 namespace NolowaFrontend.ViewModels
 {

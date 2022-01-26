@@ -8,7 +8,7 @@
              xmlns:designTime="clr-namespace:NolowaFrontend.Views"
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              x:Name="_this"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Background="White"
              d:DesignHeight="450" d:DesignWidth="450">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -62,11 +62,11 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Grid.Style>
+            <!--<Grid.Style>
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="{Binding IsVisible}"/>
                 </Style>
-            </Grid.Style>
+            </Grid.Style>-->
 
             <Rectangle Grid.Row="0" Fill="CadetBlue"/>
 

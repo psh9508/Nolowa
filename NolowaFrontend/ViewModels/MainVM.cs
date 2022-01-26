@@ -57,6 +57,15 @@ namespace NolowaFrontend.ViewModels
             set { _mainView = value; OnPropertyChanged(); }
         }
 
+        private object _userProfileView;
+
+        public object UserProfileView
+        {
+            get { return _userProfileView; }
+            set { _userProfileView = value; OnPropertyChanged(); }
+        }
+
+
         private object _twitterResultView;
 
         public object TwitterResultView
@@ -147,7 +156,11 @@ namespace NolowaFrontend.ViewModels
                     {
                         // VM에서 이벤트를 연결하는게 좋은건가 xaml에서 이벤트를 연결하는게 좋은건가?
 
-                        // 프로필 이미지 화면 출력 
+                        if (e is ObjectRoutedEventArgs args)
+                        {
+                            var profileView = new ProfileView((User)args.Parameter);
+                            UserProfileView = profileView;
+                        }
                     };
 
                     MainView = twitterView;

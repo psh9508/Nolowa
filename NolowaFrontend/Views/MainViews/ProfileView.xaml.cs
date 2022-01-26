@@ -49,9 +49,9 @@ namespace NolowaFrontend.Views.MainViews
             InitializeComponent();
         }
 
-        public static void Show(User user)
+        public ProfileView(User user) : this()
         {
-            
+
         }
     }
 }

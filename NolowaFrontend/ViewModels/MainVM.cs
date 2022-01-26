@@ -49,7 +49,7 @@ namespace NolowaFrontend.ViewModels
             set { _twitterView = value; OnPropertyChanged(); }
         }
 
-        private object _mainView = new TwitterView();
+        private object _mainView;
 
         public object MainView
         {
@@ -91,6 +91,8 @@ namespace NolowaFrontend.ViewModels
                     {
                         Posts.Add(new PostView(post));
                     }
+
+                    HomeViewCommand?.Execute(null);
                 });
             }
         }

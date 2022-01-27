@@ -5,5 +5,7 @@
     <converter:MultiParametersConverter x:Key="MultiParametersConverter"/>
     <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     <converter:IsGreaterThanZero x:Key="IsGreaterThanZero"/>
+    <converter:MinusConverter x:Key="MinusConverter"/>
+    <converter:Get80PercentConverter x:Key="Get80PercentConverter"/>
 
 </ResourceDictionary>

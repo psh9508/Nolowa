@@ -9,13 +9,18 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:view="clr-namespace:NolowaFrontend.Views.MainViews"
-        mc:Ignorable="d" WindowStyle="None" 
+        mc:Ignorable="d" WindowStyle="None"
         MouseDown="Window_MouseDown" Closed="Window_Closed"        
         Title="MainView" d:Height="600" d:Width="400"
         Height="600" Width="400">
     <!--, diag:PresentationTraceSources.TraceLevel=High-->
     <Window.Resources>
-        <sys:Double x:Key="diameterOfTweitterButton">50</sys:Double>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/NolowaFrontend;component/ResourceDictionary/ValueConverterDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <sys:Double x:Key="diameterOfTweitterButton">50</sys:Double>
+        </ResourceDictionary>
     </Window.Resources>
 
     <Grid>      
@@ -87,7 +92,8 @@
         <ContentControl Content="{Binding TwitterView}"/>
         <!--<uc:TweetResultView VerticalAlignment="Bottom" Margin="0,0,0,80"/>-->
         <ContentControl Content="{Binding TwitterResultView}" VerticalAlignment="Bottom" Margin="0,0,0,80"/>
-        <ContentControl Content="{Binding UserProfileView}"/>
+        <ContentControl Content="{Binding UserProfileView}" 
+                        MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualWidth, Converter={StaticResource Get80PercentConverter}}"/>
         <!--<view:ProfileView ClickedProfileImage="{Binding ClickedProfileImage}" Visibility="Collapsed"/>-->
     </Grid>
 </Window>

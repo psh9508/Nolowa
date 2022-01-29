@@ -11,20 +11,20 @@ namespace NolowaFrontend.Servicies
 {
     public interface IPostService
     {
-        Task<ResponseBaseEntity<List<Post>>> GetPosts(long id);
-        Task<ResponseBaseEntity<Post>> InsertPost(Post post);
+        Task<ResponseBaseEntity<List<Post>>> GetPostsAsync(long id);
+        Task<ResponseBaseEntity<Post>> InsertPostAsync(Post post);
     }
 
     public class PostService : ServiceBase, IPostService
     {
         private const string parentEndPoint = "Post";
 
-        public async Task<ResponseBaseEntity<List<Post>>> GetPosts(long id)
+        public async Task<ResponseBaseEntity<List<Post>>> GetPostsAsync(long id)
         {
             return await DoGet<List<Post>>($"{parentEndPoint}/{id}/Followers");
         }
 
-        public async Task<ResponseBaseEntity<Post>> InsertPost(Post post)
+        public async Task<ResponseBaseEntity<Post>> InsertPostAsync(Post post)
         {
             return await DoPost<Post, Post>($"{parentEndPoint}/New", post);
         }

@@ -98,7 +98,7 @@ namespace NolowaFrontend.ViewModels
 
                         MadeNewTwitter?.Invoke(newTwitter);
 
-                        var response = await _postService.InsertPost(newTwitter);
+                        var response = await _postService.InsertPostAsync(newTwitter);
 
                         if (response.IsSuccess == false)
                             throw new UploadFailException();

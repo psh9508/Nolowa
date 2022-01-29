@@ -1,6 +1,9 @@
 ﻿using NolowaFrontend.Models;
+using NolowaFrontend.Servicies;
+using NolowaFrontend.Views.UserControls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +24,9 @@ namespace NolowaFrontend.Views.MainViews
     /// </summary>
     public partial class ProfileView : UserControl
     {
+        private readonly IPostService _postService;
+        private readonly User _user;
+
         /// <summary>
         /// 프로필 클릭 이벤트를 라우티드이벤트로 만들어서 밖으로 버블링시킴
         /// </summary>
@@ -33,7 +39,6 @@ namespace NolowaFrontend.Views.MainViews
             remove { RemoveHandler(ClickedProfileImageEvent, value); }
         }
 
-
         //public User User
         //{
         //    get { return (User)GetValue(UserProperty); }
@@ -42,16 +47,24 @@ namespace NolowaFrontend.Views.MainViews
 
         //public static readonly DependencyProperty UserProperty =
         //    DependencyProperty.Register("User", typeof(User), typeof(ProfileView), new PropertyMetadata(null));
-
-
         public ProfileView()
         {
             InitializeComponent();
+
+            _postService = new PostService();
         }
 
         public ProfileView(User user) : this()
         {
+            _user = user;
+        }
 
+        private async void _this_Loaded(object sender, RoutedEventArgs e)
+        {
+            var postsResponse = await _postService.GetPostsAsync(_user.ID);
+
+            if (postsResponse.IsSuccess)
+                listPosts.ItemsSource = postsResponse.ResponseData;
         }
     }
 }

@@ -85,7 +85,7 @@ namespace NolowaFrontend.ViewModels
                 {
                     await CachingProfileImageFileToLocal();
 
-                    var posts = await _service.GetPosts(_user.ID);
+                    var posts = await _service.GetPostsAsync(_user.ID);
 
                     foreach (var post in posts.ResponseData)
                     {

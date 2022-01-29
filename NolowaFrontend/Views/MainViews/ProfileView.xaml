@@ -7,7 +7,7 @@
              xmlns:uc="clr-namespace:NolowaFrontend.Views.UserControls"
              xmlns:designTime="clr-namespace:NolowaFrontend.Views"
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
-             x:Name="_this"
+             x:Name="_this" Loaded="_this_Loaded"
              mc:Ignorable="d" Background="White"
              d:DesignHeight="450" d:DesignWidth="450">
     <UserControl.Resources>
@@ -16,17 +16,17 @@
 
             <!--나타나는 에니메이션-->
             <Storyboard x:Key="ShowAnimation">
-            <!--오른쪽에서 왼쪽으로 나타남-->
-            <ThicknessAnimation Storyboard.TargetName="_this"
+            <!--왼쪽에서 오른쪽으로 나타남-->
+            <!--<ThicknessAnimation Storyboard.TargetName="_this"
                                     Storyboard.TargetProperty="Margin" 
-                                    From="0,0,600,0"
-                                    To="0,0,0,0"
-                                    Duration="0:0:0.5">
+                                    From="0,0,0,0"
+                                    To="0,0,300,0"
+                                    Duration="0:0:1">
                 <ThicknessAnimation.EasingFunction>
                     <QuarticEase EasingMode="EaseOut" />
                 </ThicknessAnimation.EasingFunction>
-            </ThicknessAnimation>
-            <ThicknessAnimation Storyboard.TargetName="_this"
+            </ThicknessAnimation>-->
+            <!--<ThicknessAnimation Storyboard.TargetName="_this"
                                     Storyboard.TargetProperty="Margin" 
                                     From="0,0,0,0"
                                     To="-600,0,0,0"
@@ -34,13 +34,13 @@
                 <ThicknessAnimation.EasingFunction>
                     <QuarticEase EasingMode="EaseOut" />
                 </ThicknessAnimation.EasingFunction>
-            </ThicknessAnimation>
+            </ThicknessAnimation>-->
             <!--점점 진하게-->
             <DoubleAnimation Storyboard.TargetName="_this"
                                  Storyboard.TargetProperty="Opacity" 
                                  From="0"
                                  To="1" 
-                                 Duration="0:0:0.2"/>
+                                 Duration="0:0:0.5"/>
             </Storyboard>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -88,13 +88,14 @@
             </StackPanel>
 
             <Grid Grid.Row="2">
-                <ListBox d:DataContext="{Binding Source={StaticResource TwitterViewDesignTimeVM}}"
+                <ListBox x:Name="listPosts"
+                         d:DataContext="{Binding Source={StaticResource TwitterViewDesignTimeVM}}"
                          ItemsSource="{Binding Posts}"
                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <uc:PostView/>
+                            <uc:PostView User="{Binding User}"/>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

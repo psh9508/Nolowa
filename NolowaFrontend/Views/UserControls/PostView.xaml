@@ -33,7 +33,7 @@
 
         <ucv:ProfileImageElipseView Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" 
                                     ClickedProfileImage="ProfileImageElipseView_ClickedProfileImage" 
-                                    User="{Binding User}"/>
+                                    User="{Binding PostedUser}"/>
 
         <Grid Grid.Column="1" Grid.Row="1" Margin="0,0,20,0">
             <Grid.RowDefinitions>
@@ -44,8 +44,8 @@
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding User.Name, FallbackValue=pinnieminnie}" FontWeight="Bold" Margin="0,0,10,0"/>
-                <TextBlock Text="{Binding User.AccountID, FallbackValue=@asdf}" Margin="0,0,10,0"/>
+                <TextBlock Text="{Binding PostedUser.Name, FallbackValue=pinnieminnie}" FontWeight="Bold" Margin="0,0,10,0"/>
+                <TextBlock Text="{Binding PostedUser.AccountID, FallbackValue=@asdf}" Margin="0,0,10,0"/>
                 <TextBlock Text="{Binding ElapsedTime, FallbackValue=1시간}" Margin="0,0,10,0"/>
             </StackPanel>
             <TextBlock Grid.Row="1" Text="{Binding Path=Message, FallbackValue=Message}" TextWrapping="Wrap"/>

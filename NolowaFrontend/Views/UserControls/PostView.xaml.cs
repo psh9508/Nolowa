@@ -77,7 +77,7 @@ namespace NolowaFrontend.Views.UserControls
         public static readonly DependencyProperty LikeCountProperty =
             DependencyProperty.Register("LikeCount", typeof(int), typeof(PostView), new PropertyMetadata(0));
 
-        public User User
+        public User PostedUser
         {
             get { return (User)GetValue(UserProperty); }
             set { SetValue(UserProperty, value); }
@@ -101,7 +101,7 @@ namespace NolowaFrontend.Views.UserControls
             ElapsedTime = post.UploadedDateTime.ToElapsedTime();
             Guid = post.Guid;
 
-            User = post.PostedUser;
+            PostedUser = post.PostedUser;
         }
 
         public void CompleteUpload()

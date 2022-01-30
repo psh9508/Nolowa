@@ -8,7 +8,7 @@
              d:DesignHeight="50" d:DesignWidth="50">
     <Ellipse Width="50" Height="50" MouseLeftButtonUp="Ellipse_MouseLeftButtonUp">
         <Ellipse.Fill>
-            <ImageBrush ImageSource="{Binding ProfileImageSource}"/>
+            <ImageBrush ImageSource="{Binding PostedUser.ProfileImageFile}"/>
         </Ellipse.Fill>
     </Ellipse>
 </UserControl>

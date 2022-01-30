@@ -39,14 +39,6 @@ namespace NolowaFrontend.Views.MainViews
             remove { RemoveHandler(ClickedProfileImageEvent, value); }
         }
 
-        //public User User
-        //{
-        //    get { return (User)GetValue(UserProperty); }
-        //    set { SetValue(UserProperty, value); }
-        //}
-
-        //public static readonly DependencyProperty UserProperty =
-        //    DependencyProperty.Register("User", typeof(User), typeof(ProfileView), new PropertyMetadata(null));
         public ProfileView()
         {
             InitializeComponent();
@@ -59,7 +51,7 @@ namespace NolowaFrontend.Views.MainViews
             _user = user;
         }
 
-        private async void _this_Loaded(object sender, RoutedEventArgs e)
+        private async void ProfileView_Loaded(object sender, RoutedEventArgs e)
         {
             var postsResponse = await _postService.GetPostsAsync(_user.ID);
 

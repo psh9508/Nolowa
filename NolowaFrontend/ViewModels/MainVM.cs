@@ -30,7 +30,7 @@ namespace NolowaFrontend.ViewModels
         private readonly ISearchService _searchService;
         private readonly SearchView _searchView;
 
-        public string ProfileImageSource => _user.GetProfileImageFile();
+        public string ProfileImageSource => _user.ProfileImageFile;
         public User User => _user; 
 
         private ObservableCollection<PostView> _posts = new ObservableCollection<PostView>();

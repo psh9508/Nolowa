@@ -41,9 +41,6 @@ namespace NolowaFrontend.Models
         [JsonProperty("jwtToken")]
         public string JWTToken { get; set; } = string.Empty;
 
-        public string GetProfileImageFile()
-        {
-            return Constant.PROFILE_IMAGE_ROOT_PATH + ProfileImage.Hash + ".jpg";
-        }
+        public string ProfileImageFile => Constant.PROFILE_IMAGE_ROOT_PATH + ProfileImage.Hash + ".jpg";
     }
 }

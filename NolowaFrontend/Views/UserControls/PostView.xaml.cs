@@ -41,15 +41,6 @@ namespace NolowaFrontend.Views.UserControls
             remove { RemoveHandler(ClickedProfileImageEvent, value); }
         }
 
-        //public string UserID
-        //{
-        //    get { return (string)GetValue(UserIDProperty); }
-        //    set { SetValue(UserIDProperty, value); }
-        //}
-
-        //public static readonly DependencyProperty UserIDProperty =
-        //    DependencyProperty.Register("UserID", typeof(string), typeof(PostView), new PropertyMetadata(""));
-
         public string Message
         {
             get { return (string)GetValue(MessageProperty); }
@@ -58,15 +49,6 @@ namespace NolowaFrontend.Views.UserControls
 
         public static readonly DependencyProperty MessageProperty =
             DependencyProperty.Register("Message", typeof(string), typeof(PostView), new PropertyMetadata(""));
-
-        public string ProfileImageSource
-        {
-            get { return (string)GetValue(ProfileImageSourceProperty); }
-            set { SetValue(ProfileImageSourceProperty, value); }
-        }
-
-        public static readonly DependencyProperty ProfileImageSourceProperty =
-            DependencyProperty.Register("ProfileImageSource", typeof(string), typeof(PostView), new PropertyMetadata(""));
 
         public string ElapsedTime
         {
@@ -104,6 +86,7 @@ namespace NolowaFrontend.Views.UserControls
         public static readonly DependencyProperty UserProperty =
             DependencyProperty.Register("User", typeof(User), typeof(PostView), new PropertyMetadata(null));
 
+
         // Client에서 Post를 고유하게 식별하는 값
         public Guid Guid { get; set; } = new Guid();
 
@@ -114,10 +97,8 @@ namespace NolowaFrontend.Views.UserControls
 
         public PostView(Post post) : base()
         {
-            //UserID = post.PostedUser.ID.ToString();
             Message = post.Message;
             ElapsedTime = post.UploadedDateTime.ToElapsedTime();
-            ProfileImageSource = post.PostedUser.GetProfileImageFile();
             Guid = post.Guid;
 
             User = post.PostedUser;

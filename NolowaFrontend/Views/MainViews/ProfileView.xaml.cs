@@ -50,13 +50,18 @@ namespace NolowaFrontend.Views.MainViews
         {
             _user = user;
         }
-
+        
         private async void ProfileView_Loaded(object sender, RoutedEventArgs e)
         {
             var postsResponse = await _postService.GetPostsAsync(_user.ID);
 
             if (postsResponse.IsSuccess)
                 listPosts.ItemsSource = postsResponse.ResponseData;
+        }
+
+        private void Background_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Visibility = Visibility.Collapsed;
         }
     }
 }

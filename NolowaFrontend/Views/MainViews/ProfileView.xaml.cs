@@ -53,6 +53,8 @@ namespace NolowaFrontend.Views.MainViews
         
         private async void ProfileView_Loaded(object sender, RoutedEventArgs e)
         {
+            listPosts.ItemsSource = null;
+
             var postsResponse = await _postService.GetPostsAsync(_user.ID);
 
             if (postsResponse.IsSuccess)

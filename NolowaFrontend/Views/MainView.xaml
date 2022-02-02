@@ -9,6 +9,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:view="clr-namespace:NolowaFrontend.Views.MainViews"
+        xmlns:ucv="clr-namespace:NolowaFrontend.Views.UserControls"
         mc:Ignorable="d" WindowStyle="None"
         MouseDown="Window_MouseDown" Closed="Window_Closed"        
         Title="MainView" d:Height="600" d:Width="400"
@@ -70,7 +71,7 @@
 
         <!-- 트위터 작성 연필 버튼 -->
         <Button Width="{StaticResource diameterOfTweitterButton}" Height="{StaticResource diameterOfTweitterButton}" Margin="0,0,20,90"
-                    VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding TwitterCommand}">
+                VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding TwitterCommand}">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
@@ -89,7 +90,7 @@
             </Button.Style>
         </Button>
 
-        <ContentControl Content="{Binding TwitterView}"/>
+        <ContentControl Content="{Binding MakeTwitterView}"/>
         <!--<uc:TweetResultView VerticalAlignment="Bottom" Margin="0,0,0,80"/>-->
         <ContentControl Content="{Binding TwitterResultView}" VerticalAlignment="Bottom" Margin="0,0,0,80"/>
         <ContentControl Content="{Binding UserProfileView}" HorizontalAlignment="Left" />

@@ -41,12 +41,12 @@ namespace NolowaFrontend.ViewModels
             set { _posts = value; OnPropertyChanged(); }
         }
 
-        private object _twitterView;
+        private object _makeTwitterView;
 
-        public object TwitterView
+        public object MakeTwitterView
         {
-            get { return _twitterView; }
-            set { _twitterView = value; OnPropertyChanged(); }
+            get { return _makeTwitterView; }
+            set { _makeTwitterView = value; OnPropertyChanged(); }
         }
 
         private object _mainView;
@@ -105,17 +105,17 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _twitterCommand, _ =>
                 {
-                    var twitterView = new MakeTwitterView(_user);
+                    var makeTwitterView = new MakeTwitterView(_user);
                     PostView postView = null;
 
-                    twitterView.MadeNewTwitter += newTwitter => {
+                    makeTwitterView.MadeNewTwitter += newTwitter => {
                         postView = new PostView(newTwitter);
                         postView.IsEnabled = false;
 
                         Posts.Insert(0, postView);
                     };
 
-                    twitterView.FailedUploadTwitter += async guid => {
+                    makeTwitterView.FailedUploadTwitter += async guid => {
                         await Task.Delay(2000);
 
                         var uploadFailedTwitter = Posts.Where(x => x.Guid == guid).FirstOrDefault() ;
@@ -123,12 +123,12 @@ namespace NolowaFrontend.ViewModels
                         Posts.Remove(uploadFailedTwitter);
                     };
 
-                    twitterView.CompleteTwitter += () => {
+                    makeTwitterView.CompleteTwitter += () => {
                         TwitterResultView = new TwitterResultView();
                         postView?.CompleteUpload();
                     };
 
-                    TwitterView = twitterView;
+                    MakeTwitterView = makeTwitterView;
                 });
             }
         }

@@ -151,7 +151,7 @@
 
             <Ellipse Grid.Column="0" Width="50" Height="50" VerticalAlignment="Top" Margin="5">
                 <Ellipse.Fill>
-                    <ImageBrush ImageSource="{Binding ProfileImageSource}"/>
+                    <ImageBrush ImageSource="{Binding User.ProfileImageFile}"/>
                 </Ellipse.Fill>
             </Ellipse>
 

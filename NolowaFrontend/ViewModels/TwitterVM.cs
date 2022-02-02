@@ -30,6 +30,8 @@ namespace NolowaFrontend.ViewModels
         private readonly IPostService _postService;
 
         #region Props
+        public User User => _user;
+
         public bool HideComplete { get; set; }
 
         private string _profileImageSource = string.Empty;
@@ -126,9 +128,6 @@ namespace NolowaFrontend.ViewModels
         {
             _user = user;
             _postService = new PostService();
-
-            if (_user.ProfileImage?.Hash.IsValid() == true)
-                ProfileImageSource = Constant.PROFILE_IMAGE_ROOT_PATH + _user.ProfileImage.Hash + ".jpg";
         }
 
         private async Task<bool> WaitUntilHideCompleteAsync()

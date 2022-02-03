@@ -27,6 +27,8 @@ namespace NolowaFrontend.Views.MainViews
         private readonly IPostService _postService;
         private readonly User _user;
 
+        public User User => _user;
+
         /// <summary>
         /// 프로필 클릭 이벤트를 라우티드이벤트로 만들어서 밖으로 버블링시킴
         /// </summary>
@@ -53,7 +55,7 @@ namespace NolowaFrontend.Views.MainViews
         
         private async void ProfileView_Loaded(object sender, RoutedEventArgs e)
         {
-            listPosts.ItemsSource = null;
+            listPosts.ItemsSource = null; // 이때 로딩화면 넣어 둬야 할듯
 
             var postsResponse = await _postService.GetPostsAsync(_user.ID);
 

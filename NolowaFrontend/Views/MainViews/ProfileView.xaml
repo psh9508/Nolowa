@@ -7,6 +7,7 @@
              xmlns:uc="clr-namespace:NolowaFrontend.Views.UserControls"
              xmlns:designTime="clr-namespace:NolowaFrontend.Views"
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:ucv="clr-namespace:NolowaFrontend.Views.UserControls"
              x:Name="_this" Loaded="ProfileView_Loaded"
              mc:Ignorable="d" Width="450"
              d:DesignHeight="450" d:DesignWidth="450">
@@ -58,7 +59,8 @@
 
                 <Rectangle Grid.Row="0" Fill="CadetBlue"/>
 
-                <Ellipse Grid.RowSpan="2" Width="45" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" Fill="GreenYellow" Margin="10,25,0,0"/>
+                <ucv:ProfileImageElipseView Grid.RowSpan="2" Width="45" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,25,0,0"
+                                            User="{Binding User}"/>
 
                 <StackPanel Grid.Row="1" Margin="0,25,0,0">
                     <TextBlock Text="{Binding User.AccountID}"/>
@@ -83,7 +85,7 @@
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <uc:PostView/>
+                                <uc:PostView PostedUser="{Binding PostedUser}"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>

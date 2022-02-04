@@ -33,11 +33,14 @@
                     <ColumnDefinition Width="60"/>
                 </Grid.ColumnDefinitions>
                 
-                <Ellipse Grid.Column="0" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <!--<Ellipse Grid.Column="0" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <Ellipse.Fill>
                         <ImageBrush ImageSource="{Binding ProfileImageSource}"/>
                     </Ellipse.Fill>
-                </Ellipse>
+                </Ellipse>-->
+
+                <ucv:ProfileImageElipseView Grid.Column="0" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                            User="{Binding User}"/>
 
                 <!--<ContentControl Grid.Column="1" Content="{Binding TopDockController}"/>-->
                 <uc:SearchTextBox Grid.Column="1" >

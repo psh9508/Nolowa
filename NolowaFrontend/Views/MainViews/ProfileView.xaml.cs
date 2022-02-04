@@ -1,4 +1,5 @@
-﻿using NolowaFrontend.Models;
+﻿using NolowaFrontend.Extensions;
+using NolowaFrontend.Models;
 using NolowaFrontend.Servicies;
 using NolowaFrontend.Views.UserControls;
 using System;
@@ -27,8 +28,6 @@ namespace NolowaFrontend.Views.MainViews
         private readonly IPostService _postService;
         private readonly User _user;
 
-        public User User => _user;
-
         /// <summary>
         /// 프로필 클릭 이벤트를 라우티드이벤트로 만들어서 밖으로 버블링시킴
         /// </summary>
@@ -40,6 +39,16 @@ namespace NolowaFrontend.Views.MainViews
             add { AddHandler(ClickedProfileImageEvent, value); }
             remove { RemoveHandler(ClickedProfileImageEvent, value); }
         }
+
+        public ObservableCollection<Post> Posts
+        {
+            get { return (ObservableCollection<Post>)GetValue(PostsProperty); }
+            set { SetValue(PostsProperty, value); }
+        }
+
+        public static readonly DependencyProperty PostsProperty =
+            DependencyProperty.Register("Posts", typeof(ObservableCollection<Post>), typeof(ProfileView), new PropertyMetadata(new ObservableCollection<Post>()));
+
 
         public ProfileView()
         {
@@ -55,12 +64,12 @@ namespace NolowaFrontend.Views.MainViews
         
         private async void ProfileView_Loaded(object sender, RoutedEventArgs e)
         {
-            listPosts.ItemsSource = null; // 이때 로딩화면 넣어 둬야 할듯
+            Posts = new ObservableCollection<Post>();
 
             var postsResponse = await _postService.GetPostsAsync(_user.ID);
 
             if (postsResponse.IsSuccess)
-                listPosts.ItemsSource = postsResponse.ResponseData;
+                Posts = postsResponse.ResponseData.ToObservableCollection();
         }
 
         private void Background_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

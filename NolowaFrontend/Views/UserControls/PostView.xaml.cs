@@ -34,7 +34,7 @@ namespace NolowaFrontend.Views.UserControls
         /// </summary>
         public static readonly RoutedEvent ClickedProfileImageEvent =
             EventManager.RegisterRoutedEvent("ClickedProfileImageRouted", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(PostView));
-
+      
         public event RoutedEventHandler ClickedProfileImageRouted
         {
             add { AddHandler(ClickedProfileImageEvent, value); }
@@ -79,13 +79,12 @@ namespace NolowaFrontend.Views.UserControls
 
         public User PostedUser
         {
-            get { return (User)GetValue(UserProperty); }
-            set { SetValue(UserProperty, value); }
+            get { return (User)GetValue(PostedUserProperty); }
+            set { SetValue(PostedUserProperty, value); }
         }
 
-        public static readonly DependencyProperty UserProperty =
-            DependencyProperty.Register("User", typeof(User), typeof(PostView), new PropertyMetadata(null));
-
+        public static readonly DependencyProperty PostedUserProperty =
+            DependencyProperty.Register("PostedUser", typeof(User), typeof(PostView), new PropertyMetadata(null));
 
         // Client에서 Post를 고유하게 식별하는 값
         public Guid Guid { get; set; } = new Guid();
@@ -99,9 +98,9 @@ namespace NolowaFrontend.Views.UserControls
         {
             Message = post.Message;
             ElapsedTime = post.UploadedDateTime.ToElapsedTime();
-            Guid = post.Guid;
-
             PostedUser = post.PostedUser;
+
+            Guid = post.Guid;
         }
 
         public void CompleteUpload()

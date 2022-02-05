@@ -63,14 +63,14 @@
                                             User="{Binding User}"/>
 
                 <StackPanel Grid.Row="1" Margin="0,25,0,0">
-                    <TextBlock Text="{Binding User.AccountID}"/>
+                    <TextBlock Text="{Binding ElementName=_this, Path=User.AccountID}"/>
                     <TextBlock Text="딥상어동. 5살. 풍선"/>
                     <TextBlock Text="내가 왕이야"/>
                     <TextBlock Text="evernote.com/shard/s592/sh/.."/>
                     <TextBlock Text="2018년 2월에 가입함"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="??? 팔로잉"/>
-                        <TextBlock Text="{Binding User.Followers.Count}"/>
+                        <TextBlock Text="{Binding ElementName=_this, Path=User.Followers.Count}"/>
                         <TextBlock Text=" 팔로워"/>
                     </StackPanel>
                 </StackPanel>
@@ -78,11 +78,9 @@
                 <Button Grid.Row="1" Content="팔로우" Width="50" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10"/>
 
                 <Grid Grid.Row="2">
-                    <ListBox x:Name="listPosts"
-                         d:DataContext="{Binding Source={StaticResource TwitterViewDesignTimeVM}}"
-                         ItemsSource="{Binding Posts}"
-                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox ItemsSource="{Binding ElementName=_this, Path=Posts}"
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <uc:PostView PostedUser="{Binding PostedUser}"/>

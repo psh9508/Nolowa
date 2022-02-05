@@ -28,6 +28,8 @@ namespace NolowaFrontend.Views.MainViews
         private readonly IPostService _postService;
         private readonly User _user;
 
+        public User User => _user;
+
         /// <summary>
         /// 프로필 클릭 이벤트를 라우티드이벤트로 만들어서 밖으로 버블링시킴
         /// </summary>
@@ -66,8 +68,8 @@ namespace NolowaFrontend.Views.MainViews
         {
             Posts = new ObservableCollection<Post>();
 
-            var postsResponse = await _postService.GetPostsAsync(_user.ID);
-
+            var postsResponse = await _postService.GetMyPostsAsync(_user.ID);
+            
             if (postsResponse.IsSuccess)
                 Posts = postsResponse.ResponseData.ToObservableCollection();
         }

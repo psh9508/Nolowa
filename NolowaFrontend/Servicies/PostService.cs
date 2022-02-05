@@ -11,6 +11,7 @@ namespace NolowaFrontend.Servicies
 {
     public interface IPostService
     {
+        Task<ResponseBaseEntity<List<Post>>> GetMyPostsAsync(long userId);
         Task<ResponseBaseEntity<List<Post>>> GetPostsAsync(long id);
         Task<ResponseBaseEntity<Post>> InsertPostAsync(Post post);
     }
@@ -18,6 +19,11 @@ namespace NolowaFrontend.Servicies
     public class PostService : ServiceBase, IPostService
     {
         private const string parentEndPoint = "Post";
+
+        public async Task<ResponseBaseEntity<List<Post>>> GetMyPostsAsync(long userId)
+        {
+            return await DoGet<List<Post>>($"{parentEndPoint}/{userId}/Posts");
+        }
 
         public async Task<ResponseBaseEntity<List<Post>>> GetPostsAsync(long id)
         {

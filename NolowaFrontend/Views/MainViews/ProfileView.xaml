@@ -60,7 +60,7 @@
                 <Rectangle Grid.Row="0" Fill="CadetBlue"/>
 
                 <ucv:ProfileImageElipseView Grid.RowSpan="2" Width="45" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,25,0,0"
-                                            User="{Binding User}"/>
+                                            User="{Binding ElementName=_this, Path=User}"/>
 
                 <StackPanel Grid.Row="1" Margin="0,25,0,0">
                     <TextBlock Text="{Binding ElementName=_this, Path=User.AccountID}"/>

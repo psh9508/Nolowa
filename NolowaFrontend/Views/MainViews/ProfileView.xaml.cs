@@ -26,9 +26,6 @@ namespace NolowaFrontend.Views.MainViews
     public partial class ProfileView : UserControl
     {
         private readonly IPostService _postService;
-        private readonly User _user;
-
-        public User User => _user;
 
         /// <summary>
         /// 프로필 클릭 이벤트를 라우티드이벤트로 만들어서 밖으로 버블링시킴
@@ -51,6 +48,14 @@ namespace NolowaFrontend.Views.MainViews
         public static readonly DependencyProperty PostsProperty =
             DependencyProperty.Register("Posts", typeof(ObservableCollection<Post>), typeof(ProfileView), new PropertyMetadata(new ObservableCollection<Post>()));
 
+        public User User
+        {
+            get { return (User)GetValue(UserProperty); }
+            set { SetValue(UserProperty, value); }
+        }
+
+        public static readonly DependencyProperty UserProperty =
+            DependencyProperty.Register("User", typeof(User), typeof(ProfileView), new PropertyMetadata(null));
 
         public ProfileView()
         {
@@ -61,17 +66,20 @@ namespace NolowaFrontend.Views.MainViews
 
         public ProfileView(User user) : this()
         {
-            _user = user;
+            User = user;
         }
         
         private async void ProfileView_Loaded(object sender, RoutedEventArgs e)
         {
             Posts = new ObservableCollection<Post>();
 
-            var postsResponse = await _postService.GetMyPostsAsync(_user.ID);
-            
-            if (postsResponse.IsSuccess)
-                Posts = postsResponse.ResponseData.ToObservableCollection();
+            if(User.IsNotNull())
+            {
+                var postsResponse = await _postService.GetMyPostsAsync(User.ID);
+
+                if (postsResponse.IsSuccess)
+                    Posts = postsResponse.ResponseData.ToObservableCollection();
+            }
         }
 
         private void Background_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

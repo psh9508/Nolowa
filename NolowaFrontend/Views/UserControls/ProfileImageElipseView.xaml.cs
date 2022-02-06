@@ -25,7 +25,7 @@ namespace NolowaFrontend.Views.UserControls
     public partial class ProfileImageElipseView : UserControl
     {
         //private readonly ProfileImage _profileImage;
-
+        
         /// <summary>
         /// 프로필 클릭 이벤트를 라우티드이벤트로 만들어서 밖으로 버블링시킴
         /// </summary>
@@ -46,7 +46,6 @@ namespace NolowaFrontend.Views.UserControls
 
         public static readonly DependencyProperty UserProperty =
             DependencyProperty.Register("User", typeof(User), typeof(ProfileImageElipseView), new PropertyMetadata(null));
-
 
         public ProfileImageElipseView()
         {

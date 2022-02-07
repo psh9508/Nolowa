@@ -7,8 +7,8 @@
              x:Name="_this"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="50">
-    <Grid>        
-        <Ellipse Width="50" Height="50" MouseLeftButtonUp="Ellipse_MouseLeftButtonUp">
+    <Grid>
+        <Ellipse MouseLeftButtonUp="Ellipse_MouseLeftButtonUp">
             <Ellipse.Fill>
                 <ImageBrush ImageSource="{Binding ElementName=_this, Path=User.ProfileImageFile}"/>
             </Ellipse.Fill>

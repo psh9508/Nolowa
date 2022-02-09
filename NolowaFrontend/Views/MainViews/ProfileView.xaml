@@ -78,9 +78,9 @@
                 <Button Grid.Row="1" Content="팔로우" Width="50" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10"/>
 
                 <Grid Grid.Row="2">
-                    <ListBox ItemsSource="{Binding ElementName=_this, Path=Posts}"
-                             ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox ItemsSource="{Binding ElementName=_this, Path=Posts}" MaxHeight="{Binding RelativeSource={RelativeSource AncestorLevel=1, AncestorType=Grid}, Path=ActualHeight}"
+                            ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <uc:PostView PostedUser="{Binding PostedUser}"/>
@@ -88,6 +88,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </Grid>
+                
             </Grid>
         </Grid>
         

@@ -31,7 +31,7 @@ namespace NolowaFrontend.ViewModels
         private readonly SearchView _searchView;
 
         public string ProfileImageSource => _user.ProfileImageFile;
-        public User User => _user; 
+        public User User => _user;
 
         private ObservableCollection<PostView> _posts = new ObservableCollection<PostView>();
 
@@ -40,6 +40,15 @@ namespace NolowaFrontend.ViewModels
             get { return _posts; }
             set { _posts = value; OnPropertyChanged(); }
         }
+
+        //private ObservableCollection<Post> _posts = new ObservableCollection<Post>();
+
+        //public ObservableCollection<Post> Posts
+        //{
+        //    get { return _posts; }
+        //    set { _posts = value; OnPropertyChanged(); }
+        //}
+
 
         private object _makeTwitterView;
 
@@ -89,6 +98,7 @@ namespace NolowaFrontend.ViewModels
 
                     foreach (var post in posts.ResponseData)
                     {
+                        //osts.Add(post);
                         Posts.Add(new PostView(post));
                     }
 
@@ -107,12 +117,16 @@ namespace NolowaFrontend.ViewModels
                 {
                     var makeTwitterView = new MakeTwitterView(_user);
                     PostView postView = null;
+                    //Post post = null;
 
                     makeTwitterView.MadeNewTwitter += newTwitter => {
                         postView = new PostView(newTwitter);
                         postView.IsEnabled = false;
 
                         Posts.Insert(0, postView);
+
+                        //newTwitter.IsEnable = false;
+                        //Posts.Insert(0, newTwitter);
                     };
 
                     makeTwitterView.FailedUploadTwitter += async guid => {
@@ -126,6 +140,7 @@ namespace NolowaFrontend.ViewModels
                     makeTwitterView.CompleteTwitter += () => {
                         TwitterResultView = new TwitterResultView();
                         postView?.CompleteUpload();
+                        //post?.CompleteUpload();
                     };
 
                     MakeTwitterView = makeTwitterView;

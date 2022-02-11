@@ -9,8 +9,12 @@
 
   <ItemGroup>
     <None Remove="Resources\Icons\heart.png" />
+    <None Remove="Resources\Icons\home.png" />
+    <None Remove="Resources\Icons\home_clicked.png" />
     <None Remove="Resources\Icons\pencil.png" />
     <None Remove="Resources\Icons\retweet.png" />
+    <None Remove="Resources\Icons\search.png" />
+    <None Remove="Resources\Icons\search_clicked.png" />
     <None Remove="Resources\Icons\share.png" />
     <None Remove="Resources\Icons\speech-bubble.png" />
     <None Remove="Resources\ProfilePicture.jpg" />
@@ -18,6 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Icons\home.png" />
+    <Resource Include="Resources\Icons\home_clicked.png" />
+    <Resource Include="Resources\Icons\search.png" />
+    <Resource Include="Resources\Icons\search_clicked.png" />
     <Resource Include="Resources\SNS\googleLogo.png" />
   </ItemGroup>
 

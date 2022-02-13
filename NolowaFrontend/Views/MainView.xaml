@@ -53,7 +53,10 @@
 
             <Grid DockPanel.Dock="Bottom" Height="70" Background="Aqua">
                 <StackPanel Orientation="Horizontal">
-                    <Button Width="100" Content="Home" Command="{Binding HomeViewCommand}"/>
+                    <uc:MainManuToggleButton Width="100"
+                                             DefaultImageUri="/NolowaFrontend;component/Resources/Icons/home.png" 
+                                             ClickedImageUri="/NolowaFrontend;component/Resources/Icons/home_clicked.png" 
+                                             Command="{Binding HomeViewCommand}"/>
                     <Button Width="100" Content="검색" Command="{Binding SearchViewCommand}"/>
                     <Button Width="100"/>
                     <Button Width="100"/>

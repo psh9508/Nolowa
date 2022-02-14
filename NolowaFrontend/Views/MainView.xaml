@@ -57,7 +57,10 @@
                                              DefaultImageUri="/NolowaFrontend;component/Resources/Icons/home.png" 
                                              ClickedImageUri="/NolowaFrontend;component/Resources/Icons/home_clicked.png" 
                                              Command="{Binding HomeViewCommand}"/>
-                    <Button Width="100" Content="검색" Command="{Binding SearchViewCommand}"/>
+                    <uc:MainManuToggleButton Width="100"
+                                             DefaultImageUri="/NolowaFrontend;component/Resources/Icons/search.png" 
+                                             ClickedImageUri="/NolowaFrontend;component/Resources/Icons/search_clicked.png" 
+                                             Command="{Binding SearchViewCommand}"/>
                     <Button Width="100"/>
                     <Button Width="100"/>
                 </StackPanel>

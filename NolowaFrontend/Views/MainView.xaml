@@ -51,8 +51,8 @@
                 <Ellipse Grid.Column="2" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Fill="Red"/>
             </Grid>
 
-            <Grid DockPanel.Dock="Bottom" Height="70" Background="Aqua">
-                <StackPanel Orientation="Horizontal">
+            <Grid DockPanel.Dock="Bottom" Height="70" Background="Black">
+                <StackPanel Orientation="Horizontal" Margin="0,1.5,0,0">
                     <uc:MainManuToggleButton Width="100"
                                              DefaultImageUri="/NolowaFrontend;component/Resources/Icons/home.png" 
                                              ClickedImageUri="/NolowaFrontend;component/Resources/Icons/home_clicked.png" 

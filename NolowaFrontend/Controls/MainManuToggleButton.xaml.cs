@@ -18,7 +18,7 @@ namespace NolowaFrontend.Controls
     /// <summary>
     /// MainManuToggleButton.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MainManuToggleButton : UserControl
+    public partial class MainManuToggleButton : RadioButton
     {
         public Uri DefaultImageUri
         {
@@ -37,15 +37,6 @@ namespace NolowaFrontend.Controls
 
         public static readonly DependencyProperty ClickedImageUriProperty =
             DependencyProperty.Register("ClickedImageUri", typeof(Uri), typeof(MainManuToggleButton), new PropertyMetadata(null));
-
-        public ICommand Command
-        {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
-        }
-
-        public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register("Command", typeof(ICommand), typeof(MainManuToggleButton), new PropertyMetadata(null));
 
         public MainManuToggleButton()
         {

@@ -1,12 +1,26 @@
-﻿<UserControl x:Class="NolowaFrontend.Controls.MainManuToggleButton"
+﻿<RadioButton x:Class="NolowaFrontend.Controls.MainManuToggleButton"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NolowaFrontend.Controls"
-             mc:Ignorable="d" Name="_this" Background="White"
+             mc:Ignorable="d" Name="_this"
              d:DesignHeight="450" d:DesignWidth="800">
-    <local:ToggleImageButton ImageHeight="25" ImageWitdh="25" Command="{Binding ElementName=_this, Path=Command}"
-                             DefaultImageUri="{Binding ElementName=_this, Path=DefaultImageUri}"
-                             ClickedImageUri="{Binding ElementName=_this, Path=ClickedImageUri}"/>
-</UserControl>
+    <RadioButton.Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid Background="White" >
+                            <local:ToggleRadioImageButton ImageHeight="25" ImageWidth="25" Background="White"
+                                                          IsChecked="{Binding ElementName=_this, Path=IsChecked}"
+                                                          Command="{Binding ElementName=_this, Path=Command}" 
+                                                          DefaultImageUri="{Binding ElementName=_this, Path=DefaultImageUri}"
+                                                          ClickedImageUri="{Binding ElementName=_this, Path=ClickedImageUri}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </RadioButton.Style>
+</RadioButton>

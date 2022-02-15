@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -17,9 +16,9 @@ using System.Windows.Shapes;
 namespace NolowaFrontend.Controls
 {
     /// <summary>
-    /// ToggleImageButton.xaml에 대한 상호 작용 논리
+    /// ToggleRadioImageButton.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class ToggleImageButton : ToggleButton
+    public partial class ToggleRadioImageButton : RadioButton
     {
         public Uri DefaultImageUri
         {
@@ -28,7 +27,7 @@ namespace NolowaFrontend.Controls
         }
 
         public static readonly DependencyProperty DefaultImageUriProperty =
-            DependencyProperty.Register("DefaultImageUri", typeof(Uri), typeof(ToggleImageButton), new PropertyMetadata(null));
+            DependencyProperty.Register("DefaultImageUri", typeof(Uri), typeof(ToggleRadioImageButton), new PropertyMetadata(null));
 
         public Uri ClickedImageUri
         {
@@ -37,17 +36,17 @@ namespace NolowaFrontend.Controls
         }
 
         public static readonly DependencyProperty ClickedImageUriProperty =
-            DependencyProperty.Register("ClickedImageUri", typeof(Uri), typeof(ToggleImageButton), new PropertyMetadata(null));
+            DependencyProperty.Register("ClickedImageUri", typeof(Uri), typeof(ToggleRadioImageButton), new PropertyMetadata(null));
 
-        public int ImageWitdh
+        public int ImageWidth
         {
-            get { return (int)GetValue(ImageWitdhProperty); }
-            set { SetValue(ImageWitdhProperty, value); }
+            get { return (int)GetValue(ImageWidthProperty); }
+            set { SetValue(ImageWidthProperty, value); }
         }
 
-        public static readonly DependencyProperty ImageWitdhProperty =
-            DependencyProperty.Register("ImageWitdh", typeof(int), typeof(ToggleImageButton), new PropertyMetadata(0));
-        
+        public static readonly DependencyProperty ImageWidthProperty =
+            DependencyProperty.Register("ImageWidth", typeof(int), typeof(ToggleRadioImageButton), new PropertyMetadata(0));
+
         public int ImageHeight
         {
             get { return (int)GetValue(ImageHeightProperty); }
@@ -55,9 +54,9 @@ namespace NolowaFrontend.Controls
         }
 
         public static readonly DependencyProperty ImageHeightProperty =
-            DependencyProperty.Register("ImageHeight", typeof(int), typeof(ToggleImageButton), new PropertyMetadata(0));
+            DependencyProperty.Register("ImageHeight", typeof(int), typeof(ToggleRadioImageButton), new PropertyMetadata(0));
 
-        public ToggleImageButton()
+        public ToggleRadioImageButton()
         {
             InitializeComponent();
         }

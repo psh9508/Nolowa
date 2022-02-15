@@ -54,6 +54,7 @@
             <Grid DockPanel.Dock="Bottom" Height="70" Background="Black">
                 <StackPanel Orientation="Horizontal" Margin="0,1.5,0,0">
                     <uc:MainManuToggleButton Width="100"
+                                             IsChecked="True"
                                              DefaultImageUri="/NolowaFrontend;component/Resources/Icons/home.png" 
                                              ClickedImageUri="/NolowaFrontend;component/Resources/Icons/home_clicked.png" 
                                              Command="{Binding HomeViewCommand}"/>

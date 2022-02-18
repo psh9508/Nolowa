@@ -39,6 +39,43 @@ namespace NolowaFrontend.Controls.Buttons.Base
         public static readonly DependencyProperty UncheckedContentProperty =
             DependencyProperty.Register("UncheckedContent", typeof(string), typeof(RoundedToggleButton), new PropertyMetadata(string.Empty));
 
+        public Brush CheckedBackground
+        {
+            get { return (Brush)GetValue(CheckedBackgroundProperty); }
+            set { SetValue(CheckedBackgroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty CheckedBackgroundProperty =
+            DependencyProperty.Register("CheckedBackground", typeof(Brush), typeof(RoundedToggleButton), new PropertyMetadata(null));
+
+        public Brush UncheckedBackground
+        {
+            get { return (Brush)GetValue(UncheckedBackgroundProperty); }
+            set { SetValue(UncheckedBackgroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty UncheckedBackgroundProperty =
+            DependencyProperty.Register("UncheckedBackground", typeof(Brush), typeof(RoundedToggleButton), new PropertyMetadata(null));
+
+        public Brush CheckedContentForeground
+        {
+            get { return (Brush)GetValue(CheckedContentForegroundProperty); }
+            set { SetValue(CheckedContentForegroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty CheckedContentForegroundProperty =
+            DependencyProperty.Register("CheckedContentForeground", typeof(Brush), typeof(RoundedToggleButton), new PropertyMetadata(null));
+
+        public Brush UncheckedContentForeground
+        {
+            get { return (Brush)GetValue(UncheckedContentForegroundProperty); }
+            set { SetValue(UncheckedContentForegroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty UncheckedContentForegroundProperty =
+            DependencyProperty.Register("UncheckedContentForeground", typeof(Brush), typeof(RoundedToggleButton), new PropertyMetadata(null));
+
+
         public int CornerRadius
         {
             get { return (int)GetValue(CornerRadiusProperty); }

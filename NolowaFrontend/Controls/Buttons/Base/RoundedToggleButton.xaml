@@ -8,7 +8,6 @@
               d:DesignHeight="400" d:DesignWidth="800">
     <ToggleButton.Style>
         <Style TargetType="ToggleButton">
-            <Setter Property="Content" Value="{Binding ElementName=_this, Path=UncheckedContent}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ToggleButton">
@@ -16,26 +15,22 @@
                                 Background="{Binding ElementName=_this, Path=UncheckedBackground}"
                                 BorderThickness="{Binding ElementName=_this, Path=BorderThickness}" 
                                 BorderBrush="{Binding ElementName=_this, Path=BorderBrush}"
-                                CornerRadius="{Binding ElementName=_this, Path=CornerRadius}">  
-                            <ContentPresenter x:Name="textPresenter" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                              TextBlock.Foreground="{Binding ElementName=_this, Path=UncheckedContentForeground}"/>
+                                CornerRadius="{Binding ElementName=_this, Path=CornerRadius}">
+                            <TextBlock x:Name="txtContent" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="UltraBold"
+                                       Text="{Binding ElementName=_this, Path=UncheckedContent}"
+                                       Foreground="{Binding ElementName=_this, Path=UncheckedContentForeground}"/>
                         </Border>
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter TargetName="mainBorder" Property="Background" Value="{Binding ElementName=_this, Path=CheckedBackground}"/>
-                                <Setter TargetName="textPresenter" Property="TextBlock.Text" Value="{Binding ElementName=_this, Path=CheckedContent}"/>
-                                <Setter TargetName="textPresenter" Property="TextBlock.Foreground" Value="{Binding ElementName=_this, Path=CheckedContentForeground}"/>
+                                <Setter TargetName="txtContent" Property="Text" Value="{Binding ElementName=_this, Path=CheckedContent}"/>
+                                <Setter TargetName="txtContent" Property="Foreground" Value="{Binding ElementName=_this, Path=CheckedContentForeground}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="Foreground" Value="{Binding ElementName=_this, Path=CheckedContentForeground}"/>
-                </Trigger>
-            </Style.Triggers>
         </Style>
     </ToggleButton.Style>
 </ToggleButton>

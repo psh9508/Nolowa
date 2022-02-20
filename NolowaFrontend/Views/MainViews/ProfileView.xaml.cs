@@ -57,6 +57,17 @@ namespace NolowaFrontend.Views.MainViews
         public static readonly DependencyProperty UserProperty =
             DependencyProperty.Register("User", typeof(User), typeof(ProfileView), new PropertyMetadata(null));
 
+
+        public bool IsFollowButtonVisible
+        {
+            get { return (bool)GetValue(IsFollowButtonVisibleProperty); }
+            set { SetValue(IsFollowButtonVisibleProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsFollowButtonVisibleProperty =
+            DependencyProperty.Register("IsFollowButtonVisible", typeof(bool), typeof(ProfileView), new PropertyMetadata(true));
+
+
         public ProfileView()
         {
             InitializeComponent();

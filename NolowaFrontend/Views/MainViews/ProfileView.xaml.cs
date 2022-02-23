@@ -1,6 +1,7 @@
 ﻿using NolowaFrontend.Extensions;
 using NolowaFrontend.Models;
 using NolowaFrontend.Servicies;
+using NolowaFrontend.ViewModels.Base;
 using NolowaFrontend.Views.UserControls;
 using System;
 using System.Collections.Generic;
@@ -67,6 +68,18 @@ namespace NolowaFrontend.Views.MainViews
         public static readonly DependencyProperty IsFollowButtonVisibleProperty =
             DependencyProperty.Register("IsFollowButtonVisible", typeof(bool), typeof(ProfileView), new PropertyMetadata(true));
 
+        private ICommand _followButtonClickCommand;
+
+        public ICommand FollowButtonClickCommand 
+        {
+            get
+            {
+                return _followButtonClickCommand == null ? _followButtonClickCommand = new RelayCommand(x =>
+                {
+
+                }) : _followButtonClickCommand;
+            }
+        }
 
         public ProfileView()
         {

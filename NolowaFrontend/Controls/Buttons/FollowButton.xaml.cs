@@ -20,6 +20,16 @@ namespace NolowaFrontend.Controls.Buttons
     /// </summary>
     public partial class FollowButton : UserControl
     {
+        public ICommand ClickCommand
+        {
+            get { return (ICommand)GetValue(ClickCommandProperty); }
+            set { SetValue(ClickCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty ClickCommandProperty =
+            DependencyProperty.Register("ClickCommand", typeof(ICommand), typeof(FollowButton), new PropertyMetadata(null));
+
+
         public FollowButton()
         {
             InitializeComponent();

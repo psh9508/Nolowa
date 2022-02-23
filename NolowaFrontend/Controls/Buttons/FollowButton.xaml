@@ -5,11 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NolowaFrontend.Controls.Buttons"
              xmlns:ucBtnBase="clr-namespace:NolowaFrontend.Controls.Buttons.Base"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" x:Name="_this"
              d:DesignHeight="70" d:DesignWidth="150">
     <ucBtnBase:RoundedToggleButton CornerRadius="20" CheckedContent="팔로잉" UncheckedContent="팔로우하기" 
                                    CheckedBackground="White" CheckedContentForeground="Black"
                                    UncheckedBackground="Black" UncheckedContentForeground="White"
+                                   Command="{Binding ElementName=_this, Path=ClickCommand}"
                                    Width="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Width}"
                                    Height="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Height}">        
     </ucBtnBase:RoundedToggleButton>

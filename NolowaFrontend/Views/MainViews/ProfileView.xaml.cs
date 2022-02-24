@@ -1,6 +1,7 @@
 ﻿using NolowaFrontend.Extensions;
 using NolowaFrontend.Models;
 using NolowaFrontend.Servicies;
+using NolowaFrontend.ViewModels;
 using NolowaFrontend.ViewModels.Base;
 using NolowaFrontend.Views.UserControls;
 using System;
@@ -26,8 +27,6 @@ namespace NolowaFrontend.Views.MainViews
     /// </summary>
     public partial class ProfileView : UserControl
     {
-        private readonly IPostService _postService;
-
         /// <summary>
         /// 프로필 클릭 이벤트를 라우티드이벤트로 만들어서 밖으로 버블링시킴
         /// </summary>
@@ -39,76 +38,12 @@ namespace NolowaFrontend.Views.MainViews
             add { AddHandler(ClickedProfileImageEvent, value); }
             remove { RemoveHandler(ClickedProfileImageEvent, value); }
         }
-
-        public ObservableCollection<Post> Posts
-        {
-            get { return (ObservableCollection<Post>)GetValue(PostsProperty); }
-            set { SetValue(PostsProperty, value); }
-        }
-
-        public static readonly DependencyProperty PostsProperty =
-            DependencyProperty.Register("Posts", typeof(ObservableCollection<Post>), typeof(ProfileView), new PropertyMetadata(new ObservableCollection<Post>()));
-
-        public User User
-        {
-            get { return (User)GetValue(UserProperty); }
-            set { SetValue(UserProperty, value); }
-        }
-
-        public static readonly DependencyProperty UserProperty =
-            DependencyProperty.Register("User", typeof(User), typeof(ProfileView), new PropertyMetadata(null));
-
-
-        public bool IsFollowButtonVisible
-        {
-            get { return (bool)GetValue(IsFollowButtonVisibleProperty); }
-            set { SetValue(IsFollowButtonVisibleProperty, value); }
-        }
-
-        public static readonly DependencyProperty IsFollowButtonVisibleProperty =
-            DependencyProperty.Register("IsFollowButtonVisible", typeof(bool), typeof(ProfileView), new PropertyMetadata(true));
-
-        private ICommand _followButtonClickCommand;
-
-        public ICommand FollowButtonClickCommand 
-        {
-            get
-            {
-                return _followButtonClickCommand == null ? _followButtonClickCommand = new RelayCommand(x =>
-                {
-
-                }) : _followButtonClickCommand;
-            }
-        }
-
+     
         public ProfileView()
         {
             InitializeComponent();
 
-            _postService = new PostService();
-        }
-
-        public ProfileView(User user) : this()
-        {
-            User = user;
-        }
-        
-        private async void ProfileView_Loaded(object sender, RoutedEventArgs e)
-        {
-            Posts = new ObservableCollection<Post>();
-
-            if(User.IsNotNull())
-            {
-                var postsResponse = await _postService.GetMyPostsAsync(User.ID);
-
-                if (postsResponse.IsSuccess)
-                    Posts = postsResponse.ResponseData.ToObservableCollection();
-            }
-        }
-
-        private void Background_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Visibility = Visibility.Collapsed;
+            this.DataContext = new ProfileVM();
         }
     }
 }

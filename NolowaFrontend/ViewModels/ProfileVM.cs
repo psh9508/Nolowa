@@ -17,6 +17,7 @@ namespace NolowaFrontend.ViewModels
     public class ProfileVM :ViewModelBase
     {
         private readonly IPostService _postService;
+        private readonly IUserService _userService;
 
         private Models.User _user;
 
@@ -51,7 +52,7 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _followButtonClickCommand, async _ =>
                 {
-                  
+                    // _userService를 이용해 팔로우 API 호출
                 });
             }
         }
@@ -94,6 +95,7 @@ namespace NolowaFrontend.ViewModels
         public ProfileVM()
         {
             _postService = new PostService();
+            _userService = new UserService();
         }
 
         public ProfileVM(Models.User user) : this()

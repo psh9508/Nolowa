@@ -43,6 +43,14 @@ namespace NolowaFrontend.ViewModels
             set { _isFollowButtonVisible = value; OnPropertyChanged(); }
         }
 
+        private Visibility _visible;
+
+        public Visibility Visible
+        {
+            get { return _visible; }
+            set { _visible = value; OnPropertyChanged(); }
+        }
+
         #region Commands
         private ICommand _followButtonClickCommand;
 
@@ -86,7 +94,7 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _closeViewCommand, async _ =>
                 {
-                    //Visibility = Visibility.Collapsed;
+                    Visible = Visibility.Collapsed;
                 });
             }
         }

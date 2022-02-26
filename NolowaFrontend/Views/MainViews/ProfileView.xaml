@@ -8,7 +8,7 @@
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:ucv="clr-namespace:NolowaFrontend.Views.UserControls"
              xmlns:ucBtn="clr-namespace:NolowaFrontend.Controls.Buttons"
-             x:Name="_this" Loaded="ProfileView_Loaded"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" Width="450"
              d:DesignHeight="450" d:DesignWidth="450">
     <UserControl.Resources>
@@ -20,11 +20,17 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
 
         <Grid>
             <!-- 백그라운드 -->
-            <Grid Background="Black" Opacity="0.7" MouseLeftButtonDown="Background_MouseLeftButtonDown"/>
+            <Grid Background="Black" Opacity="0.7"/>
             <!-- 프로필 뷰 -->
             <Grid Background="White" Width="350" HorizontalAlignment="Left">
                 <Grid.RowDefinitions>
@@ -63,32 +69,32 @@
                 <Rectangle Grid.Row="0" Fill="CadetBlue"/>
 
                 <ucv:ProfileImageElipseView Grid.RowSpan="2" Width="45" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,25,0,0"
-                                            User="{Binding ElementName=_this, Path=User}"/>
+                                            User="{Binding Path=User}"/>
 
                 <StackPanel Grid.Row="1" Margin="0,25,0,0">
-                    <TextBlock Text="{Binding ElementName=_this, Path=User.AccountID}"/>
+                    <TextBlock Text="{Binding Path=User.AccountID}"/>
                     <TextBlock Text="딥상어동. 5살. 풍선"/>
                     <TextBlock Text="내가 왕이야"/>
                     <TextBlock Text="evernote.com/shard/s592/sh/.."/>
                     <TextBlock Text="2018년 2월에 가입함"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="??? 팔로잉"/>
-                        <TextBlock Text="{Binding ElementName=_this, Path=User.Followers.Count}"/>
+                        <TextBlock Text="{Binding Path=User.Followers.Count}"/>
                         <TextBlock Text=" 팔로워"/>
                     </StackPanel>
                 </StackPanel>
 
-                <ucBtn:FollowButton Grid.Row="1" Height="30" Width="80"  Margin="10" VerticalAlignment="Top" HorizontalAlignment="Right" ClickCommand="{Binding ElementName=_this, Path=FollowButtonClickCommand}">
+                <ucBtn:FollowButton Grid.Row="1" Height="30" Width="80"  Margin="10" VerticalAlignment="Top" HorizontalAlignment="Right" ClickCommand="{Binding FollowButtonClickCommand}">
                     <ucBtn:FollowButton.Style>
                         <Style TargetType="ucBtn:FollowButton">
-                            <Setter Property="Visibility" Value="{Binding ElementName=_this, Path=IsFollowButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <Setter Property="Visibility" Value="{Binding Path=IsFollowButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                         </Style>
                     </ucBtn:FollowButton.Style>
                 </ucBtn:FollowButton>
 
 
                 <Grid Grid.Row="2">
-                    <ListBox ItemsSource="{Binding ElementName=_this, Path=Posts}" MaxHeight="{Binding RelativeSource={RelativeSource AncestorLevel=1, AncestorType=Grid}, Path=ActualHeight}"
+                    <ListBox ItemsSource="{Binding Path=Posts}" MaxHeight="{Binding RelativeSource={RelativeSource AncestorLevel=1, AncestorType=Grid}, Path=ActualHeight}"
                             ScrollViewer.VerticalScrollBarVisibility="Disabled"
                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.ItemTemplate>

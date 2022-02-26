@@ -42,8 +42,11 @@ namespace NolowaFrontend.Views.MainViews
         public ProfileView()
         {
             InitializeComponent();
+        }
 
-            this.DataContext = new ProfileVM();
+        public ProfileView(User user) :base()
+        {
+            this.DataContext = new ProfileVM(user);
         }
     }
 }

@@ -43,12 +43,12 @@ namespace NolowaFrontend.ViewModels
             set { _isFollowButtonVisible = value; OnPropertyChanged(); }
         }
 
-        private Visibility _visible;
+        private bool _isVisible;
 
-        public Visibility Visible
+        public bool IsVisible
         {
-            get { return _visible; }
-            set { _visible = value; OnPropertyChanged(); }
+            get { return _isVisible; }
+            set { _isVisible = value; OnPropertyChanged(); }
         }
 
         #region Commands
@@ -92,9 +92,9 @@ namespace NolowaFrontend.ViewModels
         {
             get
             {
-                return GetRelayCommand(ref _closeViewCommand, async _ =>
+                return GetRelayCommand(ref _closeViewCommand, _ =>
                 {
-                    Visible = Visibility.Collapsed;
+                    IsVisible = false;
                 });
             }
         }
@@ -104,6 +104,8 @@ namespace NolowaFrontend.ViewModels
         {
             _postService = new PostService();
             _userService = new UserService();
+
+            IsVisible = true;
         }
 
         public ProfileVM(Models.User user) : this()

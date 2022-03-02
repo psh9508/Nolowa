@@ -44,9 +44,9 @@ namespace NolowaFrontend.Views.MainViews
             InitializeComponent();
         }
 
-        public ProfileView(User user) : this()
+        public ProfileView(User user, bool isFollowButtonVisible) : this()
         {
-            this.DataContext = new ProfileVM(user);
+            this.DataContext = new ProfileVM(user, isFollowButtonVisible);
         }
     }
 }

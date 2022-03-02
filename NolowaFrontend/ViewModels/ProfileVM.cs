@@ -108,9 +108,10 @@ namespace NolowaFrontend.ViewModels
             IsVisible = true;
         }
 
-        public ProfileVM(Models.User user) : this()
+        public ProfileVM(Models.User user, bool isFollowButtonVisible) : this()
         {
             User = user;
+            IsFollowButtonVisible = isFollowButtonVisible;
         }
     }
 }

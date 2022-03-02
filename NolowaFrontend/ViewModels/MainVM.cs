@@ -177,8 +177,9 @@ namespace NolowaFrontend.ViewModels
                         {
                             var clickedUser = (User)args.Parameter;
 
-                            var profileView = new ProfileView(clickedUser);
-                            //profileView.IsFollowButtonVisible = clickedUser.ID != User.ID;
+                            bool isFollowButtonVisible = clickedUser.ID != User.ID;
+                            var profileView = new ProfileView(clickedUser, isFollowButtonVisible);
+
                             UserProfileView = profileView;
                         }
                     };

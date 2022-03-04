@@ -116,7 +116,7 @@ namespace NolowaFrontend.Controls
         {
             try
             {
-                return await _userService.Save(user);
+                return await _userService.SaveAsync(user);
             }
             catch (Exception ex)
             {

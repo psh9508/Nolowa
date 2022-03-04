@@ -13,32 +13,38 @@ namespace NolowaFrontend.Servicies
 {
     public interface IUserService
     {
-        Task<List<User>> GetAllUsers();
-        Task<User> GetUser(long id);
-        Task<User> Save(User user);
+        Task<List<User>> GetAllUsersAsync();
+        Task<User> GetUserAsync(long id);
+        Task<User> SaveAsync(User user);
+        Task<bool> FollowAsync(long followerUserId, long followeeUserId);
     }
 
     public class UserService : ServiceBase, IUserService
     {
         private const string parentEndPoint = "User";
 
-        public async Task<List<User>> GetAllUsers()
+        public async Task<List<User>> GetAllUsersAsync()
         {
             return await GetTFromService<List<User>>("/users");
         }
 
-        public async Task<User> GetUser(long id)
+        public async Task<User> GetUserAsync(long id)
         {
             return await GetTFromService<User>($"users/{id}");
         }
 
-        public async Task<User> Save(User user)
+        public async Task<User> SaveAsync(User user)
         {
             string debug = Newtonsoft.Json.JsonConvert.SerializeObject(user);
 
             var response = await DoPost<User, User>($"{parentEndPoint}/Save", user);
 
             return response.IsSuccess ? response.ResponseData : null;
+        }
+
+        public async Task<bool> FollowAsync(long followerUserId, long followeeUserId)
+        {
+            return await GetTFromService<bool>($"{parentEndPoint}/Follow/{followerUserId}/{followeeUserId}");
         }
     }
 }

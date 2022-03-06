@@ -1,4 +1,5 @@
-﻿using NolowaFrontend.Extensions;
+﻿using NolowaFrontend.Core;
+using NolowaFrontend.Extensions;
 using NolowaFrontend.Models;
 using NolowaFrontend.Servicies;
 using System;
@@ -27,11 +28,11 @@ namespace NolowaFrontend.Views.MainViews
         private readonly User _user;
         private readonly ISearchService _searchService;
 
-        public SearchView(User user)
+        public SearchView()
         {
             InitializeComponent();
 
-            _user = user;
+            _user = AppConfiguration.LoginUser;
             _searchService = new SearchService();
         }
 

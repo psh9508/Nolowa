@@ -208,9 +208,10 @@ namespace NolowaFrontend.ViewModels
                 throw new InvalidOperationException("로그인 된 user는 null일 수 없습니다.");
 
             _user = user;
+            AppConfiguration.LoginUser = user;
             _service = new PostService();
             _searchService = new SearchService();
-            _searchView = new SearchView(_user);
+            _searchView = new SearchView();
 
             LoadedEventCommand.Execute(null);
         }

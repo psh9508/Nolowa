@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
+using NolowaFrontend.Core;
 using NolowaFrontend.Extensions;
 using NolowaFrontend.Models;
 using NolowaFrontend.Servicies;
@@ -61,6 +62,9 @@ namespace NolowaFrontend.ViewModels
                 return GetRelayCommand(ref _followButtonClickCommand, async _ =>
                 {
                     // _userService를 이용해 팔로우 API 호출
+                    var response = await _userService.FollowAsync(AppConfiguration.LoginUser.ID, _user.ID);
+
+                    int a = 0;
                 });
             }
         }

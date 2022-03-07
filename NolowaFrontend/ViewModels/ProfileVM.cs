@@ -15,6 +15,13 @@ using System.Windows.Input;
 
 namespace NolowaFrontend.ViewModels
 {
+    public enum eFollowButtonState
+    {
+        Invisible,
+        Followed,
+        Following,
+    }
+
     public class ProfileVM :ViewModelBase
     {
         private readonly IPostService _postService;
@@ -112,10 +119,27 @@ namespace NolowaFrontend.ViewModels
             IsVisible = true;
         }
 
-        public ProfileVM(Models.User user, bool isFollowButtonVisible) : this()
+        public ProfileVM(Models.User user, eFollowButtonState buttonState) : this()
         {
             User = user;
-            IsFollowButtonVisible = isFollowButtonVisible;
+
+            SetFollowButtonState(buttonState);
+        }
+
+        private void SetFollowButtonState(eFollowButtonState buttonState)
+        {
+            switch (buttonState)
+            {
+                case eFollowButtonState.Invisible:
+                    IsFollowButtonVisible = false;
+                    break;
+                case eFollowButtonState.Followed:
+                    break;
+                case eFollowButtonState.Following:
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

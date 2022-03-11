@@ -119,26 +119,26 @@ namespace NolowaFrontend.ViewModels
             IsVisible = true;
         }
 
-        public ProfileVM(Models.User user, eFollowButtonState buttonState) : this()
+        public ProfileVM(Models.User user) : this()
         {
             User = user;
 
-            SetFollowButtonState(buttonState);
+            SetFollowButtonState();
         }
 
-        private void SetFollowButtonState(eFollowButtonState buttonState)
+        private void SetFollowButtonState()
         {
-            switch (buttonState)
+            if (User.ID == AppConfiguration.LoginUser.ID)
+                IsFollowButtonVisible = false;
+            else if(AppConfiguration.LoginUser.Followers.Any(x => x.ID == User.ID))
             {
-                case eFollowButtonState.Invisible:
-                    IsFollowButtonVisible = false;
-                    break;
-                case eFollowButtonState.Followed:
-                    break;
-                case eFollowButtonState.Following:
-                    break;
-                default:
-                    break;
+                // Followed
+                IsFollowButtonVisible = true; // 임시
+            }
+            else
+            {
+                // Following
+                IsFollowButtonVisible = true; // 임시
             }
         }
     }

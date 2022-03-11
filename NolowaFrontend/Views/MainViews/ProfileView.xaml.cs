@@ -44,9 +44,9 @@ namespace NolowaFrontend.Views.MainViews
             InitializeComponent();
         }
 
-        public ProfileView(User user, eFollowButtonState followButtonState) : this()
+        public ProfileView(User user) : this()
         {
-            this.DataContext = new ProfileVM(user, followButtonState);
+            this.DataContext = new ProfileVM(user);
         }
     }
 }

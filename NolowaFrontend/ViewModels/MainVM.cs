@@ -41,15 +41,6 @@ namespace NolowaFrontend.ViewModels
             set { _posts = value; OnPropertyChanged(); }
         }
 
-        //private ObservableCollection<Post> _posts = new ObservableCollection<Post>();
-
-        //public ObservableCollection<Post> Posts
-        //{
-        //    get { return _posts; }
-        //    set { _posts = value; OnPropertyChanged(); }
-        //}
-
-
         private object _makeTwitterView;
 
         public object MakeTwitterView

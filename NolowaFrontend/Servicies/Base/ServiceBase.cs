@@ -166,10 +166,13 @@ namespace NolowaFrontend.Servicies.Base
 
         private void SetJWTToken()
         {
-            var hasAuthorizationHeader = _httpClient.DefaultRequestHeaders.Contains("Authorization");
+            if (_jwtToken.IsNotVaild())
+                return;
 
-            if (_jwtToken.IsValid() && hasAuthorizationHeader == false)
-                _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + _jwtToken);
+            if (_httpClient.DefaultRequestHeaders.Contains("Authorization") == false)
+                return;
+
+            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + _jwtToken);
         }
     }
 }

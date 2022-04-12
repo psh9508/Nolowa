@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NolowaFrontend.Models.Images
+namespace NolowaFrontend.Models
 {
     public class followerUser
     {

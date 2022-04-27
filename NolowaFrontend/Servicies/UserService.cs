@@ -21,7 +21,7 @@ namespace NolowaFrontend.Servicies
 
     public class UserService : ServiceBase, IUserService
     {
-        private const string parentEndPoint = "User";
+        public override string ParentEndPoint => "User";
 
         public async Task<List<User>> GetAllUsersAsync()
         {
@@ -37,14 +37,14 @@ namespace NolowaFrontend.Servicies
         {
             string debug = Newtonsoft.Json.JsonConvert.SerializeObject(user);
 
-            var response = await DoPost<User, User>($"{parentEndPoint}/Save", user);
+            var response = await DoPost<User, User>($"Save", user);
 
             return response.IsSuccess ? response.ResponseData : null;
         }
 
         public async Task<bool> FollowAsync(long followerUserId, long followeeUserId)
         {
-            return await GetTFromService<bool>($"{parentEndPoint}/Follow/{followerUserId}/{followeeUserId}");
+            return await GetTFromService<bool>($"Follow/{followerUserId}/{followeeUserId}");
         }
     }
 }

@@ -18,7 +18,10 @@ namespace NolowaFrontend.Servicies
 
     public class AuthenticationService : ServiceBase, IAuthenticationService
     {
-        private const string parentEndPoint = "Authentication";
+        //private const string parentEndPoint = "Authentication";
+        //private const string parentEndPoint = "Accounts";
+
+        public override string ParentEndPoint => "Accounts";
 
         public async Task<ResponseBaseEntity<User>> Login(string id, string password)
         {
@@ -29,7 +32,7 @@ namespace NolowaFrontend.Servicies
 
             try
             {
-                var loginResponse = await DoPost<User, string>($"{parentEndPoint}/Login", json);
+                var loginResponse = await DoPost<User, string>($"Login", json);
 
                 if (loginResponse.IsSuccess)
                     _jwtToken = loginResponse.ResponseData.JWTToken;

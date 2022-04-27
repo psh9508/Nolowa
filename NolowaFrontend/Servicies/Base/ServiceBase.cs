@@ -14,16 +14,19 @@ using System.Threading.Tasks;
 
 namespace NolowaFrontend.Servicies.Base
 {
-    public class ServiceBase
+    public abstract class ServiceBase
     {
         protected static string _jwtToken = string.Empty;
         protected static readonly HttpClient _httpClient = new HttpClient();
+
+        public abstract string ParentEndPoint { get; }
 
         public ServiceBase()
         {
             if(_httpClient.BaseAddress == null)
             {
-                _httpClient.BaseAddress = new Uri("http://localhost:8080/");
+                //_httpClient.BaseAddress = new Uri("http://localhost:8080/");
+                _httpClient.BaseAddress = new Uri("https://localhost:5001/");
                 _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             }
         }
@@ -37,7 +40,7 @@ namespace NolowaFrontend.Servicies.Base
             {
                 SetJWTToken();
 
-                await _httpClient.DeleteAsync(uri);
+                await _httpClient.DeleteAsync($"{ParentEndPoint}/{uri}");
             }
             catch (Exception ex)
             {
@@ -54,7 +57,7 @@ namespace NolowaFrontend.Servicies.Base
             {
                 SetJWTToken();
 
-                var result = await _httpClient.GetAsync(uri);
+                var result = await _httpClient.GetAsync($"{ParentEndPoint}/{uri}");
 
                 var debug = await result.Content.ReadAsStringAsync();
 
@@ -82,7 +85,7 @@ namespace NolowaFrontend.Servicies.Base
 
             SetJWTToken();
 
-            var response = await _httpClient.GetAsync(uri);
+            var response = await _httpClient.GetAsync($"{ParentEndPoint}/{uri}");
 
             if (response.IsSuccessStatusCode)
                 return await response.Content.ReadFromJsonAsync<TModel>();
@@ -96,7 +99,7 @@ namespace NolowaFrontend.Servicies.Base
             {
                 var debug = JsonSerializer.Serialize(body);
 
-                return await _httpClient.PostAsJsonAsync(uri, body);
+                return await _httpClient.PostAsJsonAsync($"{ParentEndPoint}/{uri}", body);
             });
         }
 
@@ -106,7 +109,7 @@ namespace NolowaFrontend.Servicies.Base
             {
                 var content = new StringContent(jsonRowData, Encoding.UTF8, "application/json");
 
-                return await _httpClient.PostAsync(uri, content);
+                return await _httpClient.PostAsync($"{ParentEndPoint}/{uri}", content);
             });         
         }
 
@@ -133,7 +136,7 @@ namespace NolowaFrontend.Servicies.Base
             {
                 return GetResponseModel(false, "The content type is not supported.", default(TResult));
             }
-            catch (JsonException) // Invalid JSON
+            catch (JsonException ex) // Invalid JSON
             {
                 return GetResponseModel(false, "Invalid JSON.", default(TResult));
             }

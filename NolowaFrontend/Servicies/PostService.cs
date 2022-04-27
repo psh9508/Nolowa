@@ -18,21 +18,24 @@ namespace NolowaFrontend.Servicies
 
     public class PostService : ServiceBase, IPostService
     {
-        private const string parentEndPoint = "Post";
+        //private const string parentEndPoint = "Post";
+        //private const string parentEndPoint = "Posts";
+
+        public override string ParentEndPoint => "Posts";
 
         public async Task<ResponseBaseEntity<List<Post>>> GetMyPostsAsync(long userId)
         {
-            return await DoGet<List<Post>>($"{parentEndPoint}/{userId}/Posts");
+            return await DoGet<List<Post>>($"{userId}/Posts");
         }
 
         public async Task<ResponseBaseEntity<List<Post>>> GetPostsAsync(long id)
         {
-            return await DoGet<List<Post>>($"{parentEndPoint}/{id}/Followers");
+            return await DoGet<List<Post>>($"{id}/Followers");
         }
 
         public async Task<ResponseBaseEntity<Post>> InsertPostAsync(Post post)
         {
-            return await DoPost<Post, Post>($"{parentEndPoint}/New", post);
+            return await DoPost<Post, Post>($"New", post);
         }
     }
 }

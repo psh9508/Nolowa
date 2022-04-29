@@ -172,7 +172,7 @@ namespace NolowaFrontend.Servicies.Base
             if (_jwtToken.IsNotVaild())
                 return;
 
-            if (_httpClient.DefaultRequestHeaders.Contains("Authorization") == false)
+            if (_httpClient.DefaultRequestHeaders.Contains("Authorization"))
                 return;
 
             _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + _jwtToken);

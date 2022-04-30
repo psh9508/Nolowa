@@ -8,8 +8,7 @@
              xmlns:core="clr-namespace:NolowaFrontend.Core"
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              x:Name="_this"
-             mc:Ignorable="d" 
-             DataContext="{Binding UserService, Source={StaticResource ViewModelLocator}}">
+             mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

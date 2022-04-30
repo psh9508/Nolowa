@@ -93,7 +93,7 @@ namespace NolowaFrontend.ViewModels
                         var newTwitter = new Post()
                         {
                             Message = Message,
-                            Name = _user.Name,
+                            Name = _user.AccountName,
                             PostedUser = _user,
                             Guid = guid,
                         };

@@ -72,6 +72,7 @@ namespace NolowaFrontend.Controls
 
             var rseponse = await Save(new User()
             {   
+                AccountName = txtName.InputText,
                 Email = txtEmail.InputText,
                 Password = txtPassword.InputText,
                 // The ProfileImage is needed to be here somewhere.

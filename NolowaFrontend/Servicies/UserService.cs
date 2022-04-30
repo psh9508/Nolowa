@@ -21,7 +21,8 @@ namespace NolowaFrontend.Servicies
 
     public class UserService : ServiceBase, IUserService
     {
-        public override string ParentEndPoint => "User";
+        //public override string ParentEndPoint => "User";
+        public override string ParentEndPoint => "Accounts";
 
         public async Task<List<User>> GetAllUsersAsync()
         {

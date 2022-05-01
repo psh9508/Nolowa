@@ -16,7 +16,6 @@ namespace NolowaFrontend.Core.SNSLogin
     abstract public class SNSLoginBase<TConfig> where TConfig : class
     {
         protected readonly TConfig _configuration;
-        protected readonly HttpListener _httpListener;
 
         /// <summary>
         /// SNS 로그인에 필요한 설정 경로를 입력받아 설정을 T객체에 맵핑한다.
@@ -30,46 +29,13 @@ namespace NolowaFrontend.Core.SNSLogin
         public SNSLoginBase(string configPath)
         {
             _configuration = ConfigurationManager.GetSection(configPath) as TConfig;
-            _httpListener = new HttpListener();
         }
 
-        public async Task ShowLoginPage()
+        public void ShowLoginPage()
         {
             string authorizationRequestURI = GetAuthorizationRequestURI();
 
-            SetHttpListener();
-
             Process.Start(new ProcessStartInfo(authorizationRequestURI) { UseShellExecute = true });
-
-            var authorizationResponse = await _httpListener.GetContextAsync();
-
-            var response = authorizationResponse.Response;
-
-            string responseString = string.Format("<html><head><meta http-equiv='refresh' content='10;url=https://google.com'></head><body>Please return to the app.</body></html>");
-            var buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
-            response.ContentLength64 = buffer.Length;
-            var responseOutput = response.OutputStream;
-            Task responseTask = responseOutput.WriteAsync(buffer, 0, buffer.Length).ContinueWith((task) =>
-            {
-                responseOutput.Close();
-                _httpListener.Stop();
-            });
-        }
-
-        private void SetHttpListener()
-        {
-            string redirectURI = string.Format("http://{0}:{1}/", IPAddress.Loopback, GetRandomUnusedPort());
-            _httpListener.Prefixes.Add(redirectURI);
-            _httpListener.Start();
-        }
-
-        private int GetRandomUnusedPort()
-        {
-            var listener = new TcpListener(IPAddress.Loopback, 0);
-            listener.Start();
-            var port = ((IPEndPoint)listener.LocalEndpoint).Port;
-            listener.Stop();
-            return port;
         }
 
         /// <summary>

@@ -27,12 +27,15 @@ namespace NolowaFrontend.Core.SNSLogin
             authorizationRequestBuilder.Append("?");
             authorizationRequestBuilder.Append("response_type=code");
             authorizationRequestBuilder.Append("&");
-            authorizationRequestBuilder.Append("scope=email%20profile");
+            authorizationRequestBuilder.Append("access_type=offline");
+            authorizationRequestBuilder.Append("&");
+            //authorizationRequestBuilder.Append("scope=email%20profile");
+            authorizationRequestBuilder.Append(@"scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/plus.me+https://www.googleapis.com/auth/userinfo.profile");
             authorizationRequestBuilder.Append("&");
             authorizationRequestBuilder.Append($"redirect_uri={_configuration.RedirectURI}");
             authorizationRequestBuilder.Append("&");
             authorizationRequestBuilder.Append($"client_id={_configuration.GoogleClientID}");
-
+            
             return authorizationRequestBuilder.ToString();
         }
     }

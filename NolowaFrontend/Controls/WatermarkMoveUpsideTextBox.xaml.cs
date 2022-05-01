@@ -28,7 +28,11 @@ namespace NolowaFrontend.Controls
     {
         public string InputText
         {
-            get { return (string)GetValue(InputTextProperty); }
+            get
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes((string)GetValue(InputTextProperty));
+                return Encoding.Default.GetString(bytes);
+            }
             set { SetValue(InputTextProperty, value); }
         }
 
@@ -52,7 +56,9 @@ namespace NolowaFrontend.Controls
         }
 
         public static readonly DependencyProperty TextBoxTypeProperty =
-            DependencyProperty.Register("TextBoxType", typeof(TextBoxType), typeof(WatermarkMoveUpsideTextBox), new PropertyMetadata(TextBoxType.Normal));
+            DependencyProperty.
+            Register("TextBoxType", typeof(TextBoxType), typeof(WatermarkMoveUpsideTextBox), new PropertyMetadata(TextBoxType.Normal));
+
 
         public WatermarkMoveUpsideTextBox()
         {

@@ -103,11 +103,11 @@ namespace NolowaFrontend.Servicies.Base
             });
         }
 
-        protected async Task<ResponseBaseEntity<TResult>> DoPost<TResult, TRequest>(string uri, string jsonRowData) where TResult : new()
+        protected async Task<ResponseBaseEntity<TResult>> DoPost<TResult, TRequest>(string uri, string jsonRawData) where TResult : new()
         {
             return await DoPostBodyAsync<TResult, TRequest>(async () =>
             {
-                var content = new StringContent(jsonRowData, Encoding.UTF8, "application/json");
+                var content = new StringContent(jsonRawData, Encoding.UTF8, "application/json");
 
                 return await _httpClient.PostAsync($"{ParentEndPoint}/{uri}", content);
             });         

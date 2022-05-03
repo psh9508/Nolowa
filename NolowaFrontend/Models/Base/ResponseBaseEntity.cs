@@ -13,7 +13,7 @@ namespace NolowaFrontend.Models.Base
     //    public string Message { get; set; }
     //}
 
-    public class ResponseBaseEntity<T> where T : new()
+    public class ResponseBaseEntity<T>
     {
         public bool IsSuccess { get; set; }
         //public HttpStatusCode StatusCode { get; set; }

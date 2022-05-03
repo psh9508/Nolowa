@@ -48,7 +48,7 @@ namespace NolowaFrontend.Servicies.Base
             }
         }
 
-        protected async Task<ResponseBaseEntity<TResult>> DoGet<TResult>(string uri) where TResult : new()
+        protected async Task<ResponseBaseEntity<TResult>> DoGet<TResult>(string uri)
         {
             if (uri.StartsWith("/"))
                 uri = uri.Remove(0, 1);
@@ -72,7 +72,7 @@ namespace NolowaFrontend.Servicies.Base
                 return new ResponseBaseEntity<TResult>()
                 {
                     IsSuccess = false,
-                    ResponseData = new TResult(),
+                    ResponseData = default(TResult),
                     Message = ex.Message,
                 };
             }

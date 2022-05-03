@@ -10,6 +10,7 @@ using System.Configuration;
 using NolowaFrontend.Configurations;
 using System.Security.Cryptography;
 using NolowaFrontend.Extensions;
+using NolowaFrontend.Models.Base;
 
 namespace NolowaFrontend.Core.SNSLogin
 {
@@ -19,24 +20,16 @@ namespace NolowaFrontend.Core.SNSLogin
         {
         }
 
-        public override string GetAuthorizationRequestURI()
-        {
-            var authorizationRequestBuilder = new StringBuilder();
+        public override string ParentEndPoint => "Authentication";
 
-            authorizationRequestBuilder.Append(_configuration.AuthorizationEndpoint);
-            authorizationRequestBuilder.Append("?");
-            authorizationRequestBuilder.Append("response_type=code");
-            authorizationRequestBuilder.Append("&");
-            authorizationRequestBuilder.Append("access_type=offline");
-            authorizationRequestBuilder.Append("&");
-            //authorizationRequestBuilder.Append("scope=email%20profile");
-            authorizationRequestBuilder.Append(@"scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/plus.me+https://www.googleapis.com/auth/userinfo.profile");
-            authorizationRequestBuilder.Append("&");
-            authorizationRequestBuilder.Append($"redirect_uri={_configuration.RedirectURI}");
-            authorizationRequestBuilder.Append("&");
-            authorizationRequestBuilder.Append($"client_id={_configuration.GoogleClientID}");
-            
-            return authorizationRequestBuilder.ToString();
+        public async Task ShowLoginPage()
+        {
+            var authorizationRequestURIResponse = await DoGet<string>("Social/Google/AuthorizationRequestURI");
+
+            if (authorizationRequestURIResponse.IsSuccess == false)
+                return;
+
+            Process.Start(new ProcessStartInfo(authorizationRequestURIResponse.ResponseData) { UseShellExecute = true });
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using NolowaFrontend.Extensions;
+using NolowaFrontend.Servicies.Base;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 namespace NolowaFrontend.Core.SNSLogin
 {
     /// <typeparam name="TConfig"> 설정 파일과 맵핑될 모델 설정 파일과 맵핑될 모델</typeparam>
-    abstract public class SNSLoginBase<TConfig> where TConfig : class
+    abstract public class SNSLoginBase<TConfig> : ServiceBase where TConfig : class
     {
         protected readonly TConfig _configuration;
 
@@ -30,18 +31,5 @@ namespace NolowaFrontend.Core.SNSLogin
         {
             _configuration = ConfigurationManager.GetSection(configPath) as TConfig;
         }
-
-        public void ShowLoginPage()
-        {
-            string authorizationRequestURI = GetAuthorizationRequestURI();
-
-            Process.Start(new ProcessStartInfo(authorizationRequestURI) { UseShellExecute = true });
-        }
-
-        /// <summary>
-        /// 인증 URI를 반환한다.
-        /// </summary>
-        /// <returns></returns>
-        abstract public string GetAuthorizationRequestURI();
     }
 }

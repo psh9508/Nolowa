@@ -1,4 +1,6 @@
 ﻿using NolowaFrontend.Core;
+using NolowaFrontend.Core.SNSLogin;
+using NolowaFrontend.Models;
 using NolowaFrontend.Views;
 using System;
 using System.Collections.Generic;
@@ -26,6 +28,13 @@ namespace NolowaFrontend
             var loginView = new LoginView();
 
             loginView.SuccessLogin += user => {
+                loginView.Hide();
+
+                var main = new MainView(user);
+                main.ShowDialog();
+            };
+
+            GoogleLoginProvider.SuccessLogin += user => {
                 loginView.Hide();
 
                 var main = new MainView(user);

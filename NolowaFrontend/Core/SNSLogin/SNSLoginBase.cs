@@ -10,26 +10,137 @@ using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace NolowaFrontend.Core.SNSLogin
 {
-    /// <typeparam name="TConfig"> 설정 파일과 맵핑될 모델 설정 파일과 맵핑될 모델</typeparam>
-    abstract public class SNSLoginBase<TConfig> : ServiceBase where TConfig : class
+    abstract public class SNSLoginBase : ServiceBase
     {
-        protected readonly TConfig _configuration;
-
-        /// <summary>
-        /// SNS 로그인에 필요한 설정 경로를 입력받아 설정을 T객체에 맵핑한다.
-        /// </summary>
-        /// <param name="configPath"> 
-        ///     App.config에 있는 SNSLogin에 필요한 설정을 넣어 준다.
-        ///     <example> 
-        ///         sectionGroup/section 
-        ///     </example>
-        /// </param>
         public SNSLoginBase(string configPath)
         {
-            _configuration = ConfigurationManager.GetSection(configPath) as TConfig;
+        }
+
+        protected async Task<string> ShowAuthorizationPageAndGetCode(string authorizationURI)
+        {
+            HttpListener redirectionListener = null;
+
+            try
+            {
+                var authorizationRequestURIResponse = await DoGet<string>(authorizationURI);
+
+                if (authorizationRequestURIResponse.IsSuccess == false)
+                {
+                    return string.Empty;
+                }
+
+                string redirectUri = HttpUtility.ParseQueryString(authorizationRequestURIResponse.ResponseData).Get("redirect_uri");
+                redirectionListener = GetRedirectionListener(redirectUri);
+
+                Process.Start(new ProcessStartInfo(authorizationRequestURIResponse.ResponseData) { UseShellExecute = true });
+                var context = await redirectionListener.GetContextAsync();
+
+                var response = context.Response;
+
+                string responseString = GetReponsePage();
+
+                byte[] buffer = Encoding.UTF8.GetBytes(responseString);
+                response.ContentLength64 = buffer.Length;
+                var responseOutput = response.OutputStream;
+                await responseOutput.WriteAsync(buffer, 0, buffer.Length);
+
+                responseOutput.Close();
+
+                return context.Request.QueryString.Get("code") ?? string.Empty;
+            }
+            finally
+            {
+                redirectionListener?.Stop();
+                redirectionListener?.Close();
+            }
+        }
+
+        private HttpListener GetRedirectionListener(string redirectUri)
+        {
+            if ((redirectUri[^1] == '/') == false)
+                redirectUri = redirectUri + "/";
+
+            var http = new HttpListener();
+           
+            http.Prefixes.Add(redirectUri);
+            http.Start();
+
+            return http;
+        }
+
+        private string GetReponsePage()
+        {
+            return @"<html lang=""ko"">
+
+<head>
+    <title>login_complete</title>
+    
+    <meta charset=""UTF-8"">
+    <meta http-equiv=""X-UA-Compatible"" content=""IE=edge"">
+
+    <meta name=""keywords"" content="""">
+    <meta name=""description"" content="""">
+
+    
+    <link rel=""shortcut icon"" href=""https://wstatic-cdn.plaync.com/common/plaync.ico"" type=""image/x-icon"">
+    <link rel=""icon"" href=""https://wstatic-cdn.plaync.com/common/plaync.ico"" type=""image/x-icon"">
+    <link rel=""apple-touch-icon"" href=""https://wstatic-cdn.plaync.com/common/plaync.png"" type=""image/png"">
+
+    
+    <script src=""https://wstatic-cdn.plaync.com/platform-common-util/js/platform.util.js?t=20220507054831""></script>
+
+    
+    <script src=""https://wstatic-cdn.plaync.com/common/js/lib/jquery-3.1.0.min.js""></script>
+    <link rel=""stylesheet"" href=""https://wstatic-cdn.plaync.com/account/error/css/error.style.css?t=20220507054831"">
+</head>
+<body data-market=""NCS"" class=""pc"">
+
+    <script>
+      window.onload = function (e) {
+        window.open('', '_self', '');
+        window.close();
+      }
+    </script>
+    
+    <header class=""header"">
+        <h1 class=""logo"">
+            <a href=""https://wwww.naver..com"">
+                <span>nolowa</span>
+            </a>
+        </h1>
+    </header>
+
+    <div id=""container"" class=""wrapper footer--small"">
+        <div class=""wrap-contents"">
+            <main class=""contents full"">
+                <div class=""content-section"">
+                    
+                    <section class=""result-section"">
+                        <h2 class=""title"">
+                            <span class=""complete"">계정 인증 완료</span>
+                        </h2>
+                        <div class=""message"">
+                            <p>P서비스 이용을 위한 로그인이 완료되었습니다.</p>
+                            <p>플레이를 시작하세요!</p>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <div class=""wrap-footer"">
+            <footer class=""footer"">
+                <p>Copyright &copy; Nolowa Corporation. All Rights Reserved.</p>
+            </footer>
+        </div>
+    </div>
+
+</body>
+</html>
+";
         }
     }
 }

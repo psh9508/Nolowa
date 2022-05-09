@@ -19,6 +19,9 @@
     <None Remove="Resources\Icons\speech-bubble.png" />
     <None Remove="Resources\ProfilePicture.jpg" />
     <None Remove="Resources\SNS\googleLogo.png" />
+    <None Remove="Resources\SNS\kakaoLogo.png" />
+    <None Remove="Resources\SNS\metaLogo.jpg" />
+    <None Remove="Resources\SNS\metaLogo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,7 +47,14 @@
     <Resource Include="Resources\Icons\retweet.png" />
     <Resource Include="Resources\Icons\share.png" />
     <Resource Include="Resources\Icons\speech-bubble.png" />
+    <Resource Include="Resources\SNS\kakaoLogo.png" />
+    <Resource Include="Resources\SNS\metaLogo.jpg" />
+    <Resource Include="Resources\SNS\metaLogo.png" />
     <EmbeddedResource Include="Resources\ProfilePicture.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Configurations\" />
   </ItemGroup>
 
 </Project>

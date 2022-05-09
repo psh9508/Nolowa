@@ -106,6 +106,20 @@ namespace NolowaFrontend.ViewModels
             }
         }
 
+        private ICommand _kakaoLoginCommand;
+
+        public ICommand KakaoLoginCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _kakaoLoginCommand, _ =>
+                {
+                    var googleLoginProvider = new KakaoLoginProvider();
+                    googleLoginProvider.ShowLoginPage();
+                });
+            }
+        }
+
         public ICommand _singupCommand;
 
         public ICommand SignupCommand

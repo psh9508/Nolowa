@@ -41,6 +41,13 @@ namespace NolowaFrontend
                 main.ShowDialog();
             };
 
+            KakaoLoginProvider.SuccessLogin += user => {
+                loginView.Hide();
+
+                var main = new MainView(user);
+                main.ShowDialog();
+            };
+
             loginView.ShowDialog();
         }
 

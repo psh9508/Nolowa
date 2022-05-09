@@ -1,4 +1,5 @@
 ﻿using NolowaFrontend.Extensions;
+using NolowaFrontend.Servicies;
 using NolowaFrontend.Servicies.Base;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace NolowaFrontend.Core.SNSLogin
 {
     abstract public class SNSLoginBase : ServiceBase
     {
-        public SNSLoginBase(string configPath)
+        public SNSLoginBase()
         {
         }
 
@@ -84,12 +85,6 @@ namespace NolowaFrontend.Core.SNSLogin
 
     <meta name=""keywords"" content="""">
     <meta name=""description"" content="""">
-
-    
-    <link rel=""shortcut icon"" href=""https://wstatic-cdn.plaync.com/common/plaync.ico"" type=""image/x-icon"">
-    <link rel=""icon"" href=""https://wstatic-cdn.plaync.com/common/plaync.ico"" type=""image/x-icon"">
-    <link rel=""apple-touch-icon"" href=""https://wstatic-cdn.plaync.com/common/plaync.png"" type=""image/png"">
-
     
     <script src=""https://wstatic-cdn.plaync.com/platform-common-util/js/platform.util.js?t=20220507054831""></script>
 
@@ -107,10 +102,7 @@ namespace NolowaFrontend.Core.SNSLogin
     </script>
     
     <header class=""header"">
-        <h1 class=""logo"">
-            <a href=""https://wwww.naver..com"">
-                <span>nolowa</span>
-            </a>
+        <h1 class=""logo"">            
         </h1>
     </header>
 
@@ -124,7 +116,7 @@ namespace NolowaFrontend.Core.SNSLogin
                             <span class=""complete"">계정 인증 완료</span>
                         </h2>
                         <div class=""message"">
-                            <p>P서비스 이용을 위한 로그인이 완료되었습니다.</p>
+                            <p>서비스 이용을 위한 로그인이 완료되었습니다.</p>
                             <p>플레이를 시작하세요!</p>
                         </div>
                     </section>

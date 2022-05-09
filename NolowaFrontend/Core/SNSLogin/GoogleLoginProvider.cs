@@ -15,18 +15,16 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.VisualBasic.ApplicationServices;
 using NolowaFrontend.Servicies;
+using NolowaFrontend.Servicies.Base;
 
 namespace NolowaFrontend.Core.SNSLogin
 {
-    public class GoogleLoginProvider : SNSLoginBase
+    public class GoogleLoginProvider : SNSLoginBase, ISNSLogin
     {
         public static event Action<Models.User> SuccessLogin;
 
-        private readonly IAuthenticationService _service;
-
-        public GoogleLoginProvider() : base(configPath: "SNSLoginGroup/GoogleLogin")
-        {
-            _service = new AuthenticationService();
+        public GoogleLoginProvider() 
+        { 
         }
 
         public override string ParentEndPoint => "Authentication";
@@ -57,7 +55,7 @@ namespace NolowaFrontend.Core.SNSLogin
                 throw;
             }
         }
-
+        
         private HttpListener GetGoogleRedirectionListener(string redirectionUri)
         {
             if ((redirectionUri[^1] == '/') == false)
@@ -78,23 +76,5 @@ namespace NolowaFrontend.Core.SNSLogin
 
             return http;
         }
-
-        //private Object ByteArrayToObject(byte[] arrBytes)
-        //{
-        //    try
-        //    {
-        //        MemoryStream memStream = new MemoryStream();
-        //        BinaryFormatter binForm = new BinaryFormatter();
-        //        memStream.Write(arrBytes, 0, arrBytes.Length);
-        //        memStream.Seek(0, SeekOrigin.Begin);
-        //        Object obj = (Object)binForm.Deserialize(memStream);
-
-        //        return obj;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return null;
-        //    }
-        //}
     }
 }

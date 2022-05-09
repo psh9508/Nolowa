@@ -14,6 +14,11 @@ using System.Threading.Tasks;
 
 namespace NolowaFrontend.Servicies.Base
 {
+    public interface ISNSLogin
+    {
+        Task ShowLoginPage();
+    }
+
     public abstract class ServiceBase
     {
         protected static string _jwtToken = string.Empty;
@@ -25,7 +30,6 @@ namespace NolowaFrontend.Servicies.Base
         {
             if(_httpClient.BaseAddress == null)
             {
-                //_httpClient.BaseAddress = new Uri("http://localhost:8080/");
                 _httpClient.BaseAddress = new Uri("https://localhost:5001/");
                 _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             }

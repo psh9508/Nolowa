@@ -71,7 +71,14 @@ namespace NolowaFrontend.ViewModels
                     // _userService를 이용해 팔로우 API 호출
                     var response = await _userService.FollowAsync(AppConfiguration.LoginUser.ID, _user.ID);
 
-                    int a = 0;
+                    if(response)
+                    {
+                        // UI 변경
+                    }
+                    else
+                    {
+                        // 실패 처리
+                    }
                 });
             }
         }

@@ -1,5 +1,6 @@
 ﻿using NolowaFrontend.Models;
 using NolowaFrontend.Models.Base;
+using NolowaFrontend.Models.IF;
 using NolowaFrontend.Servicies.Base;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,13 @@ namespace NolowaFrontend.Servicies
 
         public async Task<bool> FollowAsync(long followerUserId, long followeeUserId)
         {
-            return await GetTFromService<bool>($"Follow/{followerUserId}/{followeeUserId}");
+            var response = await DoPost<bool, IFFollowModel>($"Follow", new IFFollowModel()
+            {
+                SourceID = followerUserId,
+                DestID = followeeUserId,
+            });
+
+            return response.IsSuccess;
         }
     }
 }

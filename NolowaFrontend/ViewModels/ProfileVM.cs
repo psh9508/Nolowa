@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
+using NolowaFrontend.Controls.Buttons;
 using NolowaFrontend.Core;
 using NolowaFrontend.Extensions;
 using NolowaFrontend.Models;
@@ -15,13 +16,6 @@ using System.Windows.Input;
 
 namespace NolowaFrontend.ViewModels
 {
-    public enum eFollowButtonState
-    {
-        Invisible,
-        Followed,
-        Following,
-    }
-
     public class ProfileVM :ViewModelBase
     {
         private readonly IPostService _postService;
@@ -42,23 +36,16 @@ namespace NolowaFrontend.ViewModels
             get { return _posts; }
             set { _posts = value; OnPropertyChanged(); }
         }
+        
+        private eFollowButtonState _followButtonState = eFollowButtonState.Following;
 
-        private bool _isFollowButtonVisible;
-
-        public bool IsFollowButtonVisible
+        public eFollowButtonState FollowButtonState
         {
-            get { return _isFollowButtonVisible; }
-            set { _isFollowButtonVisible = value; OnPropertyChanged(); }
+            get { return _followButtonState; }
+            set { _followButtonState = value; OnPropertyChanged(); }
         }
 
-        private bool _isVisible;
-
-        public bool IsVisible
-        {
-            get { return _isVisible; }
-            set { _isVisible = value; OnPropertyChanged(); }
-        }
-
+      
         #region Commands
         private ICommand _followButtonClickCommand;
 
@@ -72,9 +59,7 @@ namespace NolowaFrontend.ViewModels
                     var response = await _userService.FollowAsync(AppConfiguration.LoginUser.ID, _user.ID);
 
                     if(response)
-                    {
-                        // UI 변경
-                    }
+                        ToggleFollowButtonState();
                     else
                     {
                         // 실패 처리
@@ -112,7 +97,7 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _closeViewCommand, _ =>
                 {
-                    IsVisible = false;
+                    
                 });
             }
         }
@@ -122,8 +107,6 @@ namespace NolowaFrontend.ViewModels
         {
             _postService = new PostService();
             _userService = new UserService();
-
-            IsVisible = true;
         }
 
         public ProfileVM(Models.User user) : this()
@@ -136,17 +119,25 @@ namespace NolowaFrontend.ViewModels
         private void SetFollowButtonState()
         {
             if (User.ID == AppConfiguration.LoginUser.ID)
-                IsFollowButtonVisible = false;
-            else if(AppConfiguration.LoginUser.Followers.Any(x => x.ID == User.ID))
             {
-                // Followed
-                IsFollowButtonVisible = true; // 임시
+                FollowButtonState = eFollowButtonState.Editable;
+            }
+            else if (AppConfiguration.LoginUser.Followers.Any(x => x.ID == User.ID))
+            {
+                FollowButtonState = eFollowButtonState.Followed;
             }
             else
             {
-                // Following
-                IsFollowButtonVisible = true; // 임시
+                FollowButtonState = eFollowButtonState.Following;
             }
+        }
+
+        private void ToggleFollowButtonState()
+        {
+            if (FollowButtonState == eFollowButtonState.Followed)
+                FollowButtonState = eFollowButtonState.Following;
+            else if (FollowButtonState == eFollowButtonState.Following)
+                FollowButtonState = eFollowButtonState.Followed;
         }
     }
 }

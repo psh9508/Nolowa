@@ -15,6 +15,14 @@ using System.Windows.Shapes;
 
 namespace NolowaFrontend.Controls.Buttons
 {
+    public enum eFollowButtonState
+    {
+        None,
+        Editable,
+        Followed,
+        Following,
+    }
+
     /// <summary>
     /// FollowButton.xaml에 대한 상호 작용 논리
     /// </summary>
@@ -29,6 +37,21 @@ namespace NolowaFrontend.Controls.Buttons
         public static readonly DependencyProperty ClickCommandProperty =
             DependencyProperty.Register("ClickCommand", typeof(ICommand), typeof(FollowButton), new PropertyMetadata(null));
 
+        public eFollowButtonState ButtonState
+        {
+            get { return (eFollowButtonState)GetValue(ButtonStateProperty); }
+            set { SetValue(ButtonStateProperty, value); }
+        }
+
+        public static readonly DependencyProperty ButtonStateProperty =
+            DependencyProperty.Register("ButtonState", typeof(eFollowButtonState), typeof(FollowButton), new PropertyMetadata(eFollowButtonState.None
+                , propertyChangedCallback: (s, e) =>
+                {
+                    var followButton = s as FollowButton;
+                    
+                    if (followButton != null)
+                        followButton.body.IsChecked = followButton.ButtonState == eFollowButtonState.Followed ? false : true;
+                }));
 
         public FollowButton()
         {

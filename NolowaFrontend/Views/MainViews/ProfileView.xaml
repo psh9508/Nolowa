@@ -100,14 +100,8 @@
                     </StackPanel>
                 </StackPanel>
 
-                <ucBtn:FollowButton Grid.Row="1" Height="30" Width="80"  Margin="10" VerticalAlignment="Top" HorizontalAlignment="Right" ClickCommand="{Binding FollowButtonClickCommand}">
-                    <ucBtn:FollowButton.Style>
-                        <Style TargetType="ucBtn:FollowButton">
-                            <Setter Property="Visibility" Value="{Binding Path=IsFollowButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                        </Style>
-                    </ucBtn:FollowButton.Style>
-                </ucBtn:FollowButton>
-
+                <ucBtn:FollowButton Grid.Row="1" Height="30" Width="80" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Right" 
+                                    ClickCommand="{Binding FollowButtonClickCommand}" ButtonState="{Binding FollowButtonState, Mode=TwoWay}"/>
 
                 <Grid Grid.Row="2">
                     <ListBox ItemsSource="{Binding Path=Posts}" MaxHeight="{Binding RelativeSource={RelativeSource AncestorLevel=1, AncestorType=Grid}, Path=ActualHeight}"

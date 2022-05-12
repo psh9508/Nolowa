@@ -45,7 +45,15 @@ namespace NolowaFrontend.ViewModels
             set { _followButtonState = value; OnPropertyChanged(); }
         }
 
-      
+        private bool _isVisible = true;
+
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set { _isVisible = value; OnPropertyChanged(); }
+        }
+
+
         #region Commands
         private ICommand _followButtonClickCommand;
 
@@ -58,8 +66,11 @@ namespace NolowaFrontend.ViewModels
                     // _userService를 이용해 팔로우 API 호출
                     var response = await _userService.FollowAsync(AppConfiguration.LoginUser.ID, _user.ID);
 
-                    if(response)
+                    if (response)
+                    {
                         ToggleFollowButtonState();
+                        // Post 재로드
+                    }
                     else
                     {
                         // 실패 처리
@@ -97,7 +108,7 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _closeViewCommand, _ =>
                 {
-                    
+                    IsVisible = false;
                 });
             }
         }
@@ -124,11 +135,11 @@ namespace NolowaFrontend.ViewModels
             }
             else if (AppConfiguration.LoginUser.Followers.Any(x => x.ID == User.ID))
             {
-                FollowButtonState = eFollowButtonState.Followed;
+                FollowButtonState = eFollowButtonState.Following;
             }
             else
             {
-                FollowButtonState = eFollowButtonState.Following;
+                FollowButtonState = eFollowButtonState.Followed;
             }
         }
 

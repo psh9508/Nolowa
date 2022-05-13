@@ -10,7 +10,7 @@
     <Grid>
         <Ellipse MouseLeftButtonUp="Ellipse_MouseLeftButtonUp">
             <Ellipse.Fill>
-                <ImageBrush ImageSource="{Binding ElementName=_this, Path=User.ProfileImageFile}"/>
+                <ImageBrush ImageSource="{Binding ElementName=_this, Path=User.ProfileImage.ProfileImageFile}"/>
             </Ellipse.Fill>
         </Ellipse>
     </Grid>

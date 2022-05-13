@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NolowaFrontend.Views.MainViews"
              xmlns:designTime="clr-namespace:NolowaFrontend.Views"
+             xmlns:ucv="clr-namespace:NolowaFrontend.Views.UserControls"
              mc:Ignorable="d" Loaded="UserControl_Loaded"
              d:DesignHeight="300" d:DesignWidth="350" d:Background="White">
     
@@ -40,15 +41,13 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-
-                            <Ellipse Grid.Column="0" Width="45" Height="45" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Ellipse.Fill>
-                                    <ImageBrush ImageSource="{Binding ProfileImage.ProfileImageFile}"/>
-                                </Ellipse.Fill>
-                            </Ellipse>
+                            
+                            <ucv:ProfileImageElipseView Grid.Column="0" VerticalAlignment="Top" Width="50" Height="50"
+                                                        ClickedProfileImage="ProfileImageElipseView_ClickedProfileImage" 
+                                                        User="{Binding}"/>
 
                             <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                                <TextBlock Text="{Binding Path=Name}" FontWeight="Bold" FontSize="14"/>
+                                <TextBlock Text="{Binding Path=AccountName}" FontWeight="Bold" FontSize="14"/>
                                 <TextBlock Text="{Binding Path=AccountID}" FontSize="14"/>
                             </StackPanel>
                         </Grid>

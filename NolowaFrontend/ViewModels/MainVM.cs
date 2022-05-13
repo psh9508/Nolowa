@@ -146,6 +146,19 @@ namespace NolowaFrontend.ViewModels
             get
             {
                 return GetRelayCommand(ref _searchViewCommand, _ => {
+                    //_searchView.ClickedProfileImag.Clear(); // 화면 바꿀 때 마다 이벤트 걸릴 것임
+                    _searchView.ClickedProfileImage += (object sender, RoutedEventArgs e) =>
+                    {
+                        // 계속 이렇게 추가해야 하는건가?
+
+                        if (e is ObjectRoutedEventArgs args)
+                        {
+                            var clickedUser = (User)args.Parameter;
+                            var profileView = new ProfileView(clickedUser);
+
+                            UserProfileView = profileView;
+                        }
+                    };
                     MainView = _searchView;
                 });
             }

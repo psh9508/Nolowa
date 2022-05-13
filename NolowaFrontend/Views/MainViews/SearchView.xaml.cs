@@ -1,6 +1,7 @@
 ﻿using NolowaFrontend.Core;
 using NolowaFrontend.Extensions;
 using NolowaFrontend.Models;
+using NolowaFrontend.Models.Events;
 using NolowaFrontend.Servicies;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,20 @@ namespace NolowaFrontend.Views.MainViews
     {
         private readonly User _user;
         private readonly ISearchService _searchService;
+
+        /// <summary>
+        /// 프로필 클릭 이벤트를 라우티드이벤트로 만들어서 밖으로 버블링시킴
+        /// </summary>
+        public static readonly RoutedEvent ClickedProfileImageEvent =
+            EventManager.RegisterRoutedEvent("ClickedProfileImage", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SearchView));
+
+        public event RoutedEventHandler ClickedProfileImage
+        {
+            add { AddHandler(ClickedProfileImageEvent, value); }
+            remove { RemoveHandler(ClickedProfileImageEvent, value); }
+        }
+
+        public ObservableCollection<User> SearchedUsers { get; set; } = new ObservableCollection<User>();
 
         public SearchView()
         {
@@ -58,13 +73,21 @@ namespace NolowaFrontend.Views.MainViews
             {
                 await InsertSearchKeywordAsync(text);
 
-                listboxUsers.ItemsSource = response.ResponseData;
-
                 if (response.ResponseData.Count <= 0)
                 {
                     txtSearchResultEmpty.Text = $"\"{text}\" 검색하기";
                     return;
                 }
+
+                var convertedDatas = response.ResponseData.Select(x => new User()
+                {
+                    ID = x.ID,
+                    AccountName = x.Name,
+                    AccountID = x.AccountID,
+                    ProfileImage = x.ProfileImage,
+                });
+
+                listboxUsers.ItemsSource = convertedDatas;
             }
         }        
 
@@ -86,6 +109,16 @@ namespace NolowaFrontend.Views.MainViews
             await _searchService.DeleteAllSearchedKeywords(_user.ID);
 
             await SetSearchedKeywordAsync();
+        }
+
+        private void ProfileImageElipseView_ClickedProfileImage(object sender, RoutedEventArgs e)
+        {
+            //RaiseEvent(e);
+            if (e is ObjectRoutedEventArgs args)
+            {
+                var newEventArgs = new ObjectRoutedEventArgs(ClickedProfileImageEvent, args.Parameter);
+                RaiseEvent(newEventArgs);
+            }
         }
     }
 }

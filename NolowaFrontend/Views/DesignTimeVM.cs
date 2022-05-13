@@ -34,35 +34,35 @@ namespace NolowaFrontend.Views
 
     public class SearchViewDesignTimeVM
     {
-        public ObservableCollection<SearchedUser> SearchedUsers { get; set; } = new ObservableCollection<SearchedUser>();
+        public ObservableCollection<User> SearchedUsers { get; set; } = new ObservableCollection<User>();
         public ObservableCollection<string> SearchedKeywords { get; set; } = new ObservableCollection<string>();
 
         public SearchViewDesignTimeVM()
         {
-            SearchedUsers.Add(new SearchedUser()
+            SearchedUsers.Add(new User()
             {
                 AccountID = "AccountID",
-                Name = "Name",
+                AccountName = "Name",
                 ProfileImage = new Models.Images.ProfileImage()
                 {
                     Hash = "이승국",
                 }
             });
 
-            SearchedUsers.Add(new SearchedUser()
+            SearchedUsers.Add(new User()
             {
                 AccountID = "@Gold_Moon",
-                Name = "마수리",
+                AccountName = "마수리",
                 ProfileImage = new Models.Images.ProfileImage()
                 {
                     Hash = "844b2e56483db6f6f75611e891a84e9c38c727d02655f3d211a837f0aadfa31c",
                 }
             });
 
-            SearchedUsers.Add(new SearchedUser()
+            SearchedUsers.Add(new User()
             {
                 AccountID = "@xxxxbxxx",
-                Name = "랜더스",
+                AccountName = "랜더스",
                 ProfileImage = new Models.Images.ProfileImage()
                 {
                     Hash = "aa",

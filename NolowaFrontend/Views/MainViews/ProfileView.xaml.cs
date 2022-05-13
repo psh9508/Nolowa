@@ -27,18 +27,6 @@ namespace NolowaFrontend.Views.MainViews
     /// </summary>
     public partial class ProfileView : UserControl
     {
-        /// <summary>
-        /// 프로필 클릭 이벤트를 라우티드이벤트로 만들어서 밖으로 버블링시킴
-        /// </summary>
-        public static readonly RoutedEvent ClickedProfileImageEvent =
-            EventManager.RegisterRoutedEvent("ClickedProfileImage", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ProfileView));
-
-        public event RoutedEventHandler ClickedProfileImage
-        {
-            add { AddHandler(ClickedProfileImageEvent, value); }
-            remove { RemoveHandler(ClickedProfileImageEvent, value); }
-        }
-     
         public ProfileView()
         {
             InitializeComponent();

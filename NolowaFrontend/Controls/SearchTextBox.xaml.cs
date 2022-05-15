@@ -38,7 +38,7 @@ namespace NolowaFrontend.Controls
         }
 
         /// <summary>
-        /// 엔터기를 이용해 검색이 될 때 발생하는 이벤트
+        /// 엔터키를 이용해 검색이 될 때 발생하는 이벤트
         /// </summary>
         public static readonly RoutedEvent EnterSearchEvent =
            EventManager.RegisterRoutedEvent("EnterSearchEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SearchTextBox));

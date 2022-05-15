@@ -173,6 +173,8 @@ namespace NolowaFrontend.ViewModels
                         }
                     };
 
+                    twitterView.ReloadCommand = LoadedEventCommand;
+
                     MainView = twitterView;
                 });
             }

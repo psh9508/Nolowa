@@ -34,6 +34,8 @@ namespace NolowaFrontend.Core.SNSLogin
                 return;
             }
 
+            _jwtToken = loginedAccount.ResponseData.JWTToken;
+
             SuccessLogin?.Invoke(loginedAccount.ResponseData);
         }
     }

@@ -63,17 +63,20 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _followButtonClickCommand, async _ =>
                 {
+                    var nowState = FollowButtonState;
                     // _userService를 이용해 팔로우 API 호출
                     var response = await _userService.FollowAsync(AppConfiguration.LoginUser.ID, _user.ID);
 
-                    if (response)
+                    if (response.IsNotNull())
                     {
-                        ToggleFollowButtonState();
+                        ToggleFollowButtonState(response);
+                        
                         // Post 재로드
                     }
                     else
                     {
                         // 실패 처리
+                        FollowButtonState = nowState;
                     }
                 });
             }
@@ -133,7 +136,7 @@ namespace NolowaFrontend.ViewModels
             {
                 FollowButtonState = eFollowButtonState.Editable;
             }
-            else if (AppConfiguration.LoginUser.Followers.Any(x => x.ID == User.ID))
+            else if (AppConfiguration.LoginUser.Followers.Any(x => x.Id == User.ID))
             {
                 FollowButtonState = eFollowButtonState.Following;
             }
@@ -143,12 +146,18 @@ namespace NolowaFrontend.ViewModels
             }
         }
 
-        private void ToggleFollowButtonState()
+        private void ToggleFollowButtonState(Follower changedFromServerData)
         {
             if (FollowButtonState == eFollowButtonState.Followed)
+            {
                 FollowButtonState = eFollowButtonState.Following;
+                AppConfiguration.LoginUser.Followers.Add(changedFromServerData);
+            }
             else if (FollowButtonState == eFollowButtonState.Following)
+            {
                 FollowButtonState = eFollowButtonState.Followed;
+                AppConfiguration.LoginUser.Followers.Remove(changedFromServerData);
+            }
         }
     }
 }

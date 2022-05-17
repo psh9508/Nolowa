@@ -17,7 +17,7 @@ namespace NolowaFrontend.Servicies
         Task<List<User>> GetAllUsersAsync();
         Task<User> GetUserAsync(long id);
         Task<User> SaveAsync(User user);
-        Task<bool> FollowAsync(long followerUserId, long followeeUserId);
+        Task<Follower> FollowAsync(long followerUserId, long followeeUserId);
     }
 
     public class UserService : ServiceBase, IUserService
@@ -44,15 +44,15 @@ namespace NolowaFrontend.Servicies
             return response.IsSuccess ? response.ResponseData : null;
         }
 
-        public async Task<bool> FollowAsync(long followerUserId, long followeeUserId)
+        public async Task<Follower> FollowAsync(long followerUserId, long followeeUserId)
         {
-            var response = await DoPost<bool, IFFollowModel>($"Follow", new IFFollowModel()
+            var response = await DoPost<Follower, IFFollowModel>($"Follow", new IFFollowModel()
             {
                 SourceID = followerUserId,
                 DestID = followeeUserId,
             });
 
-            return response.IsSuccess;
+            return response.ResponseData;
         }
     }
 }

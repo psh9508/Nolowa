@@ -32,7 +32,7 @@ namespace NolowaFrontend.Models
         public string Email { get; set; } = string.Empty;
 
         [JsonProperty("followers")]
-        public List<followerUser> Followers { get; set; } = new List<followerUser>();
+        public List<Follower> Followers { get; set; } = new List<Follower>();
 
         [JsonProperty("profileImage")]
         public ProfileImage ProfileImage { get; set; } = new ProfileImage();

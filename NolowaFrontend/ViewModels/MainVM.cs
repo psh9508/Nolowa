@@ -84,14 +84,7 @@ namespace NolowaFrontend.ViewModels
                 return GetRelayCommand(ref _loadedEventCommand, async _ =>
                 {
                     await CachingProfileImageFileToLocal();
-
-                    var posts = await _service.GetPostsAsync(_user.ID);
-
-                    foreach (var post in posts.ResponseData)
-                    {
-                        //osts.Add(post);
-                        Posts.Add(new PostView(post));
-                    }
+                    await LoadPostsAsync();
 
                     HomeViewCommand?.Execute(null);
                 });
@@ -173,7 +166,11 @@ namespace NolowaFrontend.ViewModels
                         }
                     };
 
-                    twitterView.ReloadCommand = LoadedEventCommand;
+                    twitterView.ReloadCommand = new RelayCommand(async _ =>
+                    {
+                        Posts.Clear();
+                        await LoadPostsAsync();
+                    });
 
                     MainView = twitterView;
                 });
@@ -226,6 +223,13 @@ namespace NolowaFrontend.ViewModels
 
         public void OnEnterSearch(object sender, StringRoutedEventArgs e)
         {
+        }
+
+        private async Task LoadPostsAsync()
+        {
+            var posts = await _service.GetPostsAsync(_user.ID);
+
+            Posts.AddRange(posts.ResponseData.Select(x => new PostView(x)));
         }
 
         private async Task CachingProfileImageFileToLocal()

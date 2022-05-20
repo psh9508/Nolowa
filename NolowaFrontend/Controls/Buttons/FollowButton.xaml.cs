@@ -50,7 +50,23 @@ namespace NolowaFrontend.Controls.Buttons
                     var followButton = s as FollowButton;
                     
                     if (followButton != null)
-                        followButton.body.IsChecked = followButton.ButtonState == eFollowButtonState.Followed ? false : true;
+                    {
+                        switch (followButton.ButtonState)
+                        {  
+                            case eFollowButtonState.Editable:
+                                followButton.body.Visibility = Visibility.Collapsed;
+                                followButton.btnEdit.Visibility = Visibility.Visible;
+                                break;
+                            case eFollowButtonState.Followed:
+                                followButton.body.IsChecked = false;
+                                break;
+                            case eFollowButtonState.Following:
+                                followButton.body.IsChecked = true;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 }));
 
         public FollowButton()

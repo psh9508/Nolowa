@@ -7,11 +7,32 @@
              xmlns:ucBtnBase="clr-namespace:NolowaFrontend.Controls.Buttons.Base"
              mc:Ignorable="d" x:Name="_this"
              d:DesignHeight="70" d:DesignWidth="150">
-    <ucBtnBase:RoundedToggleButton x:Name="body" CornerRadius="20" CheckedContent="팔로잉" UncheckedContent="팔로우하기" 
-                                   CheckedBackground="White" CheckedContentForeground="Black"
-                                   UncheckedBackground="Black" UncheckedContentForeground="White"
-                                   Command="{Binding ElementName=_this, Path=ClickCommand}"
-                                   Width="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Width}"
-                                   Height="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Height}">        
-    </ucBtnBase:RoundedToggleButton>
+    <Grid>
+        <!-- 팔로우 하기, 팔로잉-->
+        <ucBtnBase:RoundedToggleButton x:Name="body" CornerRadius="20" CheckedContent="팔로잉" UncheckedContent="팔로우하기" 
+                                       CheckedBackground="White" CheckedContentForeground="Black"
+                                       UncheckedBackground="Black" UncheckedContentForeground="White"
+                                       Command="{Binding ElementName=_this, Path=ClickCommand}"
+                                       Width="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Width}"
+                                       Height="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Height}">
+        </ucBtnBase:RoundedToggleButton>
+        <!-- 프로필 수정-->
+        <Button x:Name="btnEdit" Visibility="Collapsed">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border BorderThickness="1"  BorderBrush="Black" CornerRadius="20">
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="UltraBold"
+                                               Text="프로필 수정"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+    </Grid>
+   
 </UserControl>

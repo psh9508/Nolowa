@@ -25,14 +25,14 @@ namespace NolowaFrontend.Servicies
 
         public async Task<ResponseBaseEntity<User>> Login(string id, string password)
         {
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(new {
+            string loginInfo = Newtonsoft.Json.JsonConvert.SerializeObject(new {
                 id = id,
                 password = password,
             });
 
             try
             {
-                var loginResponse = await DoPost<User, string>($"Login", json);
+                var loginResponse = await DoPost<User, string>($"Login", loginInfo);
 
                 if (loginResponse.IsSuccess)
                     _jwtToken = loginResponse.ResponseData.JWTToken;

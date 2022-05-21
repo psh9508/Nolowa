@@ -35,12 +35,12 @@ namespace NolowaFrontend.Core.SNSLogin
             {
                 string code =  await ShowAuthorizationPageAndGetCode("Social/Google/AuthorizationRequestURI");
 
-                string queryString = GetQueryString("Social/Google/Login/", new Dictionary<string, string>()
+                string loginUri = GetQueryString("Social/Google/Login/", new Dictionary<string, string>()
                 {
                     ["code"] = code,
                 });
 
-                var loginedAccount = await DoGet<Models.User>(queryString);
+                var loginedAccount = await DoGet<Models.User>(loginUri);
 
                 if(loginedAccount.IsSuccess == false)
                 {

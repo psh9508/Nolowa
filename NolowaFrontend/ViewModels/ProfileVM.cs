@@ -102,19 +102,6 @@ namespace NolowaFrontend.ViewModels
                 });
             }
         }
-
-        private ICommand _closeViewCommand;
-
-        public ICommand CloseViewCommand
-        {
-            get
-            {
-                return GetRelayCommand(ref _closeViewCommand, _ =>
-                {
-                    IsVisible = false;
-                });
-            }
-        }
         #endregion
 
         public ProfileVM()

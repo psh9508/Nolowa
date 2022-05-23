@@ -10,7 +10,8 @@
              xmlns:ucBtn="clr-namespace:NolowaFrontend.Controls.Buttons"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Width}"
-             d:DesignHeight="450" d:DesignWidth="450">
+             x:Name="_this"
+             d:DesignHeight="450" d:DesignWidth="250">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -26,32 +27,14 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <UserControl.Style>
-        <Style TargetType="UserControl">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsVisible}" Value="False">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Style>
 
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <Grid>
-                <!-- 백그라운드 -->
-                <Grid Background="Black" Opacity="0.7">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseLeftButtonDown">
-                            <i:InvokeCommandAction Command="{Binding CloseViewCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Grid>
-
                 <!-- 프로필 뷰 -->
                 <Grid Background="White" HorizontalAlignment="Right" Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Width}">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="100"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
@@ -64,29 +47,63 @@
                                         <BeginStoryboard>
                                             <Storyboard>
                                                 <ThicknessAnimation Storyboard.TargetProperty="Margin" 
-                                                                From="0,0,-500,0"
-                                                                To="0,0,0,0"
-                                                                Duration="0:0:1">
+                                                                    From="0,0,-500,0"
+                                                                    To="0,0,0,0"
+                                                                    Duration="0:0:1">
                                                     <ThicknessAnimation.EasingFunction>
                                                         <QuarticEase EasingMode="EaseOut" />
                                                     </ThicknessAnimation.EasingFunction>
                                                 </ThicknessAnimation>
-                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" 
-                                                             From="0"
-                                                             To="1" 
-                                                             Duration="0:0:0.1"/>
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </DataTrigger.EnterActions>
-                                </DataTrigger>
+                                </DataTrigger>                               
                             </Style.Triggers>
                         </Style>
                     </Grid.Style>
 
-                    <Rectangle Grid.Row="0" Fill="CadetBlue"/>
+                    <Grid Grid.Row="0">
+                        <Rectangle  Fill="CadetBlue"/>
+                        
+                        <!-- 뒤로가기 화살표 -->
+                        <Button VerticalAlignment="Top" HorizontalAlignment="Left" Width="30" Height="30" Margin="15" Command="{Binding BackCommand}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <Grid>
+                                                    <Ellipse Fill="Black" StrokeThickness="1" Opacity="0.5"/>
+                                                    <TextBlock Text="←" Foreground="White" VerticalAlignment="Center" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                            <Button.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ThicknessAnimation Storyboard.TargetName="_this"
+                                                                Storyboard.TargetProperty="Margin" 
+                                                                From="0,0,0,0"
+                                                                To="0,0,-1500,0"
+                                                                Duration="0:0:1.5">
+                                                <ThicknessAnimation.EasingFunction>
+                                                    <QuarticEase EasingMode="EaseOut" />
+                                                </ThicknessAnimation.EasingFunction>
+                                            </ThicknessAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </Grid>
 
-                    <ucv:ProfileImageElipseView Grid.RowSpan="2" Width="45" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,25,0,0"
-                                            User="{Binding Path=User}"/>
+                    <ucv:ProfileImageElipseView Grid.RowSpan="2" Width="45" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,75,0,0"
+                                                User="{Binding Path=User}"/>
 
                     <StackPanel Grid.Row="1" Margin="0,25,0,0">
                         <TextBlock Text="{Binding Path=User.AccountID}"/>
@@ -115,7 +132,6 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </Grid>
-
                 </Grid>
             </Grid>
         </ScrollViewer>

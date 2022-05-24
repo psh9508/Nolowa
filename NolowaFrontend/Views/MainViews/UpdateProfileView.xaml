@@ -7,8 +7,7 @@
              xmlns:ucv="clr-namespace:NolowaFrontend.Views.UserControls"
              mc:Ignorable="d" Background="White"
              d:DesignHeight="450" d:DesignWidth="300">
-
-    <UserControl.Style>
+    <!--<UserControl.Style>
         <Style TargetType="UserControl">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsVisible}" Value="False">
@@ -16,7 +15,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-    </UserControl.Style>
+    </UserControl.Style>-->
     
     <Grid>
         <Grid.RowDefinitions>
@@ -24,7 +23,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid.Style>
+        <!--<Grid.Style>
             <Style TargetType="Grid">
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding IsVisible}" Value="True">
@@ -49,7 +48,7 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
-        </Grid.Style>
+        </Grid.Style>-->
         
         <!-- Header -->
         <DockPanel>
@@ -73,9 +72,9 @@
 
                 <StackPanel Grid.Row="2" Margin="0,40,0,0">
                     <Label Content="이름"/>
-                    <TextBox/>
+                    <TextBox Text="{Binding Path=User.AccountID, Mode=TwoWay}"/>
                     <Label Content="자기소개"/>
-                    <TextBox/>
+                    <TextBox Text="None"/>
                     <Label Content="위치"/>
                     <TextBox/>
                     <Label Content="웹사이트"/>

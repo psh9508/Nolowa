@@ -8,9 +8,11 @@
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:ucv="clr-namespace:NolowaFrontend.Views.UserControls"
              xmlns:ucBtn="clr-namespace:NolowaFrontend.Controls.Buttons"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"             
+             xmlns:views="clr-namespace:NolowaFrontend.Views.MainViews"
+             xmlns:viewModels="clr-namespace:NolowaFrontend.ViewModels"
              mc:Ignorable="d" Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Width}"
-             x:Name="_this"
+             x:Name="_this" 
              d:DesignHeight="450" d:DesignWidth="250">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -18,9 +20,12 @@
                 <ResourceDictionary Source="/NolowaFrontend;component/ResourceDictionary/ValueConverterDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <designTime:TwitterViewDesignTimeVM x:Key="TwitterViewDesignTimeVM"/>
+            <DataTemplate DataType="{x:Type viewModels:UpdateProfileVM}">
+                <views:UpdateProfileView/>
+            </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}"/>
@@ -119,7 +124,7 @@
                     </StackPanel>
 
                     <ucBtn:FollowButton Grid.Row="1" Height="30" Width="80" Margin="10,10,20,10" VerticalAlignment="Top" HorizontalAlignment="Right" 
-                                    ClickCommand="{Binding FollowButtonClickCommand}" ButtonState="{Binding FollowButtonState, Mode=TwoWay}"/>
+                                        ClickCommand="{Binding FollowButtonClickCommand}" ButtonState="{Binding FollowButtonState, Mode=TwoWay}"/>
 
                     <Grid Grid.Row="2">
                         <ListBox ItemsSource="{Binding Path=Posts}" MaxHeight="{Binding RelativeSource={RelativeSource AncestorLevel=1, AncestorType=Grid}, Path=ActualHeight}"
@@ -133,6 +138,9 @@
                         </ListBox>
                     </Grid>
                 </Grid>
+                
+                <!-- 프로필 수정 뷰 -->
+                <ContentControl Content="{Binding EditView}"/>
             </Grid>
         </ScrollViewer>
     </Grid>

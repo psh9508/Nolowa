@@ -53,6 +53,13 @@ namespace NolowaFrontend.ViewModels
             set { _isVisible = value; OnPropertyChanged(); }
         }
 
+        private object _editView;
+
+        public object EditView
+        {
+            get { return _editView; }
+            set { _editView = value; OnPropertyChanged(); }
+        }
 
         #region Commands
         private ICommand _followButtonClickCommand;
@@ -63,20 +70,27 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _followButtonClickCommand, async _ =>
                 {
-                    var nowState = FollowButtonState;
-                    // _userService를 이용해 팔로우 API 호출
-                    var response = await _userService.FollowAsync(AppConfiguration.LoginUser.ID, _user.ID);
-
-                    if (response.IsNotNull())
+                    if(FollowButtonState == eFollowButtonState.Editable)
                     {
-                        ToggleFollowButtonState(response);
-                        
-                        // Post 재로드
+                        EditView = new UpdateProfileVM(_user);
                     }
                     else
                     {
-                        // 실패 처리
-                        FollowButtonState = nowState;
+                        var nowState = FollowButtonState;
+                        // _userService를 이용해 팔로우 API 호출
+                        var response = await _userService.FollowAsync(AppConfiguration.LoginUser.ID, _user.ID);
+
+                        if (response.IsNotNull())
+                        {
+                            ToggleFollowButtonState(response);
+
+                            // Post 재로드
+                        }
+                        else
+                        {
+                            // 실패 처리
+                            FollowButtonState = nowState;
+                        }
                     }
                 });
             }

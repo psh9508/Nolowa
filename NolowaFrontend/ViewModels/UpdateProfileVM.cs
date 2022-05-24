@@ -1,4 +1,5 @@
-﻿using NolowaFrontend.ViewModels.Base;
+﻿using NolowaFrontend.Models;
+using NolowaFrontend.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,21 @@ namespace NolowaFrontend.ViewModels
 {
     public class UpdateProfileVM : ViewModelBase
     {
-        private bool _isVisible = true;
+        private User _user;
 
-        public bool IsVisible
+        public User User
         {
-            get { return _isVisible; }
-            set { _isVisible = value; OnPropertyChanged(); }
+            get { return _user; }
+            set { _user = value; OnPropertyChanged(); }
+        }
+
+        public UpdateProfileVM() 
+        { 
+        }
+
+        public UpdateProfileVM(User user)
+        {
+            User = user; // It should be copied
         }
     }
 }

@@ -17,7 +17,7 @@
                                        Height="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Height}">
         </ucBtnBase:RoundedToggleButton>
         <!-- 프로필 수정-->
-        <Button x:Name="btnEdit" Visibility="Collapsed">
+        <Button x:Name="btnEdit" Visibility="Collapsed" Command="{Binding ElementName=_this, Path=ClickCommand}">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template">

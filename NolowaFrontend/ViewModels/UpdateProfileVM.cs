@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace NolowaFrontend.ViewModels
 {
     public class UpdateProfileVM : ViewModelBase
     {
+        #region Props
         private User _user;
 
         public User User
@@ -17,6 +19,31 @@ namespace NolowaFrontend.ViewModels
             get { return _user; }
             set { _user = value; OnPropertyChanged(); }
         }
+
+        private bool _isHide = false;
+
+        public bool IsHide
+        {
+            get { return _isHide; }
+            set { _isHide = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+        #region Commands
+        private ICommand _backButtonCommand;
+
+        public ICommand BackButtonCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _backButtonCommand, _ =>
+                {
+                    IsHide = true;
+                });
+            }
+        }
+        #endregion
+
 
         public UpdateProfileVM() 
         { 

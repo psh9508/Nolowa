@@ -20,12 +20,13 @@ namespace NolowaFrontend.Views.MainViews
     /// UpdateProfileView.xaml에 대한 상호 작용 논리
     /// </summary>
     public partial class UpdateProfileView : UserControl
-    {
+    {       
         public UpdateProfileView()
         {
             InitializeComponent();
 
-            this.DataContext = new UpdateProfileVM();
+            // 호출하는 ProfileView에서 명시적으로 세팅
+            //this.DataContext = new UpdateProfileVM();
         }
     }
 }

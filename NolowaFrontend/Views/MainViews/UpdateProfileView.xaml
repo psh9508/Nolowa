@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NolowaFrontend.Views.MainViews"
              xmlns:ucv="clr-namespace:NolowaFrontend.Views.UserControls"
-             mc:Ignorable="d" Background="White"
+             xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+             x:Name="_this" Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Width}"
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="300">
     <!--<UserControl.Style>
         <Style TargetType="UserControl">
@@ -16,46 +18,66 @@
             </Style.Triggers>
         </Style>
     </UserControl.Style>-->
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-        <!--<Grid.Style>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/NolowaFrontend;component/ResourceDictionary/ValueConverterDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid Width="{Binding ElementName=_this, Path=Width}" Background="White">
+        <Grid.Style>
             <Style TargetType="Grid">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding IsVisible}" Value="True">
+                    <DataTrigger Binding="{Binding ElementName=_this, Path=Visibility}" Value="Visible">
                         <DataTrigger.EnterActions>
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
-                                                        From="0,0,400,0"
-                                                        To="0,0,0,0"
-                                                        Duration="0:0:0:1.5">
+                                    <ThicknessAnimation Storyboard.TargetProperty="Margin" 
+                                                                    From="0,0,-500,0"
+                                                                    To="0,0,0,0"
+                                                                    Duration="0:0:1">
                                         <ThicknessAnimation.EasingFunction>
                                             <QuarticEase EasingMode="EaseOut" />
                                         </ThicknessAnimation.EasingFunction>
                                     </ThicknessAnimation>
-                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" 
-                                                     From="0"
-                                                     To="1" 
-                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsHide}" Value="True">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ThicknessAnimation Storyboard.TargetProperty="Margin" 
+                                                                    From="0,0,0,0"
+                                                                    To="0,0,-1500,0"
+                                                                    Duration="0:0:1">
+                                        <ThicknessAnimation.EasingFunction>
+                                            <QuarticEase EasingMode="EaseOut" />
+                                        </ThicknessAnimation.EasingFunction>
+                                    </ThicknessAnimation>
                                 </Storyboard>
                             </BeginStoryboard>
                         </DataTrigger.EnterActions>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
-        </Grid.Style>-->
+        </Grid.Style>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         
         <!-- Header -->
-        <DockPanel>
-            <Button Content="←" Background="Transparent" FontSize="20" BorderBrush="Transparent" Padding="0,0,0,8" HorizontalAlignment="Left"/>
+        <DockPanel LastChildFill="False">
+            <Button Content="←" Background="Transparent" FontSize="20" BorderBrush="Transparent" Padding="0,0,0,8" HorizontalAlignment="Left" Command="{Binding BackButtonCommand}"/>
             <Label Content="프로필 수정" FontSize="10" FontWeight="Black" VerticalContentAlignment="Center" Margin="15,0,0,0"/>
-            <Button Content="저장하기" Background="Transparent" FontSize="10" FontWeight="Black" BorderBrush="Transparent" 
-                    VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0,0,10,0"/>
+            <Button Content="저장하기" DockPanel.Dock="Right" Background="Transparent" FontSize="10" FontWeight="Black" BorderBrush="Transparent" 
+                    VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0,0,0,0"/>
         </DockPanel>
 
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Hidden">
@@ -68,7 +90,7 @@
                 <Grid Background="CadetBlue"/>
 
                 <ucv:ProfileImageElipseView Grid.RowSpan="2" Width="45" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,55,0,0"
-                                    User="{Binding Path=User}"/>
+                                    User="{Binding Path=Usera}"/>
 
                 <StackPanel Grid.Row="2" Margin="0,40,0,0">
                     <Label Content="이름"/>

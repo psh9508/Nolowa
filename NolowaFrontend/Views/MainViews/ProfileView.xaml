@@ -21,7 +21,7 @@
             </ResourceDictionary.MergedDictionaries>
             <designTime:TwitterViewDesignTimeVM x:Key="TwitterViewDesignTimeVM"/>
             <DataTemplate DataType="{x:Type viewModels:UpdateProfileVM}">
-                <views:UpdateProfileView/>
+                <views:UpdateProfileView DataContext="{Binding}"/>
             </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -37,7 +37,7 @@
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <Grid>
                 <!-- 프로필 뷰 -->
-                <Grid Background="White" HorizontalAlignment="Right" Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Width}">
+                <Grid Background="White" HorizontalAlignment="Right" Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualWidth}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100"/>
                         <RowDefinition Height="auto"/>

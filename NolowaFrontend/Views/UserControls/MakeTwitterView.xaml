@@ -39,7 +39,7 @@
             </Storyboard>
 
             <!-- 사라지는 에니메이션 -->
-            <Storyboard x:Key="HideAnimation" Completed="Storyboard_Completed">
+            <Storyboard x:Key="HideAnimation">
                 <!-- 아래로 내려감 -->
                 <ThicknessAnimation Storyboard.TargetName="_this"
                                     Storyboard.TargetProperty="Margin" 
@@ -67,12 +67,18 @@
             <behaviors:ControlStoryboardAction Storyboard="{StaticResource ShowAnimation}"
                                                ControlStoryboardOption="Play"/>
         </behaviors:DataTrigger>
-      
+        
         <!-- 화면 사라지는 에니메이션 트리거 -->
         <behaviors:DataTrigger Binding="{Binding IsHide}" Value="True">
             <behaviors:ControlStoryboardAction Storyboard="{StaticResource HideAnimation}"
                                                ControlStoryboardOption="Play"/>
-        </behaviors:DataTrigger>       
+        </behaviors:DataTrigger>
+
+        <!-- 사라지는 에니메이션 완료 -->
+        <behaviors:StoryboardCompletedTrigger Storyboard="{StaticResource HideAnimation}">
+            <behaviors:ChangePropertyAction PropertyName="Visibility" Value="Collapsed"/>
+            <behaviors:ChangePropertyAction TargetObject="{Binding}" PropertyName="HideComplete" Value="True"/>
+        </behaviors:StoryboardCompletedTrigger>
     </behaviors:Interaction.Triggers>
 
     <DockPanel Background="White">

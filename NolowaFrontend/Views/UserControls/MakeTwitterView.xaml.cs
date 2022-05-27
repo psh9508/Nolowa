@@ -49,10 +49,10 @@ namespace NolowaFrontend.Views.UserControls
             this.DataContext = _twitterVM;
         }
 
-        private void Storyboard_Completed(object sender, EventArgs e)
-        {
-            _twitterVM.HideComplete = true;
-            this.Visibility = Visibility.Collapsed;
-        }
+        //private void Storyboard_Completed(object sender, EventArgs e)
+        //{
+        //    _twitterVM.HideComplete = true;
+        //    this.Visibility = Visibility.Collapsed;
+        //}
     }
 }

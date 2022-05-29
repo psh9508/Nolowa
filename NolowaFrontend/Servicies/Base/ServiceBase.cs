@@ -154,6 +154,8 @@ namespace NolowaFrontend.Servicies.Base
                     var responseContent = await response.Content.ReadFromJsonAsync<TResult>();
                     return GetResponseModel(true, "성공", responseContent);
                 }
+
+                return new ResponseBaseEntity<TResult>();
             }
             catch (NotSupportedException) // When content type is not valid
             {
@@ -163,20 +165,12 @@ namespace NolowaFrontend.Servicies.Base
             {
                 return GetResponseModel(false, "Invalid JSON.", default(TResult));
             }
-
-            return new ResponseBaseEntity<TResult>();
+            catch(Exception ex)
+            {
+                return GetResponseModel(false, ex.Message, default(TResult));
+            }
         }
 
-
-        //private ResponseBaseEntity GetResponseModel(string message)
-        //{
-        //    Console.WriteLine(message);
-
-            //    return new ResponseBaseEntity
-            //    {
-            //        Message = message,
-            //    };
-            //}
 
         private ResponseBaseEntity<T> GetResponseModel<T>(bool isSuccess, string message, T data) where T : new()
         {

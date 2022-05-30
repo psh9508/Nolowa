@@ -11,6 +11,8 @@ namespace NolowaFrontend.ViewModels
 {
     public class UpdateProfileVM : ViewModelBase
     {
+        public event Action CompleteHide;
+
         #region Props
         private User _user;
 
@@ -39,6 +41,19 @@ namespace NolowaFrontend.ViewModels
                 return GetRelayCommand(ref _backButtonCommand, _ =>
                 {
                     IsHide = true;
+                });
+            }
+        }
+
+        private ICommand _completeHideAnimation;
+
+        public ICommand CompleteHideAnimation
+        {
+            get
+            {
+                return GetRelayCommand(ref _completeHideAnimation, _ =>
+                {
+                    CompleteHide?.Invoke();
                 });
             }
         }

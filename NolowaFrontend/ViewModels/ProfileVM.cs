@@ -72,7 +72,12 @@ namespace NolowaFrontend.ViewModels
                 {
                     if(FollowButtonState == eFollowButtonState.Editable)
                     {
-                        EditView = new UpdateProfileVM(_user);
+                        var editViewVM = new UpdateProfileVM(_user);
+                        editViewVM.CompleteHide += () => {
+                            EditView = null; // View를 다시 보여주기 위해서
+                        };
+
+                        EditView = editViewVM;
                     }
                     else
                     {

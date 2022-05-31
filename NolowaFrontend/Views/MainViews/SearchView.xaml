@@ -48,7 +48,7 @@
 
                             <StackPanel Grid.Column="1" Margin="10,0,0,0">
                                 <TextBlock Text="{Binding Path=AccountName}" FontWeight="Bold" FontSize="14"/>
-                                <TextBlock Text="{Binding Path=AccountID}" FontSize="14"/>
+                                <TextBlock Text="{Binding Path=UserId}" FontSize="14"/>
                             </StackPanel>
                         </Grid>
                     </DataTemplate>

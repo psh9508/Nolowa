@@ -41,7 +41,7 @@ namespace NolowaFrontend.Views
         {
             SearchedUsers.Add(new User()
             {
-                AccountID = "AccountID",
+                UserId = "AccountID",
                 AccountName = "Name",
                 ProfileImage = new Models.Images.ProfileImage()
                 {
@@ -51,7 +51,7 @@ namespace NolowaFrontend.Views
 
             SearchedUsers.Add(new User()
             {
-                AccountID = "@Gold_Moon",
+                UserId = "@Gold_Moon",
                 AccountName = "마수리",
                 ProfileImage = new Models.Images.ProfileImage()
                 {
@@ -61,7 +61,7 @@ namespace NolowaFrontend.Views
 
             SearchedUsers.Add(new User()
             {
-                AccountID = "@xxxxbxxx",
+                UserId = "@xxxxbxxx",
                 AccountName = "랜더스",
                 ProfileImage = new Models.Images.ProfileImage()
                 {

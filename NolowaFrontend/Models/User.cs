@@ -16,10 +16,7 @@ namespace NolowaFrontend.Models
     {
         [JsonProperty("id")]
         public long ID { get; set; }
-
-        [JsonProperty("accountId")]
-        public string AccountID { get; set; } = string.Empty;
-
+        public string UserId { get; set; } = string.Empty;
         public string AccountName { get; set; } = string.Empty;
 
         [JsonProperty("joinDate")]

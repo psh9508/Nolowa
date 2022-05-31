@@ -83,7 +83,7 @@ namespace NolowaFrontend.Views.MainViews
                 {
                     ID = x.ID,
                     AccountName = x.Name,
-                    AccountID = x.AccountID,
+                    UserId = x.UserId,
                     ProfileImage = x.ProfileImage,
                 });
 

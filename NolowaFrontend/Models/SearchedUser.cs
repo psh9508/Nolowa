@@ -16,8 +16,7 @@ namespace NolowaFrontend.Models
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("accountId")]
-        public string AccountID { get; set; }
+        public string UserId { get; set; }
 
         [JsonProperty("profileImage")]
         public ProfileImage ProfileImage { get; set; } = new ProfileImage();

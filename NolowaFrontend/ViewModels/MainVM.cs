@@ -209,7 +209,12 @@ namespace NolowaFrontend.ViewModels
                 if (e is ObjectRoutedEventArgs args)
                 {
                     var clickedUser = (User)args.Parameter;
-                    ProfileViewModel = new ProfileVM(clickedUser);
+                    var profileVM = new ProfileVM(clickedUser);
+                    profileVM.CompleteHide += () => {
+                        ProfileViewModel = null;
+                    };
+
+                    ProfileViewModel = profileVM;
                 }
             };
 

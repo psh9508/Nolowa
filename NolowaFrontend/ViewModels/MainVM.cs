@@ -57,14 +57,13 @@ namespace NolowaFrontend.ViewModels
             set { _mainView = value; OnPropertyChanged(); }
         }
 
-        private object _userProfileView;
+        private ProfileVM _profileViewModel;
 
-        public object UserProfileView
+        public ProfileVM ProfileViewModel
         {
-            get { return _userProfileView; }
-            set { _userProfileView = value; OnPropertyChanged(); }
+            get { return _profileViewModel; }
+            set { _profileViewModel = value; OnPropertyChanged(); }
         }
-
 
         private object _twitterResultView;
 
@@ -160,9 +159,12 @@ namespace NolowaFrontend.ViewModels
                         if (e is ObjectRoutedEventArgs args)
                         {
                             var clickedUser = (User)args.Parameter;
-                            var profileView = new ProfileView(clickedUser);
-
-                            UserProfileView = profileView;
+                            var profileVM = new ProfileVM(clickedUser);
+                            profileVM.CompleteHide += () => {
+                                ProfileViewModel = null;
+                            };
+                            
+                            ProfileViewModel = profileVM;
                         }
                     };
 
@@ -207,9 +209,7 @@ namespace NolowaFrontend.ViewModels
                 if (e is ObjectRoutedEventArgs args)
                 {
                     var clickedUser = (User)args.Parameter;
-                    var profileView = new ProfileView(clickedUser);
-
-                    UserProfileView = profileView;
+                    ProfileViewModel = new ProfileVM(clickedUser);
                 }
             };
 

@@ -10,6 +10,7 @@
         xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:view="clr-namespace:NolowaFrontend.Views.MainViews"
         xmlns:ucv="clr-namespace:NolowaFrontend.Views.UserControls"
+        xmlns:vm="clr-namespace:NolowaFrontend.ViewModels"
         mc:Ignorable="d" WindowStyle="None"
         MouseDown="Window_MouseDown" Closed="Window_Closed"        
         Title="MainView" d:Height="600" d:Width="400"
@@ -19,8 +20,11 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/NolowaFrontend;component/ResourceDictionary/ValueConverterDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type vm:ProfileVM}">
+                <view:ProfileView DataContext="{Binding}"/>
+            </DataTemplate>
             <sys:Double x:Key="diameterOfTweitterButton">50</sys:Double>
-        </ResourceDictionary>
+        </ResourceDictionary>        
     </Window.Resources>
 
     <Grid>      
@@ -94,6 +98,6 @@
 
         <ContentControl Content="{Binding MakeTwitterView}"/>
         <ContentControl Content="{Binding TwitterResultView}" VerticalAlignment="Bottom" Margin="0,0,0,80"/>
-        <ContentControl Content="{Binding UserProfileView}" HorizontalAlignment="Left" />
+        <ContentControl Content="{Binding ProfileViewModel}"/>
     </Grid>
 </Window>

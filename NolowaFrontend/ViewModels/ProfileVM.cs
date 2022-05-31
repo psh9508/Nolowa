@@ -18,6 +18,8 @@ namespace NolowaFrontend.ViewModels
 {
     public class ProfileVM :ViewModelBase
     {
+        public event Action CompleteHide;
+
         private readonly IPostService _postService;
         private readonly IUserService _userService;
 
@@ -118,6 +120,19 @@ namespace NolowaFrontend.ViewModels
                         if (postsResponse.IsSuccess)
                             Posts = postsResponse.ResponseData.ToObservableCollection();
                     }
+                });
+            }
+        }
+
+        private ICommand _completeHideAnimation;
+
+        public ICommand CompleteHideAnimation
+        {
+            get
+            {
+                return GetRelayCommand(ref _completeHideAnimation, _ =>
+                {
+                    CompleteHide?.Invoke();
                 });
             }
         }

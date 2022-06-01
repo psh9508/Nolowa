@@ -95,7 +95,10 @@
 
                 <StackPanel Grid.Row="2" Margin="0,40,0,0">
                     <Label Content="자기소개"/>
-                    <TextBox Text="None"/>                
+                    <Grid>
+                        <TextBox Text="None" Height="auto" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                                 MaxLines="10" AcceptsReturn="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    </Grid>
                 </StackPanel>
             </Grid>
         </ScrollViewer>

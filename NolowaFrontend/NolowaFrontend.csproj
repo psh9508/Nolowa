@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Icons\camera.png" />
     <None Remove="Resources\Icons\heart.png" />
     <None Remove="Resources\Icons\home.png" />
     <None Remove="Resources\Icons\home_clicked.png" />
@@ -25,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Icons\camera.png" />
     <Resource Include="Resources\Icons\home.png" />
     <Resource Include="Resources\Icons\home_clicked.png" />
     <Resource Include="Resources\Icons\search.png" />

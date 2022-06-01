@@ -75,6 +75,8 @@ namespace NolowaFrontend.Views.MainViews
 
                 if (response.ResponseData.Count <= 0)
                 {
+                    listboxUsers.ItemsSource = new List<SearchedUser>();
+
                     txtSearchResultEmpty.Text = $"\"{text}\" 검색하기";
                     return;
                 }

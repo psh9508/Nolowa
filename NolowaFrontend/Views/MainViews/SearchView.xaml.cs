@@ -86,7 +86,10 @@ namespace NolowaFrontend.Views.MainViews
                     ID = x.ID,
                     AccountName = x.Name,
                     UserId = x.UserId,
-                    ProfileImage = x.ProfileImage,
+                    ProfileInfo = new ProfileInfo()
+                    {
+                        ProfileImage = x.ProfileInfo.ProfileImage,
+                    },
                 });
 
                 listboxUsers.ItemsSource = convertedDatas;

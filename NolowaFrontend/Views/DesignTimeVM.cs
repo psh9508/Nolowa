@@ -43,19 +43,25 @@ namespace NolowaFrontend.Views
             {
                 UserId = "AccountID",
                 AccountName = "Name",
-                ProfileImage = new Models.Images.ProfileImage()
+                ProfileInfo = new ProfileInfo()
                 {
-                    Hash = "이승국",
-                }
+                    ProfileImage = new Models.Images.ProfileImage()
+                    {
+                        Hash = "이승국",
+                    }
+                },
             });
 
             SearchedUsers.Add(new User()
             {
                 UserId = "@Gold_Moon",
                 AccountName = "마수리",
-                ProfileImage = new Models.Images.ProfileImage()
+                ProfileInfo = new ProfileInfo()
                 {
-                    Hash = "844b2e56483db6f6f75611e891a84e9c38c727d02655f3d211a837f0aadfa31c",
+                    ProfileImage = new Models.Images.ProfileImage()
+                    {
+                        Hash = "844b2e56483db6f6f75611e891a84e9c38c727d02655f3d211a837f0aadfa31c",
+                    }
                 }
             });
 
@@ -63,9 +69,12 @@ namespace NolowaFrontend.Views
             {
                 UserId = "@xxxxbxxx",
                 AccountName = "랜더스",
-                ProfileImage = new Models.Images.ProfileImage()
+                ProfileInfo = new ProfileInfo()
                 {
-                    Hash = "aa",
+                    ProfileImage = new Models.Images.ProfileImage()
+                    {
+                        Hash = "aa",
+                    }
                 }
             });
 

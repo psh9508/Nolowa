@@ -244,23 +244,23 @@ namespace NolowaFrontend.ViewModels
         {
             await Task.Run(() =>
             {
-                if (_user.ProfileImage.IsNull())
+                if (_user.ProfileInfo.ProfileImage.IsNull())
                     return;
 
                 // No need to caching a file when it's a default profile image file.
-                if (File.Exists(_user.ProfileImage.URL) == false)
+                if (File.Exists(_user.ProfileInfo.ProfileImage.URL) == false)
                 {
                     // LOG
                     return;
                 }
 
-                var profileImageCachingFullPath = Constant.PROFILE_IMAGE_ROOT_PATH + _user.ProfileImage.Hash + ".jpg";
+                var profileImageCachingFullPath = Constant.PROFILE_IMAGE_ROOT_PATH + _user.ProfileInfo.ProfileImage.Hash + ".jpg";
 
                 if (File.Exists(profileImageCachingFullPath) == false)
                 {
                     using (WebClient client = new WebClient())
                     {
-                        client.DownloadFile(_user.ProfileImage.URL, profileImageCachingFullPath);
+                        client.DownloadFile(_user.ProfileInfo.ProfileImage.URL, profileImageCachingFullPath);
                     }
                 }
             });

@@ -1,8 +1,11 @@
-﻿using NolowaFrontend.Extensions;
+﻿using Microsoft.AspNetCore.Http.Internal;
+using NolowaFrontend.Extensions;
 using NolowaFrontend.Models;
+using NolowaFrontend.Models.IF;
 using NolowaFrontend.Servicies;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +33,8 @@ namespace NolowaFrontend.Controls
         private const string CANCLE_ANIMATION = "CancleAnimation";
         private const string CONFIRM_ANIMATION = "ConfirmAnimation";
 
+        private byte[] _profileImageByteArray;
+
         private readonly IUserService _userService;
 
         public SignUpControl()
@@ -52,6 +57,9 @@ namespace NolowaFrontend.Controls
                 txtEmail.ClearText();
                 txtPassword.ClearText();
                 txtPasswordValidation.ClearText();
+
+                _profileImageByteArray = new byte[0];
+                SetEmptyProfileImage();
                 this.Visibility = Visibility.Hidden;
             };
 
@@ -70,15 +78,15 @@ namespace NolowaFrontend.Controls
                 return;
             }
 
-            var rseponse = await Save(new User()
-            {   
+            var response = await Save(new IFSignUpUser()
+            {
                 AccountName = txtName.InputText,
                 Email = txtEmail.InputText,
                 Password = txtPassword.InputText,
-                // The ProfileImage is needed to be here somewhere.
+                ProfileImage = _profileImageByteArray,
             });
 
-            if (rseponse.IsNull())
+            if (response.IsNull())
             {
                 // Save Failed
                 return;
@@ -92,6 +100,20 @@ namespace NolowaFrontend.Controls
 
             CompleteSignup?.Invoke(sender, e);
             hideAnimation.Begin();
+        }
+
+        private async Task<byte[]> GetImageByteArray(string path)
+        {
+            using (var stream = File.OpenRead(path))
+            {
+                var file = new FormFile(stream, 0, stream.Length, null, System.IO.Path.GetFileName(stream.Name));
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memoryStream);
+                    return memoryStream.ToArray();
+                }
+            }
         }
 
         private bool ValidateInputText()
@@ -113,7 +135,7 @@ namespace NolowaFrontend.Controls
             return true;
         }
 
-        private async Task<User> Save(User user)
+        private async Task<User> Save(IFSignUpUser user)
         {
             try
             {
@@ -125,7 +147,16 @@ namespace NolowaFrontend.Controls
             }
         }
 
-        private void ProfileImageButton_Click(object sender, RoutedEventArgs e)
+        private bool ValidateImageSize(Stream fileStream)
+        {
+            // is More than 2MB?
+            if (fileStream.Length > 2097152)
+                return false;
+
+            return true;
+        }
+
+        private async void ProfileImageButton_Click(object sender, RoutedEventArgs e)
         {
             using (var openFileDialog = new System.Windows.Forms.OpenFileDialog())
             {
@@ -136,21 +167,20 @@ namespace NolowaFrontend.Controls
 
                 if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
+                    if (ValidateImageSize(openFileDialog.OpenFile()) == false)
+                        return;
+
                     var filePath = openFileDialog.FileName;
+                    
                     SetProfileImage(filePath);
 
-                    var fileStream = openFileDialog.OpenFile();
-
-                    //using (StreamReader reader = new StreamReader(fileStream))
-                    //{
-                    //    fileContent = reader.ReadToEnd();
-                    //}
+                    _profileImageByteArray = await GetImageByteArray(filePath);
                 }
             }
         }
 
         private void SetProfileImage(string filePath)
-        {          
+        {
             ImageBrush imgBrush = new ImageBrush();
             BitmapImage btpImg = new BitmapImage();
 
@@ -160,6 +190,11 @@ namespace NolowaFrontend.Controls
             imgBrush.ImageSource = btpImg;
 
             ProfileImage.Fill = imgBrush;
+        }
+
+        private void SetEmptyProfileImage()
+        {
+            ProfileImage.Fill = null;
         }
     }
 }

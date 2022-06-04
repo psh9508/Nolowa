@@ -16,7 +16,7 @@ namespace NolowaFrontend.Servicies
     {
         Task<List<User>> GetAllUsersAsync();
         Task<User> GetUserAsync(long id);
-        Task<User> SaveAsync(User user);
+        Task<User> SaveAsync(IFSignUpUser user);
         Task<Follower> FollowAsync(long followerUserId, long followeeUserId);
     }
 
@@ -35,11 +35,11 @@ namespace NolowaFrontend.Servicies
             return await GetTFromService<User>($"users/{id}");
         }
 
-        public async Task<User> SaveAsync(User user)
+        public async Task<User> SaveAsync(IFSignUpUser user)
         {
             string debug = Newtonsoft.Json.JsonConvert.SerializeObject(user);
 
-            var response = await DoPost<User, User>($"Save", user);
+            var response = await DoPost<User, IFSignUpUser>($"Save", user);
 
             return response.IsSuccess ? response.ResponseData : null;
         }

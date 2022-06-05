@@ -236,8 +236,6 @@ namespace NolowaFrontend.ViewModels
 
             if (posts.ResponseData.Count() > 0)
                 Posts.AddRange(posts.ResponseData.Select(x => new PostView(x)));
-            else
-                throw new Exception(); 
         }
 
         private async Task CachingProfileImageFileToLocal()

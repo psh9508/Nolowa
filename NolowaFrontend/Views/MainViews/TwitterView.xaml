@@ -19,7 +19,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
+        
         <Grid x:Name="ReloadGrid" MaxHeight="100" Height="{Binding ElementName=_this, Path=ReloadHeight}">
             <uc:ReloadProgressCircle ProgressValue="{Binding ElementName=_this, Path=ProgressValue}" Height="40" Width="40" Margin="0,10,0,0"/>
             <Grid.Style>
@@ -41,7 +41,7 @@
             </Grid.Style>
         </Grid>
         
-        <ListBox Grid.Row="1" d:DataContext="{Binding Source={StaticResource TwitterViewDesignTimeVM}}"
+        <ListBox x:Name="list" Grid.Row="1" d:DataContext="{Binding Source={StaticResource TwitterViewDesignTimeVM}}"
                  ItemsSource="{Binding Posts}"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -53,5 +53,21 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+        <!-- 표지해줄 Post 없는 경우 -->
+        <TextBlock Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Text="보여드릴 Post가 없습니다.&#x0a;검색을 통해 팔로우를 해보세요!"
+                   FontSize="15" FontWeight="ExtraBold">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=list, Path=Items.Count, FallbackValue=0, TargetNullValue=0}" Value="0">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
     </Grid>
 </UserControl>

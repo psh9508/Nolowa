@@ -52,15 +52,8 @@ namespace NolowaFrontend.Controls
         private void CancleButton_Click(object sender, RoutedEventArgs e)
         {
             Storyboard hideAnimation = (Storyboard)this.Resources[CANCLE_ANIMATION];
-            hideAnimation.Completed += (sender, e) => {
-                txtName.ClearText();
-                txtEmail.ClearText();
-                txtPassword.ClearText();
-                txtPasswordValidation.ClearText();
-
-                _profileImageByteArray = new byte[0];
-                SetEmptyProfileImage();
-                this.Visibility = Visibility.Hidden;
+            hideAnimation.Completed += (_, _) => {
+                SetControlEmpty();
             };
 
             ClickedCancel?.Invoke(sender, e);
@@ -96,10 +89,24 @@ namespace NolowaFrontend.Controls
             hideAnimation.Completed += (_, _) =>
             {
                 this.Visibility = Visibility.Hidden;
+                SetControlEmpty();
             };
 
             CompleteSignup?.Invoke(sender, e);
             hideAnimation.Begin();
+        }
+
+
+        private void SetControlEmpty()
+        {
+            txtName.ClearText();
+            txtEmail.ClearText();
+            txtPassword.ClearText();
+            txtPasswordValidation.ClearText();
+
+            _profileImageByteArray = new byte[0];
+            SetEmptyProfileImage();
+            this.Visibility = Visibility.Hidden;
         }
 
         private async Task<byte[]> GetImageByteArray(string path)

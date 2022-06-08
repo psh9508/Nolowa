@@ -8,37 +8,41 @@
              xmlns:uc="clr-namespace:NolowaFrontend.Controls"
              xmlns:designTime="clr-namespace:NolowaFrontend.Views"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" x:Name="_this"
              d:DesignHeight="450" d:DesignWidth="450">
     <UserControl.Resources>
         <designTime:TwitterViewDesignTimeVM x:Key="TwitterViewDesignTimeVM"/>
+
+        <Storyboard x:Key="HideReloadCircle">
+            <DoubleAnimation Storyboard.TargetName="_this"
+                             Storyboard.TargetProperty="ReloadHeight"
+                             To="0"
+                             Duration="0:0:0.1"
+                             FillBehavior="Stop"/>
+        </Storyboard>
     </UserControl.Resources>
-    
+
+    <behaviors:Interaction.Triggers>
+        <behaviors:DataTrigger Binding="{Binding ElementName=_this, Path=HideReloadCircle}" Value="True">
+            <behaviors:ControlStoryboardAction Storyboard="{StaticResource HideReloadCircle}"
+                                               ControlStoryboardOption="Play"/>
+        </behaviors:DataTrigger>
+        
+        <behaviors:StoryboardCompletedTrigger Storyboard="{StaticResource HideReloadCircle}">
+            <behaviors:ChangePropertyAction PropertyName="ReloadHeight" Value="0"/>
+            <behaviors:ChangePropertyAction PropertyName="HideReloadCircle" Value="false"/>
+        </behaviors:StoryboardCompletedTrigger>
+    </behaviors:Interaction.Triggers>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
-        <Grid x:Name="ReloadGrid" MaxHeight="100" Height="{Binding ElementName=_this, Path=ReloadHeight}">
+        <Grid x:Name="ReloadGrid" MaxHeight="100" Height="{Binding ElementName=_this, Path=ReloadHeight, Mode=TwoWay}">
             <uc:ReloadProgressCircle ProgressValue="{Binding ElementName=_this, Path=ProgressValue}" Height="40" Width="40" Margin="0,10,0,0"/>
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=_this, Path=HideReloadCircle}" Value="True">
-                            <DataTrigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="Height"
-                                                         To="0"
-                                                         Duration="0:0:0.1"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </DataTrigger.EnterActions>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
         </Grid>
         
         <ListBox x:Name="list" Grid.Row="1" d:DataContext="{Binding Source={StaticResource TwitterViewDesignTimeVM}}"
@@ -54,7 +58,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <!-- 표지해줄 Post 없는 경우 -->
+        <!-- 표시해줄 Post 없는 경우 -->
         <TextBlock Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
                    Text="보여드릴 Post가 없습니다.&#x0a;검색을 통해 팔로우를 해보세요!"
                    FontSize="15" FontWeight="ExtraBold">

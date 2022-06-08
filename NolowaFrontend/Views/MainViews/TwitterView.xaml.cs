@@ -47,20 +47,20 @@ namespace NolowaFrontend.Views.MainViews
         public static readonly DependencyProperty HideReloadCircleProperty =
             DependencyProperty.Register("HideReloadCircle", typeof(bool), typeof(TwitterView), new PropertyMetadata(false));
 
-        public int ReloadHeight
+        public double ReloadHeight
         {
-            get { return (int)GetValue(ReloadHeightProperty); }
+            get { return (double)GetValue(ReloadHeightProperty); }
             set { SetValue(ReloadHeightProperty, value); }
         }
 
         public static readonly DependencyProperty ReloadHeightProperty =
-            DependencyProperty.Register("ReloadHeight", typeof(int), typeof(TwitterView), new PropertyMetadata((s, e) =>
+            DependencyProperty.Register("ReloadHeight", typeof(double), typeof(TwitterView), new PropertyMetadata((s, e) =>
             {
                 var sender = s as TwitterView;
 
                 if (sender.ReloadHeight >= sender.ReloadGrid.MaxHeight)
                 {
-                    sender.ReloadHeight = (int)sender.ReloadGrid.MaxHeight;
+                    sender.ReloadHeight = sender.ReloadGrid.MaxHeight;
                 }
             }));
 

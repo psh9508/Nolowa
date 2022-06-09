@@ -126,10 +126,7 @@
 
                     <StackPanel Grid.Row="1" Margin="0,25,0,0">
                         <TextBlock Text="{Binding Path=User.AccountID}"/>
-                        <TextBlock Text="딥상어동. 5살. 풍선"/>
-                        <TextBlock Text="내가 왕이야"/>
-                        <TextBlock Text="evernote.com/shard/s592/sh/.."/>
-                        <TextBlock Text="2018년 2월에 가입함"/>
+                        <TextBlock Text="{Binding Path=User.ProfileInfo.Message, FallbackValue=None}"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="??? 팔로잉"/>
                             <TextBlock Text="{Binding Path=User.Followers.Count}"/>

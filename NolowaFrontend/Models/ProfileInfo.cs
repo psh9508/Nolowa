@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 namespace NolowaFrontend.Models
 {
     public class ProfileInfo
-    {   
+    {
+        public long Id { get; set; }
+
         public ProfileImage ProfileImage { get; set; } = new ProfileImage();
         
         public ProfileImage BackgroundImage { get; set; } = new ProfileImage();

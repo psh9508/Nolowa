@@ -1,4 +1,5 @@
 ﻿using NolowaFrontend.Models;
+using NolowaFrontend.Servicies;
 using NolowaFrontend.ViewModels.Base;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace NolowaFrontend.ViewModels
     public class UpdateProfileVM : ViewModelBase
     {
         public event Action CompleteHide;
+
+        private readonly IUserService _userService;
 
         #region Props
         private User _user;
@@ -45,6 +48,19 @@ namespace NolowaFrontend.ViewModels
             }
         }
 
+        private ICommand _saveCommand;
+
+        public ICommand SaveCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _saveCommand, _ =>
+                {
+                    
+                });
+            }
+        }
+
         private ICommand _completeHideAnimation;
 
         public ICommand CompleteHideAnimation
@@ -61,7 +77,8 @@ namespace NolowaFrontend.ViewModels
 
 
         public UpdateProfileVM() 
-        { 
+        {
+            _userService = new UserService();
         }
 
         public UpdateProfileVM(User user)

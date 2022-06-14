@@ -101,6 +101,36 @@ namespace NolowaFrontend.Servicies.Base
             }
         }
 
+        protected async Task<ResponseBaseEntity<TResult>> DoPut<TResult, TModel>(string uri, TModel data)
+        {
+            if (uri.StartsWith("/"))
+                uri = uri.Remove(0, 1);
+
+            try
+            {
+                SetJWTToken();
+
+                var result = await _httpClient.PutAsJsonAsync($"{ParentEndPoint}/{uri}", data);
+
+                var debug = await result.Content.ReadAsStringAsync();
+
+                return new ResponseBaseEntity<TResult>()
+                {
+                    IsSuccess = result.IsSuccessStatusCode,
+                    ResponseData = await result.Content.ReadFromJsonAsync<TResult>(),
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseBaseEntity<TResult>()
+                {
+                    IsSuccess = false,
+                    ResponseData = default(TResult),
+                    Message = ex.Message,
+                };
+            }
+        }
+
         protected async Task<TModel> GetTFromService<TModel>(string uri)
         {
             if (uri.StartsWith("/"))
@@ -170,7 +200,6 @@ namespace NolowaFrontend.Servicies.Base
                 return GetResponseModel(false, ex.Message, default(TResult));
             }
         }
-
 
         private ResponseBaseEntity<T> GetResponseModel<T>(bool isSuccess, string message, T data) where T : new()
         {

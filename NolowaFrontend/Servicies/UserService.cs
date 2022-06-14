@@ -18,6 +18,7 @@ namespace NolowaFrontend.Servicies
         Task<User> GetUserAsync(long id);
         Task<User> SaveAsync(IFSignUpUser user);
         Task<Follower> FollowAsync(long followerUserId, long followeeUserId);
+        Task<bool> ChangeProfileInfoAsync(ProfileInfo data);
     }
 
     public class UserService : ServiceBase, IUserService
@@ -51,6 +52,13 @@ namespace NolowaFrontend.Servicies
                 SourceID = followerUserId,
                 DestID = followeeUserId,
             });
+
+            return response.ResponseData;
+        }
+
+        public async Task<bool> ChangeProfileInfoAsync(ProfileInfo data)
+        {
+            var response = await DoPut<bool, ProfileInfo>($"ProfileInfo/Change/{data.Id}", data);
 
             return response.ResponseData;
         }

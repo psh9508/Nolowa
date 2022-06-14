@@ -54,9 +54,9 @@ namespace NolowaFrontend.ViewModels
         {
             get
             {
-                return GetRelayCommand(ref _saveCommand, _ =>
+                return GetRelayCommand(ref _saveCommand, async _ =>
                 {
-                    
+                    await _userService.ChangeProfileInfoAsync(_user.ProfileInfo);
                 });
             }
         }
@@ -75,13 +75,12 @@ namespace NolowaFrontend.ViewModels
         }
         #endregion
 
-
         public UpdateProfileVM() 
         {
             _userService = new UserService();
         }
 
-        public UpdateProfileVM(User user)
+        public UpdateProfileVM(User user) : this()
         {
             User = user; // It should be copied
         }

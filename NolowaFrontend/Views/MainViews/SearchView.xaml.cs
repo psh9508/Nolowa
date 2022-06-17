@@ -88,6 +88,8 @@ namespace NolowaFrontend.Views.MainViews
                     UserId = x.UserId,
                     ProfileInfo = new ProfileInfo()
                     {
+                        Message = x.ProfileInfo.Message,
+                        BackgroundImage = x.ProfileInfo.BackgroundImage,
                         ProfileImage = x.ProfileInfo.ProfileImage,
                     },
                 });

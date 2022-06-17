@@ -12,9 +12,9 @@
              xmlns:views="clr-namespace:NolowaFrontend.Views.MainViews"
              xmlns:viewModels="clr-namespace:NolowaFrontend.ViewModels"
              xmlns:uc="clr-namespace:NolowaFrontend.Views.UserControls"
-             mc:Ignorable="d" Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualWidth}"
-             x:Name="_this" 
-             d:DesignHeight="450" d:DesignWidth="250">
+             mc:Ignorable="d"
+             x:Name="_this" Width="400"
+             d:DesignHeight="450" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -83,10 +83,10 @@
     </behaviors:Interaction.Triggers>    
 
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <ScrollViewer VerticalScrollBarVisibility="Disabled">
             <Grid>
                 <!-- 프로필 뷰 -->
-                <Grid Background="White" Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualWidth}">
+                <Grid Background="White">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100"/>
                         <RowDefinition Height="auto"/>
@@ -134,7 +134,7 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <ucBtn:FollowButton Grid.Row="1" Height="30" Width="80" Margin="10,10,20,10" VerticalAlignment="Top" HorizontalAlignment="Right" 
+                    <ucBtn:FollowButton Grid.Row="1" Height="30" Width="80" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Right" 
                                         ClickCommand="{Binding FollowButtonClickCommand}" ButtonState="{Binding FollowButtonState, Mode=TwoWay}"/>
 
                     <Grid Grid.Row="2">

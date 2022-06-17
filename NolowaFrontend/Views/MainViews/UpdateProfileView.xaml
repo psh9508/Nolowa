@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:NolowaFrontend.Views.MainViews"
              xmlns:ucv="clr-namespace:NolowaFrontend.Views.UserControls"
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
-             x:Name="_this" Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualWidth}"
+             x:Name="_this"
              mc:Ignorable="d"
              d:Height="400" d:Width="350">
     <UserControl.Resources>
@@ -45,7 +45,7 @@
         </behaviors:StoryboardCompletedTrigger>
     </behaviors:Interaction.Triggers>
 
-    <Grid Background="White" Width="{Binding ElementName=_this, Path=ActualWidth}">
+    <Grid Background="White" Width="400">
         <Grid.Style>
             <Style TargetType="Grid">
                 <Style.Triggers>

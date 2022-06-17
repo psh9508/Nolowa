@@ -13,10 +13,10 @@
 ### `로그인`
 
 
-![Alt Text](https://user-images.githubusercontent.com/32666657/174332281-5785f13a-cc23-4ecb-9274-89b30a99ac9b.gif)
+![Alt Text](https://user-images.githubusercontent.com/32666657/174335415-be625418-a7b1-4b8e-a0c0-cbe371eb3b27.gif)
 
 ### `유저검색, 새글`
-![Alt Text](https://user-images.githubusercontent.com/32666657/174333022-6688a8a2-b3dc-459c-ae88-c31468b8dac4.gif)
+![Alt Text](https://user-images.githubusercontent.com/32666657/174335513-87558819-586c-4abf-ac1c-1a8f445456ac.gif)
 
 ### `팔로잉, 언팔로잉`
 ![Alt Text](https://user-images.githubusercontent.com/32666657/174333162-30a3cadc-8562-4078-8d88-d5d68c711345.gif)

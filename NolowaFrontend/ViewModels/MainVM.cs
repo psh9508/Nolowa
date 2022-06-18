@@ -65,6 +65,14 @@ namespace NolowaFrontend.ViewModels
             set { _profileViewModel = value; OnPropertyChanged(); }
         }
 
+        private DirectMessageVM _directMessageViewModel;
+
+        public DirectMessageVM DirectMessageViewModel
+        {
+            get { return _directMessageViewModel; }
+            set { _directMessageViewModel = value; OnPropertyChanged(); }
+        }
+
         private object _twitterResultView;
 
         public object TwitterResultView
@@ -175,6 +183,18 @@ namespace NolowaFrontend.ViewModels
                     });
 
                     MainView = twitterView;
+                });
+            }
+        }
+
+        private ICommand _directMessageCommand;
+
+        public ICommand DirectMessageCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _directMessageCommand, _ => {
+                    MainView = new DirectMessageVM();
                 });
             }
         }

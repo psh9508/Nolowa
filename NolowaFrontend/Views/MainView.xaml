@@ -23,6 +23,9 @@
             <DataTemplate DataType="{x:Type vm:ProfileVM}">
                 <view:ProfileView DataContext="{Binding}"/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:DirectMessageVM}">
+                <view:DirectMessageView DataContext="{Binding}"/>
+            </DataTemplate>
             <sys:Double x:Key="diameterOfTweitterButton">50</sys:Double>
         </ResourceDictionary>        
     </Window.Resources>
@@ -64,6 +67,11 @@
                                              DefaultImageUri="/NolowaFrontend;component/Resources/Icons/search.png" 
                                              ClickedImageUri="/NolowaFrontend;component/Resources/Icons/search_clicked.png" 
                                              Command="{Binding SearchViewCommand}"/>
+                    <uc:MainManuToggleButton Width="100"
+                                             DefaultImageUri="/NolowaFrontend;component/Resources/Icons/envelope.png" 
+                                             ClickedImageUri="/NolowaFrontend;component/Resources/Icons/envelope_clicked.png"
+                                             Command="{Binding DirectMessageCommand}"/>
+
                     <Button Width="100"/>
                     <Button Width="100"/>
                 </StackPanel>

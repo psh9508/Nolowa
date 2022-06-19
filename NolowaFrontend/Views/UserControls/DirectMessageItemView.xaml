@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="NolowaFrontend.Views.UserControls.DirectMessageItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NolowaFrontend.Views.UserControls"
+             xmlns:uc="clr-namespace:NolowaFrontend.Controls"
+             xmlns:ucv="clr-namespace:NolowaFrontend.Views.UserControls"
+             mc:Ignorable="d" 
+             d:Height="100" d:Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <ucv:ProfileImageElipseView Grid.Column="0" VerticalAlignment="Top" Width="50" Height="50"
+                                    ClickedProfileImage="ProfileImageElipseView_ClickedProfileImage" Margin="5,5,10,0"
+                                    User="{Binding User}"/>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding User.Name, FallbackValue=pinnieminnie}" FontWeight="Bold" Margin="0,0,10,0"/>
+                <TextBlock Text="{Binding User.AccountID, FallbackValue=@asdf}" Margin="0,0,10,0"/>
+                <TextBlock Text="{Binding ElapsedTime, FallbackValue=1시간}" Margin="0,0,10,0"/>
+            </StackPanel>
+
+            <TextBlock Grid.Row="1" Text="asdfasdfasdf"/>
+        </Grid>
+    </Grid>
+</UserControl>

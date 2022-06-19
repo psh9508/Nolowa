@@ -3,16 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vuc="clr-namespace:NolowaFrontend.Views.UserControls"
              xmlns:local="clr-namespace:NolowaFrontend.Views.MainViews"
              mc:Ignorable="d" Background="White"
              d:DesignHeight="450" d:DesignWidth="400">
     <Grid>
+        <!-- 받은 쪽지가 있을 경우 -->
+        <ListBox>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <vuc:DirectMessageItemView/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
         <!-- 받은 쪽지 없을 때-->
         <StackPanel Margin="30,0,0,0" VerticalAlignment="Center">
             <TextBlock Text="받은 쪽지함에 오신&#x0a;것을 환영합니다." FontSize="30" FontWeight="ExtraBold"/>
             <TextBlock Text="사용자들과 안부를 묻고 글을 공유하고 비공개 대화를 &#x0a;더 많이 나누세요." Foreground="LightGray" FontWeight="DemiBold"/>
 
-            <Button Content="쪽지 쓰기" Width="70" HorizontalAlignment="Left" Margin="0,20,0,0"/>
+            <Button Content="쪽지 쓰기" Width="70" HorizontalAlignment="Left" Margin="0,20,0,0">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="NolowaFrontend.Views.MainViews.DirectMessageSendView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NolowaFrontend.Views.MainViews"
+             mc:Ignorable="d" Width="400"
+             d:DesignHeight="450" d:DesignWidth="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/> <!-- line -->
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Background="White"/>
+
+        <Rectangle Grid.Row="1" Fill="Gray" Height="2"/>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox/>
+            <Button Grid.Column="1" Width="50" Height="50"/>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -24,7 +24,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBox/>
-            <Button Grid.Column="1" Width="50" Height="50"/>
+            <Button Grid.Column="1" Width="50" Height="50" Command="{Binding SendDirectMessageCommand}"/>
         </Grid>
     </Grid>
 </UserControl>

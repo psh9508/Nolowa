@@ -83,7 +83,7 @@ namespace NolowaFrontend.Views.MainViews
 
                 var convertedDatas = response.ResponseData.Select(x => new User()
                 {
-                    ID = x.ID,
+                    Id = x.ID,
                     AccountName = x.Name,
                     UserId = x.UserId,
                     ProfileInfo = new ProfileInfo()
@@ -100,7 +100,7 @@ namespace NolowaFrontend.Views.MainViews
 
         private async Task SetSearchedKeywordAsync()
         {
-            var response = await _searchService.GetSearchedKeywords(_user.ID);
+            var response = await _searchService.GetSearchedKeywords(_user.Id);
 
             if (response.IsSuccess)
                 listboxSearchedKeywords.ItemsSource = response.ResponseData;
@@ -108,12 +108,12 @@ namespace NolowaFrontend.Views.MainViews
 
         private async Task InsertSearchKeywordAsync(string keyword)
         {
-            await _searchService.Search(_user.ID, keyword);
+            await _searchService.Search(_user.Id, keyword);
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            await _searchService.DeleteAllSearchedKeywords(_user.ID);
+            await _searchService.DeleteAllSearchedKeywords(_user.Id);
 
             await SetSearchedKeywordAsync();
         }

@@ -252,7 +252,7 @@ namespace NolowaFrontend.ViewModels
 
         private async Task LoadPostsAsync()
         {
-            var posts = await _service.GetPostsAsync(_user.ID);
+            var posts = await _service.GetPostsAsync(_user.Id);
 
             if (posts.ResponseData.Count() > 0)
                 Posts.AddRange(posts.ResponseData.Select(x => new PostView(x)));

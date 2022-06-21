@@ -13,7 +13,9 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Background="White"/>
+        <Grid Background="White">
+            <ListBox ItemsSource="{Binding Dialog}"/>
+        </Grid>
 
         <Rectangle Grid.Row="1" Fill="Gray" Height="2"/>
 
@@ -23,7 +25,7 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox/>
+            <TextBox Text="{Binding Message}"/>
             <Button Grid.Column="1" Width="50" Height="50" Command="{Binding SendDirectMessageCommand}"/>
         </Grid>
     </Grid>

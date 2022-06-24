@@ -32,6 +32,14 @@ namespace NolowaFrontend.ViewModels
             set { _mseeage = value; OnPropertyChanged();}
         }
 
+        private bool _isHide = false;
+
+        public bool IsHide
+        {
+            get { return _isHide; }
+            set { _isHide = value; OnPropertyChanged(); }
+        }
+
         private ICommand _sendDirectMessageCommand;
 
         public ICommand SendDirectMessageCommand
@@ -46,7 +54,20 @@ namespace NolowaFrontend.ViewModels
                     if (_hubConnection.State != HubConnectionState.Connected)
                         await _hubConnection.StartAsync();
 
-                    await _hubConnection.SendAsync("SendMessage", AppConfiguration.LoginUser.Id, Message);
+                    await _hubConnection.SendAsync("SendMessage", AppConfiguration.LoginUser.Id, 2, Message);
+                });
+            }
+        }
+
+        private ICommand _backButtonCommand;
+
+        public ICommand BackButtonCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _backButtonCommand, async _ =>
+                {
+                    IsHide = true;
                 });
             }
         }
@@ -58,10 +79,10 @@ namespace NolowaFrontend.ViewModels
                 .WithAutomaticReconnect()
                 .Build();
 
-            _hubConnection.On("ReceiveDirectMessage", (long userId, string message) =>
+            _hubConnection.On("ReceiveDirectMessage", (long userId, long receiveId, string message) =>
             {
                 System.Windows.Application.Current.Dispatcher.Invoke(() => {
-                    Dialog.Add($"{userId} : {message}");
+                    Dialog.Add($"{userId} : {receiveId}로 {message}");
                 });
             });
 

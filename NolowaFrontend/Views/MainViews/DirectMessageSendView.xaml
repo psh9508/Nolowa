@@ -4,20 +4,80 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NolowaFrontend.Views.MainViews"
-             mc:Ignorable="d" Width="400"
+             xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d" Width="400" Name="_this"
              d:DesignHeight="450" d:DesignWidth="400">
-    <Grid>
+    <UserControl.Resources>
+        <Storyboard x:Key="ShowStoryboard">
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" 
+                                    From="0,0,-500,0"
+                                    To="0,0,0,0"
+                                    Duration="0:0:1">
+                <ThicknessAnimation.EasingFunction>
+                    <QuarticEase EasingMode="EaseOut" />
+                </ThicknessAnimation.EasingFunction>
+            </ThicknessAnimation>
+        </Storyboard>
+
+        <Storyboard x:Key="HideStoryboard">
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" 
+                                    From="0,0,0,0"
+                                    To="0,0,-1500,0"
+                                    Duration="0:0:1">
+                <ThicknessAnimation.EasingFunction>
+                    <QuarticEase EasingMode="EaseOut" />
+                </ThicknessAnimation.EasingFunction>
+            </ThicknessAnimation>
+        </Storyboard>
+    </UserControl.Resources>
+
+
+    <behaviors:Interaction.Triggers>
+        <behaviors:StoryboardCompletedTrigger Storyboard="{StaticResource HideStoryboard}">
+            <behaviors:ChangePropertyAction PropertyName="Visibility" Value="Collapsed"/>
+            <behaviors:InvokeCommandAction Command="{Binding CompleteHideAnimation}"/>
+        </behaviors:StoryboardCompletedTrigger>
+    </behaviors:Interaction.Triggers>
+
+    
+    
+    <Grid Width="400">
+        <Grid.Style>
+            <Style TargetType="Grid">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=_this, Path=Visibility}" Value="Visible">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard Storyboard="{StaticResource ShowStoryboard}"/>
+                        </DataTrigger.EnterActions>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsHide}" Value="True">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard Storyboard="{StaticResource HideStoryboard}"/>
+                        </DataTrigger.EnterActions>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+        
         <Grid.RowDefinitions>
+            <RowDefinition Height="40"/> <!-- header -->
             <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/> <!-- line -->
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Background="White">
-            <ListBox ItemsSource="{Binding Dialog}"/>
+        <Grid Grid.Row="0" Background="White">
+            <Border BorderBrush="Gray" BorderThickness="0,0,0,1">
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="←" Background="Transparent" FontSize="20" BorderBrush="Transparent" Padding="0,0,0,8" HorizontalAlignment="Left"  VerticalAlignment="Bottom"
+                        Command="{Binding BackButtonCommand}"/>
+                    <Label Content="{Binding ReceiverName, FallbackValue=받는사람 이름}" FontSize="10" FontWeight="DemiBold" VerticalContentAlignment="Center" Margin="15,0,0,0"/>
+                </StackPanel>
+            </Border>
         </Grid>
 
-        <Rectangle Grid.Row="1" Fill="Gray" Height="2"/>
+        <Grid Grid.Row="1" Background="White">
+            <ListBox ItemsSource="{Binding Dialog}"/>
+        </Grid>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -26,7 +86,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBox Text="{Binding Message}"/>
-            <Button Grid.Column="1" Width="50" Height="50" Command="{Binding SendDirectMessageCommand}"/>
+            <Button Grid.Column="1" Width="50" Command="{Binding SendDirectMessageCommand}"/>
         </Grid>
     </Grid>
 </UserControl>

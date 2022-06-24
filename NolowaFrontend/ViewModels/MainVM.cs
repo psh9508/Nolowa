@@ -73,6 +73,14 @@ namespace NolowaFrontend.ViewModels
             set { _directMessageViewModel = value; OnPropertyChanged(); }
         }
 
+        private DirectMessageSendVM _directMessageSendViewModel;
+
+        public DirectMessageSendVM DirectMessageSendViewModel
+        {
+            get { return _directMessageSendViewModel; }
+            set { _directMessageSendViewModel = value; OnPropertyChanged(); }
+        }
+
         private object _twitterResultView;
 
         public object TwitterResultView
@@ -195,6 +203,24 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _directMessageCommand, _ => {
                     MainView = new DirectMessageVM();
+                });
+            }
+        }
+                
+        private ICommand _directMessageSendViewCommand;
+
+        public ICommand DirectMessageSendViewCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _directMessageSendViewCommand, text =>
+                {
+                    var directMessageSendVM = new DirectMessageSendVM();
+                    directMessageSendVM.CompleteHide += () => {
+                        DirectMessageSendViewModel = null;
+                    };
+
+                    DirectMessageSendViewModel = directMessageSendVM;
                 });
             }
         }

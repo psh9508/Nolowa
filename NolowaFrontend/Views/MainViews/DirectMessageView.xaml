@@ -9,11 +9,6 @@
              xmlns:vm="clr-namespace:NolowaFrontend.ViewModels"
              xmlns:view="clr-namespace:NolowaFrontend.Views.MainViews"
              d:DesignHeight="450" d:DesignWidth="400">
-    <UserControl.Resources>
-        <DataTemplate DataType="{x:Type vm:DirectMessageSendVM}">
-            <view:DirectMessageSendView DataContext="{Binding}"/>
-        </DataTemplate>
-    </UserControl.Resources>
     <Grid>
         <!-- 받은 쪽지가 있을 경우 -->
         <ListBox>
@@ -29,7 +24,7 @@
             <TextBlock Text="받은 쪽지함에 오신&#x0a;것을 환영합니다." FontSize="30" FontWeight="ExtraBold"/>
             <TextBlock Text="사용자들과 안부를 묻고 글을 공유하고 비공개 대화를 &#x0a;더 많이 나누세요." Foreground="LightGray" FontWeight="DemiBold"/>
 
-            <Button Content="쪽지 쓰기" Width="70" HorizontalAlignment="Left" Margin="0,20,0,0" Command="{Binding WriteDirectMessageCommand}">
+            <Button Content="쪽지 쓰기" Width="70" HorizontalAlignment="Left" Margin="0,20,0,0" Click="Button_Click">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"/>
@@ -37,7 +32,5 @@
                 </Button.Resources>
             </Button>
         </StackPanel>
-
-        <ContentControl Content="{Binding DirectMessageSendVM}"/>
     </Grid>
 </UserControl>

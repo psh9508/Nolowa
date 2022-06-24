@@ -11,7 +11,7 @@
         xmlns:view="clr-namespace:NolowaFrontend.Views.MainViews"
         xmlns:ucv="clr-namespace:NolowaFrontend.Views.UserControls"
         xmlns:vm="clr-namespace:NolowaFrontend.ViewModels"
-        mc:Ignorable="d" WindowStyle="None"
+        mc:Ignorable="d" WindowStyle="None" Name="_this"
         MouseDown="Window_MouseDown" Closed="Window_Closed"        
         Title="MainView" d:Height="600" d:Width="400"
         Height="600" Width="400">
@@ -24,7 +24,11 @@
                 <view:ProfileView DataContext="{Binding}"/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:DirectMessageVM}">
-                <view:DirectMessageView DataContext="{Binding}"/>
+                <view:DirectMessageView DataContext="{Binding}" 
+                                        ClickedDirectMessageViewShowCommand="{Binding ElementName=_this, Path=DataContext.DirectMessageSendViewCommand}"/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:DirectMessageSendVM}">
+                <view:DirectMessageSendView DataContext="{Binding}"/>
             </DataTemplate>
             <sys:Double x:Key="diameterOfTweitterButton">50</sys:Double>
         </ResourceDictionary>        
@@ -107,5 +111,7 @@
         <ContentControl Content="{Binding MakeTwitterView}"/>
         <ContentControl Content="{Binding TwitterResultView}" VerticalAlignment="Bottom" Margin="0,0,0,80"/>
         <ContentControl Content="{Binding ProfileViewModel}"/>
+        <!-- DM 전송 뷰-->
+        <ContentControl Content="{Binding DirectMessageSendViewModel}"/>
     </Grid>
 </Window>

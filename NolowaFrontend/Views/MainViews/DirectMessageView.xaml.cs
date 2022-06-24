@@ -20,9 +20,23 @@ namespace NolowaFrontend.Views.MainViews
     /// </summary>
     public partial class DirectMessageView : UserControl
     {
+        public ICommand ClickedDirectMessageViewShowCommand
+        {
+            get { return (ICommand)GetValue(ClickedDirectMessageViewShowCommandProperty); }
+            set { SetValue(ClickedDirectMessageViewShowCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty ClickedDirectMessageViewShowCommandProperty =
+            DependencyProperty.Register("ClickedDirectMessageViewShowCommand", typeof(ICommand), typeof(DirectMessageView), new PropertyMetadata(null));
+
         public DirectMessageView()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ClickedDirectMessageViewShowCommand?.Execute(null);
         }
     }
 }

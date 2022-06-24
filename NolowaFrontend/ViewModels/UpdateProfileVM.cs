@@ -12,8 +12,6 @@ namespace NolowaFrontend.ViewModels
 {
     public class UpdateProfileVM : ViewModelBase
     {
-        public event Action CompleteHide;
-
         private readonly IUserService _userService;
 
         #region Props
@@ -57,19 +55,6 @@ namespace NolowaFrontend.ViewModels
                 return GetRelayCommand(ref _saveCommand, async _ =>
                 {
                     await _userService.ChangeProfileInfoAsync(_user.ProfileInfo);
-                });
-            }
-        }
-
-        private ICommand _completeHideAnimation;
-
-        public ICommand CompleteHideAnimation
-        {
-            get
-            {
-                return GetRelayCommand(ref _completeHideAnimation, _ =>
-                {
-                    CompleteHide?.Invoke();
                 });
             }
         }

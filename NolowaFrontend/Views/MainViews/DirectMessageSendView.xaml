@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NolowaFrontend.Views.MainViews"
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:uc="clr-namespace:NolowaFrontend.Controls"
              mc:Ignorable="d" Width="400" Name="_this"
              d:DesignHeight="450" d:DesignWidth="400">
     <UserControl.Resources>
@@ -79,14 +80,20 @@
             <ListBox ItemsSource="{Binding Dialog}"/>
         </Grid>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Background="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Text="{Binding Message}"/>
-            <Button Grid.Column="1" Width="50" Command="{Binding SendDirectMessageCommand}"/>
+            <TextBox Text="{Binding Message, FallbackValue=쪽지 작성하기}" VerticalContentAlignment="Center" FontSize="15"/>
+            <uc:MainManuToggleButton Grid.Column="1"
+                                     Width="35"
+                                     Margin="5,10,5,5"
+                                     IsChecked="True"
+                                     DefaultImageUri="/NolowaFrontend;component/Resources/Icons/DirectMessageSend.png" 
+                                     ClickedImageUri="/NolowaFrontend;component/Resources/Icons/DirectMessageSend.png" 
+                                     Command="{Binding SendDirectMessageCommand}"/>
         </Grid>
     </Grid>
 </UserControl>

@@ -51,10 +51,16 @@ namespace NolowaFrontend.ViewModels
                     if (Message.IsNotVaild())
                         return;
 
-                    if (_hubConnection.State != HubConnectionState.Connected)
-                        await _hubConnection.StartAsync();
+                    string message = Message;
+                    Message = string.Empty;
 
-                    await _hubConnection.SendAsync("SendMessage", AppConfiguration.LoginUser.Id, 2, Message);
+                    if (_hubConnection.State != HubConnectionState.Connected)
+                    {
+                        await _hubConnection.StartAsync();
+                        await _hubConnection.SendAsync("Login", AppConfiguration.LoginUser.Id);
+                    }
+
+                    await _hubConnection.SendAsync("SendMessage", AppConfiguration.LoginUser.Id, 3, message);
                 });
             }
         }
@@ -85,8 +91,6 @@ namespace NolowaFrontend.ViewModels
                     Dialog.Add($"{userId} : {receiveId}로 {message}");
                 });
             });
-
-            _hubConnection.StartAsync();
         }
     }
 }

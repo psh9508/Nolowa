@@ -12,13 +12,22 @@ using System.Windows.Input;
 
 namespace NolowaFrontend.ViewModels
 {
+    public class DirectMessageDialogItem
+    {
+        public long SenderId { get; set; }
+        public long ReceiverId { get; set; }
+        public string Message { get; set; } = string.Empty;
+        public string Time { get; set; } = string.Empty;
+        public bool IsMine { get; set; }
+    }
+    
     public class DirectMessageSendVM : ViewModelBase
     {
         private readonly HubConnection _hubConnection;
 
-        private ObservableCollection<string> _dialog = new ObservableCollection<string>();
+        private ObservableCollection<DirectMessageDialogItem> _dialog = new ObservableCollection<DirectMessageDialogItem>();
 
-        public ObservableCollection<string> Dialog
+        public ObservableCollection<DirectMessageDialogItem> Dialog
         {
             get { return _dialog; }
             set { _dialog = value; OnPropertyChanged(); }
@@ -85,10 +94,17 @@ namespace NolowaFrontend.ViewModels
                 .WithAutomaticReconnect()
                 .Build();
 
-            _hubConnection.On("ReceiveDirectMessage", (long userId, long receiveId, string message) =>
+            _hubConnection.On("ReceiveDirectMessage", (long senderId, long receiveId, string message, string time) =>
             {
                 System.Windows.Application.Current.Dispatcher.Invoke(() => {
-                    Dialog.Add($"{userId} : {receiveId}로 {message}");
+                    Dialog.Add(new DirectMessageDialogItem()
+                    {
+                        SenderId = senderId,
+                        ReceiverId = receiveId,
+                        Message = message,
+                        Time = time,
+                        IsMine = senderId == AppConfiguration.LoginUser.Id,
+                    });
                 });
             });
         }

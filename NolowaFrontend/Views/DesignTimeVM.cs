@@ -1,4 +1,5 @@
 ﻿using NolowaFrontend.Models;
+using NolowaFrontend.ViewModels;
 using NolowaFrontend.Views.UserControls;
 using System;
 using System.Collections.Generic;
@@ -86,6 +87,50 @@ namespace NolowaFrontend.Views
             SearchedKeywords.Add("행복한 가정");
 
             SearchedKeywords.Add("즐거운 하루");
+        }
+    }
+
+
+    public class DirectMessageSendViewDesignTimeVM
+    {
+        public ObservableCollection<DirectMessageDialogItem> Dialog { get; set; } = new ObservableCollection<DirectMessageDialogItem>();
+
+        public DirectMessageSendViewDesignTimeVM()
+        {
+            Dialog.Add(new DirectMessageDialogItem()
+            {
+                Message = "첫 번째 메시지입니다. 이건 로그인한 유저가 보낸 메시지입니다.",
+                Time = "2022-02-04 11시 11분 11초",
+                IsMine = true,
+            });
+
+            Dialog.Add(new DirectMessageDialogItem()
+            {
+                Message = "우리의 사랑은 영원한 것입니다. 우리 모두 사랑합시다. 이건 로그인한 유저가 보낸 메시지입니다.",
+                Time = "2022-02-04 11시 11분 11초",
+                IsMine = true,
+            });
+
+            Dialog.Add(new DirectMessageDialogItem()
+            {
+                Message = "숲속에 웅크리고 있던 곰이 나왔다 언제까지 서성일지 모르겠지만 이것도 곧 끝나리라 생각한다.",
+                Time = "2022-02-04 11시 11분 11초",
+                IsMine = false,
+            });
+
+            Dialog.Add(new DirectMessageDialogItem()
+            {
+                Message = "핸드폰 액정이 깨졌습니다. 요즘엔 터치도 잘 안되는 것 같은데.. 하나 사야되나 고민이 되는 시기입니다.",
+                Time = "2022-02-04 11시 11분 11초",
+                IsMine = true,
+            });
+
+            Dialog.Add(new DirectMessageDialogItem()
+            {
+                Message = "생각보다 행복한 하루하루입니다. 그 누구도 나의 행복을 침해할 수 없습니다.",
+                Time = "2022-02-04 11시 11분 11초",
+                IsMine = true,
+            });
         }
     }
 

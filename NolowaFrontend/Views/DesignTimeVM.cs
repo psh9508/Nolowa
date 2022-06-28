@@ -99,16 +99,16 @@ namespace NolowaFrontend.Views
         {
             Dialog.Add(new DirectMessageDialogItem()
             {
-                Message = "첫 번째 메시지입니다. 이건 로그인한 유저가 보낸 메시지입니다.",
+                Message = "가.",
                 Time = "2022-02-04 11시 11분 11초",
                 IsMine = true,
             });
 
             Dialog.Add(new DirectMessageDialogItem()
             {
-                Message = "우리의 사랑은 영원한 것입니다. 우리 모두 사랑합시다. 이건 로그인한 유저가 보낸 메시지입니다.",
+                Message = "짧.",
                 Time = "2022-02-04 11시 11분 11초",
-                IsMine = true,
+                IsMine = false,
             });
 
             Dialog.Add(new DirectMessageDialogItem()

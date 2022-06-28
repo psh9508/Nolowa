@@ -2,12 +2,9 @@
 using NolowaFrontend.Core;
 using NolowaFrontend.Extensions;
 using NolowaFrontend.ViewModels.Base;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NolowaFrontend.ViewModels
@@ -20,7 +17,20 @@ namespace NolowaFrontend.ViewModels
         public string Time { get; set; } = string.Empty;
         public bool IsMine { get; set; }
     }
-    
+
+    public class MessageTemplateSelector : DataTemplateSelector
+    {
+        public DataTemplate OthersTemplate { get; set; }
+        public DataTemplate MineTemplate { get; set; }
+
+        public override DataTemplate SelectTemplate(object item, DependencyObject container)
+        {
+            var message = (DirectMessageDialogItem)item;
+
+            return message.IsMine ? MineTemplate : OthersTemplate;
+        }
+    }
+
     public class DirectMessageSendVM : ViewModelBase
     {
         private readonly HubConnection _hubConnection;
@@ -38,7 +48,7 @@ namespace NolowaFrontend.ViewModels
         public string Message
         {
             get { return _mseeage; }
-            set { _mseeage = value; OnPropertyChanged();}
+            set { _mseeage = value; OnPropertyChanged(); }
         }
 
         private bool _isHide = false;

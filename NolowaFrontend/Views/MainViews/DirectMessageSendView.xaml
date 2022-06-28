@@ -7,11 +7,13 @@
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:uc="clr-namespace:NolowaFrontend.Controls"
              xmlns:designTime="clr-namespace:NolowaFrontend.Views"
+             xmlns:vm="clr-namespace:NolowaFrontend.ViewModels"
              mc:Ignorable="d" Width="400" Name="_this"
              d:DesignHeight="450" d:DesignWidth="400">
     <UserControl.Resources>
         <designTime:DirectMessageSendViewDesignTimeVM x:Key="DirectMessageSendViewDesignTimeVM"/>
-        
+       
+        <!-- 에니메이션 -->
         <Storyboard x:Key="ShowStoryboard">
             <ThicknessAnimation Storyboard.TargetProperty="Margin" 
                                     From="0,0,-500,0"
@@ -33,6 +35,49 @@
                 </ThicknessAnimation.EasingFunction>
             </ThicknessAnimation>
         </Storyboard>
+        <!---->
+
+        <!-- 데이터 템플릿 -->
+        <DataTemplate x:Key="others">
+            <Grid Margin="5,0,0,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Row="0" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" CornerRadius="5" MaxWidth="280" Padding="3">
+                    <TextBlock x:Name="innerText" Text="{Binding Message}" TextWrapping="Wrap"/>
+                </Border>
+                <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Time}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="mine">
+            <Grid Margin="5,0,0,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" BorderBrush="Gray" BorderThickness="1" CornerRadius="5" MaxWidth="280" Padding="3">
+                    <TextBlock x:Name="innerText" Text="{Binding Message}" TextWrapping="Wrap"/>
+                </Border>
+                <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Time}" HorizontalAlignment="Right"/>
+            </Grid>
+        </DataTemplate>
+        <!---->
+
+        <vm:MessageTemplateSelector x:Key="TemplateSelector"
+                                    OthersTemplate="{StaticResource others}"
+                                    MineTemplate="{StaticResource mine}"/>
     </UserControl.Resources>
 
 
@@ -42,8 +87,6 @@
             <behaviors:InvokeCommandAction Command="{Binding CompleteHideAnimation}"/>
         </behaviors:StoryboardCompletedTrigger>
     </behaviors:Interaction.Triggers>
-
-    
     
     <Grid Width="400">
         <Grid.Style>
@@ -81,17 +124,16 @@
 
         <Grid Grid.Row="1" Background="White">
             <ListBox d:DataContext="{Binding Source={StaticResource DirectMessageSendViewDesignTimeVM}}"
-                     ItemsSource="{Binding Dialog}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderBrush="Red" BorderThickness="1" CornerRadius="5" HorizontalAlignment="Right">
-                            <StackPanel HorizontalAlignment="Right">
-                                <TextBlock Text="{Binding Message}" HorizontalAlignment="Right"/>
-                                <TextBlock Text="{Binding Time}"/>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+                     ItemsSource="{Binding Dialog}" ItemTemplateSelector="{StaticResource TemplateSelector}">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMine}" Value="True">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.ItemContainerStyle>
             </ListBox>
         </Grid>
 
@@ -101,7 +143,7 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Text="{Binding Message, FallbackValue=쪽지 작성하기}" VerticalContentAlignment="Center" FontSize="15"/>
+            <TextBox Text="{Binding Message, FallbackValue=쪽지 작성하기}" VerticalContentAlignment="Center" FontSize="13"/>
             <uc:MainManuToggleButton Grid.Column="1"
                                      Width="35"
                                      Margin="5,10,5,5"

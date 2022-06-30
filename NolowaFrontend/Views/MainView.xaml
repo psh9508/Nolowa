@@ -30,6 +30,10 @@
             <DataTemplate DataType="{x:Type vm:DirectMessageSendVM}">
                 <view:DirectMessageSendView DataContext="{Binding}"/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:DirectMessageReceiverSelectVM}">
+                <view:DirectMessageReceiverSelectView DataContext="{Binding}"/>
+            </DataTemplate>
+            
             <sys:Double x:Key="diameterOfTweitterButton">50</sys:Double>
         </ResourceDictionary>        
     </Window.Resources>
@@ -113,5 +117,7 @@
         <ContentControl Content="{Binding ProfileViewModel}"/>
         <!-- DM 전송 뷰-->
         <ContentControl Content="{Binding DirectMessageSendViewModel}"/>
+        <!-- DM 받을 사람 선택 뷰-->
+        <ContentControl Content="{Binding DirectMessageReceiverSelectViewModel}"/>
     </Grid>
 </Window>

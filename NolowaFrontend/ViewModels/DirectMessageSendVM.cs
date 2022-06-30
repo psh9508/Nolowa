@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using NolowaFrontend.Core;
 using NolowaFrontend.Extensions;
+using NolowaFrontend.Servicies;
 using NolowaFrontend.ViewModels.Base;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -34,6 +36,7 @@ namespace NolowaFrontend.ViewModels
     public class DirectMessageSendVM : ViewModelBase
     {
         private readonly HubConnection _hubConnection;
+        private readonly ISignalRService _signalRService;
 
         private ObservableCollection<DirectMessageDialogItem> _dialog = new ObservableCollection<DirectMessageDialogItem>();
 
@@ -57,6 +60,34 @@ namespace NolowaFrontend.ViewModels
         {
             get { return _isHide; }
             set { _isHide = value; OnPropertyChanged(); }
+        }
+
+        #region Commands
+        private ICommand _loadedCommand;
+
+        public ICommand LoadedCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _loadedCommand, async _ =>
+                {
+                    var dialogResponse = await _signalRService.GetDialog(AppConfiguration.LoginUser.Id, 3);
+
+                    if (dialogResponse.Count() > 0)
+                    {
+                        var dialogData = dialogResponse.Select(x => new DirectMessageDialogItem()
+                        {
+                            SenderId = x.SenderId,
+                            ReceiverId = x.ReceiverId,
+                            Message = x.Message,
+                            Time = x.Time,
+                            IsMine = x.ReceiverId == AppConfiguration.LoginUser.Id,
+                        }).ToObservableCollection();
+
+                        Dialog = dialogData;
+                    }
+                });
+            }
         }
 
         private ICommand _sendDirectMessageCommand;
@@ -95,10 +126,13 @@ namespace NolowaFrontend.ViewModels
                     IsHide = true;
                 });
             }
-        }
+        } 
+        #endregion
 
         public DirectMessageSendVM()
         {
+            _signalRService = new SignalRService();
+
             _hubConnection = new HubConnectionBuilder()
                 .WithUrl("https://localhost:5001/DirectMessage")
                 .WithAutomaticReconnect()

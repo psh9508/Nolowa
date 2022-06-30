@@ -80,14 +80,17 @@
                                     MineTemplate="{StaticResource mine}"/>
     </UserControl.Resources>
 
-
     <behaviors:Interaction.Triggers>
         <behaviors:StoryboardCompletedTrigger Storyboard="{StaticResource HideStoryboard}">
             <behaviors:ChangePropertyAction PropertyName="Visibility" Value="Collapsed"/>
             <behaviors:InvokeCommandAction Command="{Binding CompleteHideAnimation}"/>
         </behaviors:StoryboardCompletedTrigger>
+        
+        <behaviors:EventTrigger EventName="Loaded">
+            <behaviors:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </behaviors:EventTrigger>
     </behaviors:Interaction.Triggers>
-    
+
     <Grid Width="400">
         <Grid.Style>
             <Style TargetType="Grid">
@@ -107,11 +110,12 @@
         </Grid.Style>
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/> <!-- header -->
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="40"/>   <!-- header -->
+            <RowDefinition Height="*"/>    <!-- dialog -->
+            <RowDefinition Height="auto"/> <!-- message -->
         </Grid.RowDefinitions>
 
+        <!-- header -->
         <Grid Grid.Row="0" Background="White">
             <Border BorderBrush="Gray" BorderThickness="0,0,0,1">
                 <StackPanel Orientation="Horizontal">
@@ -122,6 +126,7 @@
             </Border>
         </Grid>
 
+        <!-- dialog -->
         <Grid Grid.Row="1" Background="White">
             <ListBox d:DataContext="{Binding Source={StaticResource DirectMessageSendViewDesignTimeVM}}"
                      ItemsSource="{Binding Dialog}" ItemTemplateSelector="{StaticResource TemplateSelector}">
@@ -137,6 +142,7 @@
             </ListBox>
         </Grid>
 
+        <!-- message -->
         <Grid Grid.Row="2" Background="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

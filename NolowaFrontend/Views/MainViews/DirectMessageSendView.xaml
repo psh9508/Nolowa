@@ -121,7 +121,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Button Content="←" Background="Transparent" FontSize="20" BorderBrush="Transparent" Padding="0,0,0,8" HorizontalAlignment="Left"  VerticalAlignment="Bottom"
                         Command="{Binding BackButtonCommand}"/>
-                    <Label Content="{Binding ReceiverName, FallbackValue=받는사람 이름}" FontSize="10" FontWeight="DemiBold" VerticalContentAlignment="Center" Margin="15,0,0,0"/>
+                    <Label Content="{Binding Path=Receiver.AccountName, FallbackValue=받는사람 이름}" FontSize="13" FontWeight="DemiBold" VerticalContentAlignment="Center" Margin="15,0,0,0"/>
                 </StackPanel>
             </Border>
         </Grid>

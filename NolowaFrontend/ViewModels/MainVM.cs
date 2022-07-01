@@ -222,14 +222,24 @@ namespace NolowaFrontend.ViewModels
             get
             {
                 return GetRelayCommand(ref _directMessageSendViewCommand, text =>
-                {
-                    //var directMessageSendVM = new DirectMessageSendVM();
-                    //directMessageSendVM.CompleteHide += () => {
-                    //    DirectMessageSendViewModel = null;
-                    //};
+                {  
+                    var directMessageReceiverSelectVM = new DirectMessageReceiverSelectVM();
 
-                    //DirectMessageSendViewModel = directMessageSendVM;
-                    DirectMessageReceiverSelectViewModel = new DirectMessageReceiverSelectVM();
+                    directMessageReceiverSelectVM.CompleteHide += () => {
+                        DirectMessageReceiverSelectViewModel = null;
+                    };
+
+                    directMessageReceiverSelectVM.ClickNextCommand += user => {
+                        var directMessageSendVM = new DirectMessageSendVM(user);
+
+                        directMessageSendVM.CompleteHide += () => {
+                            DirectMessageSendViewModel = null;
+                        };
+
+                        DirectMessageSendViewModel = directMessageSendVM;
+                    };
+
+                    DirectMessageReceiverSelectViewModel = directMessageReceiverSelectVM;
                 });
             }
         }

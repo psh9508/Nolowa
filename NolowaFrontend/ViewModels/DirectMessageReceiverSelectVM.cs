@@ -16,6 +16,8 @@ namespace NolowaFrontend.ViewModels
     {
         private readonly ISearchService _searchService;
 
+        public event Action<User> ClickNextCommand;
+
         #region Props
         private ObservableCollection<User> _searchedUsers;
 
@@ -39,6 +41,14 @@ namespace NolowaFrontend.ViewModels
         {
             get { return _isHide; }
             set { _isHide = value; OnPropertyChanged(); }
+        }
+
+        private User _selectedUser;
+
+        public User SelectedUser
+        {
+            get { return _selectedUser; }
+            set { _selectedUser = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -89,6 +99,20 @@ namespace NolowaFrontend.ViewModels
                 return GetRelayCommand(ref _backButtonCommand, async _ =>
                 {
                     IsHide = true;
+                });
+            }
+        }
+
+        private ICommand _nextCommand;
+
+        public ICommand NextCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _nextCommand, _ =>
+                {
+                    BackButtonCommand.Execute(null);
+                    ClickNextCommand?.Invoke(SelectedUser);
                 });
             }
         }

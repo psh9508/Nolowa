@@ -43,7 +43,14 @@
             <!---->
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
+    <behaviors:Interaction.Triggers>
+        <behaviors:StoryboardCompletedTrigger Storyboard="{StaticResource HideStoryboard}">
+            <behaviors:ChangePropertyAction PropertyName="Visibility" Value="Collapsed"/>
+            <behaviors:InvokeCommandAction Command="{Binding CompleteHideAnimation}"/>
+        </behaviors:StoryboardCompletedTrigger>
+    </behaviors:Interaction.Triggers>
+
     <Grid>
         <Grid Width="400">
             <Grid.Style>
@@ -80,7 +87,7 @@
                             <Label Content="새로운 쪽지" FontSize="10" FontWeight="DemiBold" VerticalContentAlignment="Center" Margin="15,0,0,0"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Content="다음" Background="Transparent" BorderThickness="0" Margin="0,0,8,0">
+                            <Button Content="다음" Background="Transparent" BorderThickness="0" Margin="0,0,8,0" Command="{Binding NextCommand}">
                                 <Button.Style>
                                     <Style TargetType="Button">
                                         <Style.Triggers>
@@ -148,9 +155,9 @@
                         <Border BorderThickness="1" CornerRadius="8">
                             <Border.Background>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" >
-                                    <GradientStop Color="BlanchedAlmond"/>
-                                    <GradientStop Color="Beige" Offset="1"/>
-                                    <GradientStop Color="BurlyWood" Offset="0.5"/>
+                                    <GradientStop Color="LightGray"/>
+                                    <GradientStop Color="Gray" Offset="1"/>
+                                    <GradientStop Color="DarkGray" Offset="0.5"/>
                                 </LinearGradientBrush>
                             </Border.Background>
                             <TextBlock x:Name="selectUserNameTextBlock" FontSize="16" VerticalAlignment="Center"
@@ -164,7 +171,7 @@
             <!-- result -->
             <Grid Grid.Row="2" Background="White">
                 <ListBox x:Name="listboxUsers" d:DataContext="{Binding Source={StaticResource SearchViewDesignTimeVM}}"
-                         ItemsSource="{Binding SearchedUsers}"
+                         ItemsSource="{Binding SearchedUsers}" SelectedItem="{Binding SelectedUser}"
                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"> 
                     <ListBox.ItemTemplate>

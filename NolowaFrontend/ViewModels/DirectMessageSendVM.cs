@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
+using Newtonsoft.Json;
 using NolowaFrontend.Core;
 using NolowaFrontend.Extensions;
+using NolowaFrontend.Models;
 using NolowaFrontend.Servicies;
 using NolowaFrontend.ViewModels.Base;
 using System.Collections.ObjectModel;
@@ -14,9 +16,13 @@ namespace NolowaFrontend.ViewModels
     public class DirectMessageDialogItem
     {
         public long SenderId { get; set; }
+
         public long ReceiverId { get; set; }
+
         public string Message { get; set; } = string.Empty;
+
         public string Time { get; set; } = string.Empty;
+
         public bool IsMine { get; set; }
     }
 
@@ -37,6 +43,8 @@ namespace NolowaFrontend.ViewModels
     {
         private readonly HubConnection _hubConnection;
         private readonly ISignalRService _signalRService;
+
+        public User Receiver { get; set; }
 
         private ObservableCollection<DirectMessageDialogItem> _dialog = new ObservableCollection<DirectMessageDialogItem>();
 
@@ -71,6 +79,8 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _loadedCommand, async _ =>
                 {
+                    Dialog.Clear();
+
                     var dialogResponse = await _signalRService.GetDialog(AppConfiguration.LoginUser.Id, 3);
 
                     if (dialogResponse.Count() > 0)
@@ -110,7 +120,7 @@ namespace NolowaFrontend.ViewModels
                         await _hubConnection.SendAsync("Login", AppConfiguration.LoginUser.Id);
                     }
 
-                    await _hubConnection.SendAsync("SendMessage", AppConfiguration.LoginUser.Id, 3, message);
+                    await _hubConnection.SendAsync("SendMessage", AppConfiguration.LoginUser.Id, Receiver.Id, message);
                 });
             }
         }
@@ -151,6 +161,11 @@ namespace NolowaFrontend.ViewModels
                     });
                 });
             });
+        }
+
+        public DirectMessageSendVM(User receiver) : this()
+        {
+            Receiver = receiver;
         }
     }
 }

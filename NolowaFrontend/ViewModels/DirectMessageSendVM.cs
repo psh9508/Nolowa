@@ -7,6 +7,7 @@ using NolowaFrontend.Servicies;
 using NolowaFrontend.ViewModels.Base;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -79,6 +80,9 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _loadedCommand, async _ =>
                 {
+                    if (_hubConnection.State != HubConnectionState.Connected)
+                        await InitializeHubAsync();
+
                     Dialog.Clear();
 
                     var dialogResponse = await _signalRService.GetDialog(AppConfiguration.LoginUser.Id, 3);
@@ -115,10 +119,7 @@ namespace NolowaFrontend.ViewModels
                     Message = string.Empty;
 
                     if (_hubConnection.State != HubConnectionState.Connected)
-                    {
-                        await _hubConnection.StartAsync();
-                        await _hubConnection.SendAsync("Login", AppConfiguration.LoginUser.Id);
-                    }
+                        await InitializeHubAsync();
 
                     await _hubConnection.SendAsync("SendMessage", AppConfiguration.LoginUser.Id, Receiver.Id, message);
                 });
@@ -131,7 +132,7 @@ namespace NolowaFrontend.ViewModels
         {
             get
             {
-                return GetRelayCommand(ref _backButtonCommand, async _ =>
+                return GetRelayCommand(ref _backButtonCommand, _ =>
                 {
                     IsHide = true;
                 });
@@ -166,6 +167,12 @@ namespace NolowaFrontend.ViewModels
         public DirectMessageSendVM(User receiver) : this()
         {
             Receiver = receiver;
+        }
+
+        private async Task InitializeHubAsync()
+        {
+            await _hubConnection.StartAsync();
+            await _hubConnection.SendAsync("Login", AppConfiguration.LoginUser.Id);
         }
     }
 }

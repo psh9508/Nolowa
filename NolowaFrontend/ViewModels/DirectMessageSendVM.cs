@@ -85,7 +85,7 @@ namespace NolowaFrontend.ViewModels
 
                     Dialog.Clear();
 
-                    var dialogResponse = await _signalRService.GetDialog(AppConfiguration.LoginUser.Id, 3);
+                    var dialogResponse = await _signalRService.GetDialog(AppConfiguration.LoginUser.Id, Receiver.Id);
 
                     if (dialogResponse.Count() > 0)
                     {

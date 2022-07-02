@@ -4,11 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NolowaFrontend.Views.UserControls"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" x:Name="_this"
              d:DesignHeight="50" d:DesignWidth="200">
     <Grid>
         <TextBox x:Name="searchTextBox" VerticalContentAlignment="Center" Padding="7,0,0,0" Height="30"
-                 Text="{Binding SearchText, Mode=TwoWay}" 
+                 BorderThickness="{Binding ElementName=_this, Path=BorderThickness, FallbackValue=1}"
                  TextChanged="searchTextBox_TextChanged" KeyUp="searchTextBox_KeyUp">
             <TextBox.Resources>
                 <Style TargetType="{x:Type Border}">
@@ -18,7 +18,8 @@
         </TextBox>
         
         <!-- Watermark -->
-        <TextBlock Text="검색어 입력" VerticalAlignment="Center" Margin="10,0,0,0" IsHitTestVisible="False">
+        <TextBlock Text="{Binding ElementName=_this, Path=WatermarkText, FallbackValue=검색어 입력}" 
+                   VerticalAlignment="Center" Margin="10,0,0,0" IsHitTestVisible="False">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Setter Property="Visibility" Value="Collapsed"/>

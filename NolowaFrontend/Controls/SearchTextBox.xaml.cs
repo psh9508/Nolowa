@@ -49,6 +49,15 @@ namespace NolowaFrontend.Controls
             remove => RemoveHandler(EnterSearchEvent, value);
         }
 
+        public string WatermarkText
+        {
+            get { return (string)GetValue(WatermarkTextProperty); }
+            set { SetValue(WatermarkTextProperty, value); }
+        }
+
+        public static readonly DependencyProperty WatermarkTextProperty =
+            DependencyProperty.Register("WatermarkText", typeof(string), typeof(SearchTextBox), new PropertyMetadata(string.Empty));
+
         public SearchTextBox()
         {
             InitializeComponent();

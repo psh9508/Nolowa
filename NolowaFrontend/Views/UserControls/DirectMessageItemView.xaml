@@ -27,10 +27,12 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding User.Name, FallbackValue=pinnieminnie}" FontWeight="Bold" Margin="0,0,10,0"/>
                 <TextBlock Text="{Binding User.AccountID, FallbackValue=@asdf}" Margin="0,0,10,0"/>
-                <TextBlock Text="{Binding ElapsedTime, FallbackValue=1시간}" Margin="0,0,10,0"/>
+                <TextBlock Text="{Binding Time, FallbackValue=1시간}" Margin="0,0,10,0"/>
             </StackPanel>
 
-            <TextBlock Grid.Row="1" Text="asdfasdfasdf"/>
+            <TextBlock Grid.Row="1" 
+                       Text="{Binding Message, FallbackValue=마지막에 보낸 메시지가 표시되는 공간입니다.}" 
+                       TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight"  MaxHeight="33"/>
         </Grid>
     </Grid>
 </UserControl>

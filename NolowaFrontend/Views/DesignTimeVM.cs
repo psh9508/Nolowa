@@ -90,7 +90,6 @@ namespace NolowaFrontend.Views
         }
     }
 
-
     public class DirectMessageSendViewDesignTimeVM
     {
         public ObservableCollection<DirectMessageDialogItem> Dialog { get; set; } = new ObservableCollection<DirectMessageDialogItem>();
@@ -130,6 +129,68 @@ namespace NolowaFrontend.Views
                 Message = "생각보다 행복한 하루하루입니다. 그 누구도 나의 행복을 침해할 수 없습니다.",
                 Time = "2022-02-04 11시 11분 11초",
                 IsMine = true,
+            });
+        }
+    }
+
+    public class DirectMessageViewDesignTimeVM
+    {
+        public ObservableCollection<PreviousDirectMessageDialogItem> PreviousDialogItems { get; set; } = new ObservableCollection<PreviousDirectMessageDialogItem>();
+
+        public DirectMessageViewDesignTimeVM()
+        {
+            PreviousDialogItems.Add(new PreviousDirectMessageDialogItem()
+            {
+                User = new User()
+                {
+                    UserId = "AccountID",
+                    AccountName = "Name",
+                    ProfileInfo = new ProfileInfo()
+                    {
+                        ProfileImage = new Models.Images.ProfileImage()
+                        {
+                            Hash = "이승국",
+                        }
+                    },
+                },
+                Message = "그 레이더는 실패했다.",
+                Time = "1시간",
+            });
+
+            PreviousDialogItems.Add(new PreviousDirectMessageDialogItem()
+            {
+                User = new User()
+                {
+                    UserId = "@Gold_Moon",
+                    AccountName = "마수리",
+                    ProfileInfo = new ProfileInfo()
+                    {
+                        ProfileImage = new Models.Images.ProfileImage()
+                        {
+                            Hash = "844b2e56483db6f6f75611e891a84e9c38c727d02655f3d211a837f0aadfa31c",
+                        }
+                    }
+                },
+                Message = "우리 마지막 대화는 이것입니다. 참고로 말씀드리지만 이 대화는 다시 시작 될 것입니다.",
+                Time = "1시간",
+            });
+
+            PreviousDialogItems.Add(new PreviousDirectMessageDialogItem()
+            {
+                User = new User()
+                {
+                    UserId = "@xxxxbxxx",
+                    AccountName = "랜더스",
+                    ProfileInfo = new ProfileInfo()
+                    {
+                        ProfileImage = new Models.Images.ProfileImage()
+                        {
+                            Hash = "aa",
+                        }
+                    }
+                },
+                Message = "음악이야말로 세상에서 나에게 영감을 줄 수 있는 것 중 가장 강력한 것일 것이다. 나에게 음악을 허락하라!",
+                Time = "1시간",
             });
         }
     }

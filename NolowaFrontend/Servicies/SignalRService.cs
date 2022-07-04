@@ -9,6 +9,7 @@ namespace NolowaFrontend.Servicies
     public interface ISignalRService
     {
         Task<IEnumerable<DirectMessageDialogItem>> GetDialog(long senderId, long receiverId);
+        Task<IEnumerable<PreviousDirectMessageDialogItem>> GetPreviousDialogListAsync(long senderId);
     }
 
     public class SignalRService : ServiceBase, ISignalRService
@@ -20,6 +21,13 @@ namespace NolowaFrontend.Servicies
             var response = await DoGet<IEnumerable<DirectMessageDialogItem>>($"chat/dialog/{senderId}/{receiverId}");
 
             return response.IsSuccess ? response.ResponseData : Enumerable.Empty<DirectMessageDialogItem>();
+        }
+
+        public async Task<IEnumerable<PreviousDirectMessageDialogItem>> GetPreviousDialogListAsync(long senderId)
+        {
+            var response = await DoGet<IEnumerable<PreviousDirectMessageDialogItem>>($"chat/previousDialogList/{senderId}");
+
+            return response.IsSuccess ? response.ResponseData : Enumerable.Empty<PreviousDirectMessageDialogItem>();
         }
     }
 }

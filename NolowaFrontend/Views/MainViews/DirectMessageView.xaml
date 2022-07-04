@@ -5,22 +5,62 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:vuc="clr-namespace:NolowaFrontend.Views.UserControls"
              xmlns:local="clr-namespace:NolowaFrontend.Views.MainViews"
+             xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:designTime="clr-namespace:NolowaFrontend.Views"
              mc:Ignorable="d" Background="White"
              xmlns:vm="clr-namespace:NolowaFrontend.ViewModels"
              xmlns:view="clr-namespace:NolowaFrontend.Views.MainViews"
+             xmlns:ucv="clr-namespace:NolowaFrontend.Views.UserControls"
              d:DesignHeight="450" d:DesignWidth="400">
-    <Grid>
+    <UserControl.Resources>
+        <designTime:DirectMessageViewDesignTimeVM x:Key="DirectMessageViewDesignTimeVM"/>
+    </UserControl.Resources>
+
+    <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="Loaded">
+            <behaviors:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </behaviors:EventTrigger>
+    </behaviors:Interaction.Triggers>
+
+    <Grid>        
         <!-- 받은 쪽지가 있을 경우 -->
-        <ListBox>
+        <ListBox x:Name="previousDialogList" d:DataContext="{Binding Source={StaticResource DirectMessageViewDesignTimeVM}}"
+                 ItemsSource="{Binding PreviousDialogItems}"
+                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <vuc:DirectMessageItemView/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ucv:ProfileImageElipseView Grid.Column="0" VerticalAlignment="Top" Width="50" Height="50" Margin="5,5,10,0"
+                                                    User="{Binding User}"/>
+
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=User.AccountName, FallbackValue=pinnieminnie}" FontWeight="Bold" Margin="0,0,10,0"/>
+                                <TextBlock Text="{Binding Path=User.UserId, FallbackValue=@asdf}" Margin="0,0,10,0"/>
+                                <TextBlock Text="{Binding Time, FallbackValue=1시간}" Margin="0,0,10,0"/>
+                            </StackPanel>
+
+                            <TextBlock Grid.Row="1" Text="{Binding Message, FallbackValue=마지막에 보낸 메시지가 표시되는 공간입니다.}" 
+                                       TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight"  MaxHeight="33" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        
+
         <!-- 받은 쪽지 없을 때-->
-        <StackPanel Margin="30,0,0,0" VerticalAlignment="Center">
+        <StackPanel Margin="30,0,0,0" VerticalAlignment="Center" >
             <TextBlock Text="받은 쪽지함에 오신&#x0a;것을 환영합니다." FontSize="30" FontWeight="ExtraBold"/>
             <TextBlock Text="사용자들과 안부를 묻고 글을 공유하고 비공개 대화를 &#x0a;더 많이 나누세요." Foreground="LightGray" FontWeight="DemiBold"/>
 
@@ -31,6 +71,17 @@
                     </Style>
                 </Button.Resources>
             </Button>
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=previousDialogList, Path=Count}" Value="0">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
         </StackPanel>
+
     </Grid>
 </UserControl>

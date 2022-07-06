@@ -210,7 +210,19 @@ namespace NolowaFrontend.ViewModels
             get
             {
                 return GetRelayCommand(ref _directMessageCommand, _ => {
-                    MainView = new DirectMessageVM();
+                    var directMessageVM = new DirectMessageVM();
+
+                    directMessageVM.SelectDialog += (user) => {
+                        var directMessageSendVM = new DirectMessageSendVM(user);
+
+                        directMessageSendVM.CompleteHide += () => {
+                            DirectMessageSendViewModel = null;
+                        };
+
+                        DirectMessageSendViewModel = directMessageSendVM;
+                    };
+
+                    MainView = directMessageVM;
                 });
             }
         }

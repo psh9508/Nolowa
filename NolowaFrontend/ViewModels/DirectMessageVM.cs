@@ -25,6 +25,8 @@ namespace NolowaFrontend.ViewModels
 
     public class DirectMessageVM : ViewModelBase
     {
+        public event Action<User> SelectDialog;
+        
         private readonly ISignalRService _signalRService;
 
         #region Props
@@ -68,6 +70,22 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _writeDirectMessageCommand, _ => {
                     DirectMessageSendVM = new DirectMessageSendVM();
+                });
+            }
+        }
+
+        private ICommand _selectedItemChangedCommand;
+
+        public ICommand SelectedItemChangedCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _selectedItemChangedCommand, item =>
+                {
+                    if (item == null)
+                        return;
+
+                    SelectDialog?.Invoke(((PreviousDirectMessageDialogItem)item).User);
                 });
             }
         }

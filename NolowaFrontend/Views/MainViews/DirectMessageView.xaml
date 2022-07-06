@@ -28,6 +28,16 @@
                  ItemsSource="{Binding PreviousDialogItems}"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <behaviors:Interaction.Triggers>
+                <behaviors:EventTrigger EventName="SelectionChanged">
+                    <behaviors:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}"
+                                                   CommandParameter="{Binding ElementName=previousDialogList, Path=SelectedItem}"/>
+                </behaviors:EventTrigger>
+                <behaviors:EventTrigger EventName="PreviewMouseDown">
+                    <behaviors:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}"
+                                                   CommandParameter="{Binding ElementName=previousDialogList, Path=SelectedItem}"/>
+                </behaviors:EventTrigger>
+            </behaviors:Interaction.Triggers>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>

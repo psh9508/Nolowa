@@ -59,6 +59,16 @@
                             <behaviors:CallMethodAction TargetObject="{Binding}" MethodName="OnEnterSearch"/>
                         </behaviors:EventTrigger>
                     </behaviors:Interaction.Triggers>
+                    <uc:SearchTextBox.Style>
+                        <Style TargetType="uc:SearchTextBox">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSearchBarVisible}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </uc:SearchTextBox.Style>
                 </uc:SearchTextBox>
 
                 <Ellipse Grid.Column="2" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Fill="Red"/>

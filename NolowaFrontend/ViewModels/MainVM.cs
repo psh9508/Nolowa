@@ -41,6 +41,14 @@ namespace NolowaFrontend.ViewModels
             set { _posts = value; OnPropertyChanged(); }
         }
 
+        private bool _isSearchBarVisible;
+
+        public bool IsSearchBarVisible
+        {
+            get { return _isSearchBarVisible; }
+            set { _isSearchBarVisible = value; OnPropertyChanged(); }
+        }
+
         private object _makeTwitterView;
 
         public object MakeTwitterView
@@ -122,6 +130,8 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _twitterCommand, _ =>
                 {
+                    IsSearchBarVisible = false;
+
                     var makeTwitterView = new MakeTwitterView(_user);
                     PostView postView = null;
                     //Post post = null;
@@ -161,7 +171,9 @@ namespace NolowaFrontend.ViewModels
         {
             get
             {
-                return GetRelayCommand(ref _searchViewCommand, _ => {                   
+                return GetRelayCommand(ref _searchViewCommand, _ => {
+                    IsSearchBarVisible = true;
+
                     MainView = _searchView;
                 });
             }
@@ -175,6 +187,8 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _homeViewCommand, _ =>
                 {
+                    IsSearchBarVisible = false;
+                    
                     var twitterView = new TwitterView();
                     twitterView.ClickedProfileImage += (object sender, RoutedEventArgs e) =>
                     {
@@ -210,6 +224,9 @@ namespace NolowaFrontend.ViewModels
             get
             {
                 return GetRelayCommand(ref _directMessageCommand, _ => {
+
+                    IsSearchBarVisible = false;
+
                     var directMessageVM = new DirectMessageVM();
 
                     directMessageVM.SelectDialog += (user) => {
@@ -234,7 +251,9 @@ namespace NolowaFrontend.ViewModels
             get
             {
                 return GetRelayCommand(ref _directMessageSendViewCommand, text =>
-                {  
+                {
+                    IsSearchBarVisible = false;
+
                     var directMessageReceiverSelectVM = new DirectMessageReceiverSelectVM();
 
                     directMessageReceiverSelectVM.CompleteHide += () => {

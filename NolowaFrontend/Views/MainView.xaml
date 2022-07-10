@@ -107,7 +107,8 @@
         </DockPanel>
 
         <!-- 트위터 작성 연필 버튼 -->
-        <ucb:MainFunctionButton ImageSource="/Resources/Icons/pencil.png" Margin="0,0,20,90" >
+        <ucb:MainFunctionButton ImageSource="/Resources/Icons/pencil.png" Margin="0,0,20,90"
+                                ClickCommand="{Binding TwitterCommand}">
             <ucb:MainFunctionButton.Style>
                 <Style TargetType="ucb:MainFunctionButton">
                     <Style.Triggers>
@@ -120,7 +121,8 @@
         </ucb:MainFunctionButton>
         <!-- DM 작성 쪽지 버튼 -->
         <ucb:MainFunctionButton ImageSource="/NolowaFrontend;component/Resources/Icons/envelope.png" 
-                                ImageWidth="30" Margin="0,0,20,90">
+                                ImageWidth="30" Margin="0,0,20,90"
+                                ClickCommand="{Binding DirectMessageSendViewCommand}">
             <ucb:MainFunctionButton.Style>
                 <Style TargetType="ucb:MainFunctionButton">
                     <Setter Property="Visibility" Value="Collapsed"/>

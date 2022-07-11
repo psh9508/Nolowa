@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace NolowaFrontend.Extensions
 {
@@ -15,6 +16,11 @@ namespace NolowaFrontend.Extensions
             {
                 src.Add(item);
             }
+        }
+
+        public static void Refresh<T>(this ObservableCollection<T> src)
+        {
+            CollectionViewSource.GetDefaultView(src).Refresh();
         }
     }
 }

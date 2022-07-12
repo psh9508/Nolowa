@@ -5,6 +5,7 @@ using NolowaFrontend.Extensions;
 using NolowaFrontend.Models;
 using NolowaFrontend.Servicies;
 using NolowaFrontend.ViewModels.Base;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,6 +43,8 @@ namespace NolowaFrontend.ViewModels
 
     public class DirectMessageSendVM : ViewModelBase
     {
+        public event Action<long, string> ClickBackButton;
+
         private readonly HubConnection _hubConnection;
         private readonly ISignalRService _signalRService;
 
@@ -134,6 +137,9 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _backButtonCommand, _ =>
                 {
+                    // 마지막 대화를 리턴
+                    ClickBackButton?.Invoke(Dialog.Last().ReceiverId, Dialog.Last().Message);
+
                     IsHide = true;
                 });
             }

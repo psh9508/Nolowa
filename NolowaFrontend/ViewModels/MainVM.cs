@@ -220,6 +220,10 @@ namespace NolowaFrontend.ViewModels
                             DirectMessageSendViewModel = null;
                         };
 
+                        directMessageSendVM.ClickBackButton += (receiverId, message) => {
+                            directMessageVM.Refresh(receiverId, message);
+                        };
+
                         DirectMessageSendViewModel = directMessageSendVM;
                     };
 

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace NolowaFrontend.ViewModels
@@ -69,7 +70,14 @@ namespace NolowaFrontend.ViewModels
             get
             {
                 return GetRelayCommand(ref _writeDirectMessageCommand, _ => {
-                    DirectMessageSendVM = new DirectMessageSendVM();
+                    var dmSendVM = new DirectMessageSendVM();
+                    dmSendVM.ClickBackButton += (receiverId, message) => {
+                        PreviousDialogItems.Where(x => x.User.Id == receiverId)
+                                           .Single()
+                                           .Message = message;
+                    };
+
+                    DirectMessageSendVM = dmSendVM;
                 });
             }
         }
@@ -94,6 +102,15 @@ namespace NolowaFrontend.ViewModels
         public DirectMessageVM()
         {
             _signalRService = new SignalRService();
+        }
+
+        public void Refresh(long receiverId, string message)
+        {
+            PreviousDialogItems.Where(x => x.User.Id == receiverId)
+                               .Single()
+                               .Message = message;
+
+            PreviousDialogItems.Refresh();
         }
     }
 }

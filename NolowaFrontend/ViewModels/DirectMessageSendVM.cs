@@ -46,7 +46,7 @@ namespace NolowaFrontend.ViewModels
         public event Action<long, string> ClickBackButton;
 
         private readonly HubConnection _hubConnection;
-        private readonly ISignalRService _signalRService;
+        private readonly IDirectMessageService _signalRService;
 
         public User Receiver { get; set; }
 
@@ -98,7 +98,7 @@ namespace NolowaFrontend.ViewModels
                             ReceiverId = x.ReceiverId,
                             Message = x.Message,
                             Time = x.Time,
-                            IsMine = x.ReceiverId == AppConfiguration.LoginUser.Id,
+                            IsMine = x.SenderId == AppConfiguration.LoginUser.Id,
                         }).ToObservableCollection();
 
                         Dialog = dialogData;
@@ -137,8 +137,11 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _backButtonCommand, _ =>
                 {
+                    var lastDialog = Dialog.Last();
+
                     // 마지막 대화를 리턴
-                    ClickBackButton?.Invoke(Dialog.Last().ReceiverId, Dialog.Last().Message);
+                    if(lastDialog.IsNotNull())
+                        ClickBackButton?.Invoke(lastDialog.ReceiverId, lastDialog.Message);
 
                     IsHide = true;
                 });
@@ -148,7 +151,7 @@ namespace NolowaFrontend.ViewModels
 
         public DirectMessageSendVM()
         {
-            _signalRService = new SignalRService();
+            _signalRService = new DirectMessageService();
 
             _hubConnection = new HubConnectionBuilder()
                 .WithUrl("https://localhost:5001/DirectMessage")

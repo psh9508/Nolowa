@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace NolowaFrontend.Servicies
 {
-    public interface ISignalRService
+    public interface IDirectMessageService
     {
         Task<IEnumerable<DirectMessageDialogItem>> GetDialog(long senderId, long receiverId);
         Task<IEnumerable<PreviousDirectMessageDialogItem>> GetPreviousDialogListAsync(long senderId);
     }
 
-    public class SignalRService : ServiceBase, ISignalRService
+    public class DirectMessageService : ServiceBase, IDirectMessageService
     {
-        public override string ParentEndPoint => "SignalR";
+        public override string ParentEndPoint => "DirectMessage";
 
         public async Task<IEnumerable<DirectMessageDialogItem>> GetDialog(long senderId, long receiverId)
         {

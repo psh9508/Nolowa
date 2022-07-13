@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using Newtonsoft.Json;
 using NolowaFrontend.Core;
 using NolowaFrontend.Extensions;
 using NolowaFrontend.Models;
@@ -28,7 +29,7 @@ namespace NolowaFrontend.ViewModels
     {
         public event Action<User> SelectDialog;
         
-        private readonly ISignalRService _signalRService;
+        private readonly IDirectMessageService _directMessageService;
 
         #region Props
         private DirectMessageSendVM _directMessageSendVM;
@@ -57,7 +58,7 @@ namespace NolowaFrontend.ViewModels
             get
             {
                 return GetRelayCommand(ref _loadedCommand, async _ => {
-                    var response = await _signalRService.GetPreviousDialogListAsync(AppConfiguration.LoginUser.Id);
+                    var response = await _directMessageService.GetPreviousDialogListAsync(AppConfiguration.LoginUser.Id);
                     PreviousDialogItems = response.ToObservableCollection();
                 });
             }
@@ -101,7 +102,7 @@ namespace NolowaFrontend.ViewModels
 
         public DirectMessageVM()
         {
-            _signalRService = new SignalRService();
+            _directMessageService = new DirectMessageService();
         }
 
         public void Refresh(long receiverId, string message)

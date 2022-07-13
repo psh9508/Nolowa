@@ -20,6 +20,7 @@ using NolowaFrontend.Models.Events;
 using System.Windows;
 using NolowaFrontend.Views;
 using System.Windows.Controls;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace NolowaFrontend.ViewModels
 {
@@ -28,6 +29,7 @@ namespace NolowaFrontend.ViewModels
         private readonly User _user;
         private readonly IPostService _service;
         private readonly ISearchService _searchService;
+        private readonly HubConnection _hubConnection;
         private readonly SearchView _searchView;
 
         public string ProfileImageSource => _user.ProfileImageFile;
@@ -281,7 +283,14 @@ namespace NolowaFrontend.ViewModels
 
             AppConfiguration.LoginUser = user;
 
-            _user = user;
+            _hubConnection = new HubConnectionBuilder()
+               .WithUrl("https://localhost:5001/NolowaSocket")
+               .WithAutomaticReconnect()
+               .Build();
+
+            InitializeSignalREvents();
+
+             _user = user;
             _service = new PostService();
             _searchService = new SearchService();
             _searchView = new SearchView();
@@ -301,6 +310,13 @@ namespace NolowaFrontend.ViewModels
             };
 
             LoadedEventCommand.Execute(null);
+        }
+
+        private void InitializeSignalREvents()
+        {
+            _hubConnection.StartAsync();
+
+            _hubConnection.SendAsync("Login", AppConfiguration.LoginUser.Id);
         }
 
         public async void OnTimerSearch(object sender, StringRoutedEventArgs e)

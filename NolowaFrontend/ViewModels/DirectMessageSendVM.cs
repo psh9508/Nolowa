@@ -46,7 +46,7 @@ namespace NolowaFrontend.ViewModels
         public event Action<long, string> ClickBackButton;
 
         private readonly HubConnection _hubConnection;
-        private readonly IDirectMessageService _signalRService;
+        private readonly IDirectMessageService _directMessageService;
 
         public User Receiver { get; set; }
 
@@ -88,7 +88,7 @@ namespace NolowaFrontend.ViewModels
 
                     Dialog.Clear();
 
-                    var dialogResponse = await _signalRService.GetDialog(AppConfiguration.LoginUser.Id, Receiver.Id);
+                    var dialogResponse = await _directMessageService.GetDialog(AppConfiguration.LoginUser.Id, Receiver.Id);
 
                     if (dialogResponse.Count() > 0)
                     {
@@ -151,16 +151,15 @@ namespace NolowaFrontend.ViewModels
 
         public DirectMessageSendVM()
         {
-            _signalRService = new DirectMessageService();
+            _directMessageService = new DirectMessageService();
 
             _hubConnection = new HubConnectionBuilder()
-                .WithUrl("https://localhost:5001/DirectMessage")
+                .WithUrl("https://localhost:5001/NolowaSocket")
                 .WithAutomaticReconnect()
                 .Build();
 
-            _hubConnection.On("ReceiveDirectMessage", (long senderId, long receiveId, string message, string time) =>
-            {
-                System.Windows.Application.Current.Dispatcher.Invoke(() => {
+            _hubConnection.On("ReceiveDirectMessage", (long senderId, long receiveId, string message, string time) => {
+                Application.Current.Dispatcher.Invoke(() => {
                     Dialog.Add(new DirectMessageDialogItem()
                     {
                         SenderId = senderId,

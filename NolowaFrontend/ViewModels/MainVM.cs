@@ -29,7 +29,6 @@ namespace NolowaFrontend.ViewModels
         private readonly User _user;
         private readonly IPostService _service;
         private readonly ISearchService _searchService;
-        private readonly HubConnection _hubConnection;
         private readonly SearchView _searchView;
 
         public string ProfileImageSource => _user.ProfileImageFile;
@@ -283,12 +282,7 @@ namespace NolowaFrontend.ViewModels
 
             AppConfiguration.LoginUser = user;
 
-            _hubConnection = new HubConnectionBuilder()
-               .WithUrl("https://localhost:5001/NolowaSocket")
-               .WithAutomaticReconnect()
-               .Build();
-
-            InitializeSignalREvents();
+            var _ = NolowaHubConnection.Instance.InitializeAsync();
 
              _user = user;
             _service = new PostService();
@@ -310,13 +304,6 @@ namespace NolowaFrontend.ViewModels
             };
 
             LoadedEventCommand.Execute(null);
-        }
-
-        private void InitializeSignalREvents()
-        {
-            _hubConnection.StartAsync();
-
-            _hubConnection.SendAsync("Login", AppConfiguration.LoginUser.Id);
         }
 
         public async void OnTimerSearch(object sender, StringRoutedEventArgs e)

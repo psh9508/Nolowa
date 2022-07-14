@@ -45,7 +45,6 @@ namespace NolowaFrontend.ViewModels
     {
         public event Action<long, string> ClickBackButton;
 
-        private readonly HubConnection _hubConnection;
         private readonly IDirectMessageService _directMessageService;
 
         public User Receiver { get; set; }
@@ -83,9 +82,6 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _loadedCommand, async _ =>
                 {
-                    if (_hubConnection.State != HubConnectionState.Connected)
-                        await InitializeHubAsync();
-
                     Dialog.Clear();
 
                     var dialogResponse = await _directMessageService.GetDialog(AppConfiguration.LoginUser.Id, Receiver.Id);
@@ -121,10 +117,7 @@ namespace NolowaFrontend.ViewModels
                     string message = Message;
                     Message = string.Empty;
 
-                    if (_hubConnection.State != HubConnectionState.Connected)
-                        await InitializeHubAsync();
-
-                    await _hubConnection.SendAsync("SendMessage", AppConfiguration.LoginUser.Id, Receiver.Id, message);
+                    await NolowaHubConnection.Instance.SendMessageAsync(AppConfiguration.LoginUser.Id, Receiver.Id, message);
                 });
             }
         }
@@ -153,12 +146,7 @@ namespace NolowaFrontend.ViewModels
         {
             _directMessageService = new DirectMessageService();
 
-            _hubConnection = new HubConnectionBuilder()
-                .WithUrl("https://localhost:5001/NolowaSocket")
-                .WithAutomaticReconnect()
-                .Build();
-
-            _hubConnection.On("ReceiveDirectMessage", (long senderId, long receiveId, string message, string time) => {
+            NolowaHubConnection.Instance.OnReceiveDirectMessage += (long senderId, long receiveId, string message, string time) => {
                 Application.Current.Dispatcher.Invoke(() => {
                     Dialog.Add(new DirectMessageDialogItem()
                     {
@@ -169,18 +157,12 @@ namespace NolowaFrontend.ViewModels
                         IsMine = senderId == AppConfiguration.LoginUser.Id,
                     });
                 });
-            });
+            };
         }
 
         public DirectMessageSendVM(User receiver) : this()
         {
             Receiver = receiver;
-        }
-
-        private async Task InitializeHubAsync()
-        {
-            await _hubConnection.StartAsync();
-            await _hubConnection.SendAsync("Login", AppConfiguration.LoginUser.Id);
         }
     }
 }

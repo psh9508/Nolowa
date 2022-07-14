@@ -121,25 +121,6 @@ namespace NolowaFrontend.ViewModels
                 });
             }
         }
-
-        private ICommand _backButtonCommand;
-
-        public ICommand BackButtonCommand
-        {
-            get
-            {
-                return GetRelayCommand(ref _backButtonCommand, _ =>
-                {
-                    var lastDialog = Dialog.Last();
-
-                    // 마지막 대화를 리턴
-                    if(lastDialog.IsNotNull())
-                        ClickBackButton?.Invoke(lastDialog.ReceiverId, lastDialog.Message);
-
-                    IsHide = true;
-                });
-            }
-        } 
         #endregion
 
         public DirectMessageSendVM()

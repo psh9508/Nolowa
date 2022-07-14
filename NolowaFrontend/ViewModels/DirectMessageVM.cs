@@ -103,6 +103,21 @@ namespace NolowaFrontend.ViewModels
         public DirectMessageVM()
         {
             _directMessageService = new DirectMessageService();
+
+            NolowaHubConnection.Instance.OnReceiveDirectMessage += (long senderId, long receiveId, string message, string time) => {
+
+                var dialog = PreviousDialogItems.Where(x => x.User.Id == receiveId).SingleOrDefault();
+
+                if(dialog.IsNull())
+                {
+                    // 대화 추가
+                }
+                else
+                {
+                    dialog.Message = message;
+                    PreviousDialogItems.Refresh();
+                }
+            };
         }
 
         public void Refresh(long receiverId, string message)

@@ -34,6 +34,14 @@ namespace NolowaFrontend.ViewModels
         public string ProfileImageSource => _user.ProfileImageFile;
         public User User => _user;
 
+        private int _messageCount;
+
+        public int MessageCount
+        {
+            get { return _messageCount; }
+            set { _messageCount = value; OnPropertyChanged(); }
+        }
+
         private ObservableCollection<PostView> _posts = new ObservableCollection<PostView>();
 
         public ObservableCollection<PostView> Posts
@@ -229,6 +237,7 @@ namespace NolowaFrontend.ViewModels
                     };
 
                     MainView = directMessageVM;
+                    MessageCount = 0;
                 });
             }
         }
@@ -284,7 +293,11 @@ namespace NolowaFrontend.ViewModels
 
             var _ = NolowaHubConnection.Instance.InitializeAsync();
 
-             _user = user;
+            NolowaHubConnection.Instance.OnReceiveDirectMessage += (long senderId, long receiveId, string message, string time) => {
+                MessageCount += 1;
+            };
+
+            _user = user;
             _service = new PostService();
             _searchService = new SearchService();
             _searchView = new SearchView();

@@ -23,6 +23,7 @@ namespace NolowaFrontend.ViewModels
         public User User { get; set; }
         public string Time { get; set; } = string.Empty;
         public string Message { get; set; } = string.Empty;
+        public int NewMessageCount { get; set; }
     }
 
     public class DirectMessageVM : ViewModelBase
@@ -115,6 +116,8 @@ namespace NolowaFrontend.ViewModels
                 else
                 {
                     dialog.Message = message;
+                    dialog.NewMessageCount++;
+
                     PreviousDialogItems.Refresh();
                 }
             };

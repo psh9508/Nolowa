@@ -44,6 +44,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
 
                         <ucv:ProfileImageElipseView Grid.Column="0" VerticalAlignment="Top" Width="50" Height="50" Margin="5,5,10,0"
@@ -63,13 +64,31 @@
 
                             <TextBlock Grid.Row="1" Text="{Binding Message, FallbackValue=마지막에 보낸 메시지가 표시되는 공간입니다.}" 
                                        TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight"  MaxHeight="33" VerticalAlignment="Center"/>
+
+                            <Border Background="Red" CornerRadius="100" Width="22" Height="22" IsHitTestVisible="False" 
+                                    Grid.Column="2" Grid.RowSpan="2" HorizontalAlignment="Right">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding MessageCount, FallbackValue=0, TargetNullValue=0}" Value="0">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ElementName=btnDirectMessage, Path=IsChecked}" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <TextBlock Text="{Binding NewMessageCount}" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                    FontWeight="SemiBold" Foreground="White"/>
+                            </Border>
                         </Grid>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <!-- 받은 쪽지 없을 때-->
+        <!-- 받은 쪽지 없을 때 -->
         <StackPanel Margin="30,0,0,0" VerticalAlignment="Center" >
             <TextBlock Text="받은 쪽지함에 오신&#x0a;것을 환영합니다." FontSize="30" FontWeight="ExtraBold"/>
             <TextBlock Text="사용자들과 안부를 묻고 글을 공유하고 비공개 대화를 &#x0a;더 많이 나누세요." Foreground="LightGray" FontWeight="DemiBold"/>

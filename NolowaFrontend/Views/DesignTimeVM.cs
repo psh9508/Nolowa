@@ -155,6 +155,7 @@ namespace NolowaFrontend.Views
                 },
                 Message = "그 레이더는 실패했다.",
                 Time = "1시간",
+                NewMessageCount = 1,
             });
 
             PreviousDialogItems.Add(new PreviousDirectMessageDialogItem()
@@ -191,6 +192,7 @@ namespace NolowaFrontend.Views
                 },
                 Message = "음악이야말로 세상에서 나에게 영감을 줄 수 있는 것 중 가장 강력한 것일 것이다. 나에게 음악을 허락하라!",
                 Time = "1시간",
+                NewMessageCount = 5,
             });
         }
     }

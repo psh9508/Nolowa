@@ -11,6 +11,7 @@
              xmlns:vm="clr-namespace:NolowaFrontend.ViewModels"
              xmlns:view="clr-namespace:NolowaFrontend.Views.MainViews"
              xmlns:ucv="clr-namespace:NolowaFrontend.Views.UserControls"
+             x:Name="_this"
              d:DesignHeight="450" d:DesignWidth="400">
     <UserControl.Resources>
         <designTime:DirectMessageViewDesignTimeVM x:Key="DirectMessageViewDesignTimeVM"/>
@@ -56,33 +57,30 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Path=User.AccountName, FallbackValue=pinnieminnie}" FontWeight="Bold" Margin="0,0,10,0"/>
-                                <TextBlock Text="{Binding Path=User.UserId, FallbackValue=@asdf}" Margin="0,0,10,0"/>
+                            <StackPanel Grid.Row="0"  Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=User.AccountName}" FontWeight="Bold" Margin="0,0,10,0"/>
+                                <TextBlock Text="{Binding Path=User.UserId}" Margin="0,0,10,0"/>
                                 <TextBlock Text="{Binding Time, FallbackValue=1시간}" Margin="0,0,10,0"/>
                             </StackPanel>
 
-                            <TextBlock Grid.Row="1" Text="{Binding Message, FallbackValue=마지막에 보낸 메시지가 표시되는 공간입니다.}" 
-                                       TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight"  MaxHeight="33" VerticalAlignment="Center"/>
-
-                            <Border Background="Red" CornerRadius="100" Width="22" Height="22" IsHitTestVisible="False" 
-                                    Grid.Column="2" Grid.RowSpan="2" HorizontalAlignment="Right">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding MessageCount, FallbackValue=0, TargetNullValue=0}" Value="0">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ElementName=btnDirectMessage, Path=IsChecked}" Value="True">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                                <TextBlock Text="{Binding NewMessageCount}" VerticalAlignment="Center" HorizontalAlignment="Center" 
-                                    FontWeight="SemiBold" Foreground="White"/>
-                            </Border>
+                            <TextBlock Grid.Row="1" Text="{Binding Message}" TextWrapping="Wrap" Width="{Binding ElementName=_this, Path=ActualWidth}"
+                                       LineStackingStrategy="BlockLineHeight"  MaxHeight="33" VerticalAlignment="Center"/>
                         </Grid>
+
+                        <Border Background="Red" CornerRadius="100" Width="22" Height="22" IsHitTestVisible="False" 
+                            Grid.Column="2" Grid.RowSpan="2">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding NewMessageCount, FallbackValue=0, TargetNullValue=0}" Value="0">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <TextBlock Text="{Binding NewMessageCount}" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                       FontWeight="SemiBold" Foreground="White"/>
+                        </Border>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

@@ -102,7 +102,7 @@
                 <Style TargetType="StackPanel">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=previousDialogList, Path=Count}" Value="0">
+                        <DataTrigger Binding="{Binding PreviousDialogItems.Count}" Value="0">
                             <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                     </Style.Triggers>

@@ -105,18 +105,21 @@ namespace NolowaFrontend.ViewModels
         {
             _directMessageService = new DirectMessageService();
 
-            NolowaHubConnection.Instance.OnReceiveDirectMessage += (long senderId, long receiveId, string message, string time) => {
-
-                var dialog = PreviousDialogItems.Where(x => x.User.Id == receiveId).SingleOrDefault();
-
-                if(dialog.IsNull())
+            NolowaHubConnection.Instance.OnReceiveDirectMessage += (long senderId, long receiveId, string message, string time) => 
+            {
+                var dialog = PreviousDialogItems.Where(x => (x.User.Id == receiveId || x.User.Id == senderId)
+                                                          && x.User.Id != AppConfiguration.LoginUser.Id)
+                                                .SingleOrDefault();
+                if (dialog.IsNull())
                 {
                     // 대화 추가
                 }
                 else
                 {
                     dialog.Message = message;
-                    dialog.NewMessageCount++;
+
+                    if(senderId != AppConfiguration.LoginUser.Id)
+                        dialog.NewMessageCount++;
 
                     PreviousDialogItems.Refresh();
                 }

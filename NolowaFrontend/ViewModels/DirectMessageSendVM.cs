@@ -134,6 +134,19 @@ namespace NolowaFrontend.ViewModels
                 });
             }
         }
+
+        private ICommand _pressEnterKeyCommand;
+
+        public ICommand PressEnterKeyCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _pressEnterKeyCommand, _ =>
+                {
+                    SendDirectMessageCommand.Execute(null);
+                });
+            }
+        }
         #endregion
 
         public DirectMessageSendVM()

@@ -149,7 +149,11 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Text="{Binding Message, FallbackValue=쪽지 작성하기}" VerticalContentAlignment="Center" FontSize="13"/>
+            <TextBox Text="{Binding Message, UpdateSourceTrigger=PropertyChanged, FallbackValue=쪽지 작성하기}" VerticalContentAlignment="Center" FontSize="13">
+                <TextBox.InputBindings>
+                    <KeyBinding Command="{Binding PressEnterKeyCommand}" Key="Return"/>
+                </TextBox.InputBindings>
+            </TextBox>
             <uc:MainManuToggleButton Grid.Column="1"
                                      Width="35"
                                      Margin="5,10,5,5"

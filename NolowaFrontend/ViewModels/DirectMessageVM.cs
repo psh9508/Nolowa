@@ -28,7 +28,7 @@ namespace NolowaFrontend.ViewModels
 
     public class DirectMessageVM : ViewModelBase
     {
-        public event Action<User> SelectDialog;
+        public event Action<User, int> SelectDialog;
         
         private readonly IDirectMessageService _directMessageService;
 
@@ -76,7 +76,9 @@ namespace NolowaFrontend.ViewModels
                     dmSendVM.ClickBackButton += (receiverId, message) => {
                         PreviousDialogItems.Where(x => x.User.Id == receiverId)
                                            .Single()
-                                           .Message = message;
+                                           .NewMessageCount = 0;
+
+                        PreviousDialogItems.Refresh();
                     };
 
                     DirectMessageSendVM = dmSendVM;
@@ -90,12 +92,21 @@ namespace NolowaFrontend.ViewModels
         {
             get
             {
-                return GetRelayCommand(ref _selectedItemChangedCommand, item =>
+                return GetRelayCommand(ref _selectedItemChangedCommand, selectedItem =>
                 {
-                    if (item == null)
-                        return;
+                    var viewItem = selectedItem as PreviousDirectMessageDialogItem;
 
-                    SelectDialog?.Invoke(((PreviousDirectMessageDialogItem)item).User);
+                    if (viewItem.IsNull())
+                        return;
+                                         
+                    if (SelectDialog.IsNotNull())
+                    {
+                        SelectDialog.Invoke(viewItem.User, viewItem.NewMessageCount);
+
+                        viewItem.NewMessageCount = 0;
+
+                        PreviousDialogItems.Refresh();
+                    }
                 });
             }
         }

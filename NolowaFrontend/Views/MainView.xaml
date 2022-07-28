@@ -103,16 +103,13 @@
                     <Border.Style>
                         <Style TargetType="Border">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding MessageCount, FallbackValue=0, TargetNullValue=0}" Value="0">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding ElementName=btnDirectMessage, Path=IsChecked}" Value="True">
+                                <DataTrigger Binding="{Binding UnreadMessageCount, FallbackValue=0, TargetNullValue=0}" Value="0">
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </Border.Style>
-                    <TextBlock Text="{Binding MessageCount}" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                    <TextBlock Text="{Binding UnreadMessageCount}" VerticalAlignment="Center" HorizontalAlignment="Center" 
                                     FontWeight="SemiBold" Foreground="White"/>
                 </Border>
             </Grid>

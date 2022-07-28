@@ -29,17 +29,18 @@ namespace NolowaFrontend.ViewModels
         private readonly User _user;
         private readonly IPostService _service;
         private readonly ISearchService _searchService;
+        private readonly IDirectMessageService _directMessageService;
         private readonly SearchView _searchView;
 
         public string ProfileImageSource => _user.ProfileImageFile;
         public User User => _user;
 
-        private int _messageCount;
+        private int _unreadMessageCount;
 
-        public int MessageCount
+        public int UnreadMessageCount
         {
-            get { return _messageCount; }
-            set { _messageCount = value; OnPropertyChanged(); }
+            get { return _unreadMessageCount; }
+            set { _unreadMessageCount = value; OnPropertyChanged(); }
         }
 
         private ObservableCollection<PostView> _posts = new ObservableCollection<PostView>();
@@ -117,11 +118,13 @@ namespace NolowaFrontend.ViewModels
                 {
                     await CachingProfileImageFileToLocal();
                     await LoadPostsAsync();
+                    await SetUnreadMessageCount();
 
                     HomeViewCommand?.Execute(null);
                 });
             }
         }
+
 
         private ICommand _twitterCommand;
 
@@ -222,7 +225,7 @@ namespace NolowaFrontend.ViewModels
 
                     var directMessageVM = new DirectMessageVM();
 
-                    directMessageVM.SelectDialog += (user) => {
+                    directMessageVM.SelectDialog += (user, readMessageCount) => {
                         var directMessageSendVM = new DirectMessageSendVM(user);
 
                         directMessageSendVM.CompleteHide += () => {
@@ -233,11 +236,12 @@ namespace NolowaFrontend.ViewModels
                             directMessageVM.Refresh(receiverId, message);
                         };
 
+                        UnreadMessageCount -= readMessageCount;
+
                         DirectMessageSendViewModel = directMessageSendVM;
                     };
 
                     MainView = directMessageVM;
-                    MessageCount = 0;
                 });
             }
         }
@@ -291,15 +295,17 @@ namespace NolowaFrontend.ViewModels
 
             AppConfiguration.LoginUser = user;
 
-            var _ = NolowaHubConnection.Instance.InitializeAsync();
+            _ = NolowaHubConnection.Instance.InitializeAsync();
 
             NolowaHubConnection.Instance.OnReceiveDirectMessage += (long senderId, long receiveId, string message, string time) => {
-                MessageCount += 1;
+                UnreadMessageCount += 1;
             };
 
             _user = user;
             _service = new PostService();
             _searchService = new SearchService();
+            _directMessageService = new DirectMessageService();
+
             _searchView = new SearchView();
             _searchView.ClickedProfileImage += (object sender, RoutedEventArgs e) =>
             {
@@ -334,6 +340,11 @@ namespace NolowaFrontend.ViewModels
 
             if (posts.ResponseData.Count() > 0)
                 Posts.AddRange(posts.ResponseData.Select(x => new PostView(x)));
+        }
+
+        private async Task SetUnreadMessageCount()
+        {
+            UnreadMessageCount = await _directMessageService.GetUnreadMessageCount(AppConfiguration.LoginUser.Id);
         }
 
         private async Task CachingProfileImageFileToLocal()

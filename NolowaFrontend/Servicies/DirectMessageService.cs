@@ -10,6 +10,7 @@ namespace NolowaFrontend.Servicies
     {
         Task<IEnumerable<DirectMessageDialogItem>> GetDialog(long senderId, long receiverId);
         Task<IEnumerable<PreviousDirectMessageDialogItem>> GetPreviousDialogListAsync(long senderId);
+        Task<int> GetUnreadMessageCount(long userId);
     }
 
     public class DirectMessageService : ServiceBase, IDirectMessageService
@@ -28,6 +29,13 @@ namespace NolowaFrontend.Servicies
             var response = await DoGet<IEnumerable<PreviousDirectMessageDialogItem>>($"chat/previousDialogList/{senderId}");
 
             return response.IsSuccess ? response.ResponseData : Enumerable.Empty<PreviousDirectMessageDialogItem>();
+        }
+
+        public async Task<int> GetUnreadMessageCount(long userId)
+        {
+            var response = await DoGet<int>($"chat/unreadmessagecount/{userId}");
+
+            return response.IsSuccess ? response.ResponseData : 0;
         }
     }
 }

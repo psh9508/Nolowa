@@ -156,11 +156,8 @@ namespace NolowaFrontend.Controls
 
         private bool ValidateImageSize(Stream fileStream)
         {
-            // is More than 2MB?
-            if (fileStream.Length > 2097152)
-                return false;
-
-            return true;
+            // Is More than 2MB?
+            return fileStream.Length > 2097152;
         }
 
         private async void ProfileImageButton_Click(object sender, RoutedEventArgs e)

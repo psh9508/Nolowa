@@ -14,6 +14,7 @@ namespace NolowaFrontend.Core
         public static NolowaHubConnection Instance { get { return _instance.Value; } }
 
         private event Action<long, long, string, string> _onReceiveDirectMessage;
+        private event Action<int> _onReadMessage;
 
         private readonly HubConnection _hubConnection;
         private object _lockObject = new object();
@@ -33,6 +34,25 @@ namespace NolowaFrontend.Core
                 lock(_lockObject)
                 {
                     _onReceiveDirectMessage -= value;
+                }
+            }
+        }
+
+        public event Action<int> OnReadMessage
+        {
+            add
+            {
+                lock (_lockObject)
+                {
+                    _onReadMessage -= value;
+                    _onReadMessage += value;
+                }
+            }
+            remove
+            {
+                lock (_lockObject)
+                {
+                    _onReadMessage -= value;
                 }
             }
         }
@@ -60,6 +80,10 @@ namespace NolowaFrontend.Core
 
             _hubConnection.On("ReceiveDirectMessage", (long senderId, long receiveId, string message, string time) => {
                 _onReceiveDirectMessage.Invoke(senderId, receiveId, message, time);
+            });
+
+            _hubConnection.On("ReadMessage", (int unreadMessageCount) => {
+                _onReadMessage.Invoke(unreadMessageCount);
             });
         }
 

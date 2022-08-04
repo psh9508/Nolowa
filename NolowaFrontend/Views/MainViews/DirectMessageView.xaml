@@ -11,6 +11,7 @@
              xmlns:vm="clr-namespace:NolowaFrontend.ViewModels"
              xmlns:view="clr-namespace:NolowaFrontend.Views.MainViews"
              xmlns:ucv="clr-namespace:NolowaFrontend.Views.UserControls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              x:Name="_this"
              d:DesignHeight="450" d:DesignWidth="400">
     <UserControl.Resources>
@@ -23,7 +24,7 @@
         </behaviors:EventTrigger>
     </behaviors:Interaction.Triggers>
 
-    <Grid>        
+    <Grid>
         <!-- 받은 쪽지가 있을 경우 -->
         <ListBox x:Name="previousDialogList" d:DataContext="{Binding Source={StaticResource DirectMessageViewDesignTimeVM}}"
                  ItemsSource="{Binding PreviousDialogItems}"
@@ -102,13 +103,29 @@
                 <Style TargetType="StackPanel">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding PreviousDialogItems.Count}" Value="0">
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsDataLoaded}" Value="True"/>
+                                <Condition Binding="{Binding PreviousDialogItems.Count}" Value="0"/>
+                            </MultiDataTrigger.Conditions>
                             <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
+                        </MultiDataTrigger>
                     </Style.Triggers>
                 </Style>
             </StackPanel.Style>
         </StackPanel>
 
+        <!-- 기본 로딩 화면 -->
+        <fa:ImageAwesome Icon="CircleOutlineNotch" Spin="True" Height="30">
+            <fa:ImageAwesome.Style>
+                <Style TargetType="fa:ImageAwesome">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsDataLoaded}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </fa:ImageAwesome.Style>
+        </fa:ImageAwesome>
     </Grid>
 </UserControl>

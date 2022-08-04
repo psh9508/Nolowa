@@ -49,6 +49,14 @@ namespace NolowaFrontend.ViewModels
             set { _previousDialogItems = value; OnPropertyChanged(); }
         }
 
+        private bool _isDataLoaded;
+
+        public bool IsDataLoaded
+        {
+            get { return _isDataLoaded; }
+            set { _isDataLoaded = value; OnPropertyChanged(); }
+        }
+
         #endregion
 
         #region Commands
@@ -59,8 +67,15 @@ namespace NolowaFrontend.ViewModels
             get
             {
                 return GetRelayCommand(ref _loadedCommand, async _ => {
-                    var response = await _directMessageService.GetPreviousDialogListAsync(AppConfiguration.LoginUser.Id);
-                    PreviousDialogItems = response.ToObservableCollection();
+                    try
+                    {
+                        var response = await _directMessageService.GetPreviousDialogListAsync(AppConfiguration.LoginUser.Id);
+                        PreviousDialogItems = response.ToObservableCollection();
+                    }
+                    finally
+                    {
+                        IsDataLoaded = true;
+                    }
                 });
             }
         }

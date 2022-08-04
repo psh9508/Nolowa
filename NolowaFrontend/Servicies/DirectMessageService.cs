@@ -11,6 +11,7 @@ namespace NolowaFrontend.Servicies
         Task<IEnumerable<DirectMessageDialogItem>> GetDialog(long senderId, long receiverId);
         Task<IEnumerable<PreviousDirectMessageDialogItem>> GetPreviousDialogListAsync(long senderId);
         Task<int> GetUnreadMessageCount(long userId);
+        Task<int> SetReadAllMessageAsync(long senderId, long receiverId);
     }
 
     public class DirectMessageService : ServiceBase, IDirectMessageService
@@ -34,6 +35,18 @@ namespace NolowaFrontend.Servicies
         public async Task<int> GetUnreadMessageCount(long userId)
         {
             var response = await DoGet<int>($"chat/unreadmessagecount/{userId}");
+
+            return response.IsSuccess ? response.ResponseData : 0;
+        }
+
+        public async Task<int> SetReadAllMessageAsync(long senderId, long receiverId)
+        {
+            string param = Newtonsoft.Json.JsonConvert.SerializeObject(new {
+                senderId = senderId,
+                receiverId = receiverId,
+            });
+
+            var response = await DoPatch<int>($"chat/dialog/readmessage", param);
 
             return response.IsSuccess ? response.ResponseData : 0;
         }

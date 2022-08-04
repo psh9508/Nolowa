@@ -43,7 +43,7 @@ namespace NolowaFrontend.ViewModels
 
     public class DirectMessageSendVM : ViewModelBase
     {
-        public event Action<long, string> ClickBackButton;
+        public event Action<long> ClickBackButton;
 
         private readonly IDirectMessageService _directMessageService;
 
@@ -128,8 +128,12 @@ namespace NolowaFrontend.ViewModels
         {
             get
             {
-                return GetRelayCommand(ref _backButtonCommand, _ =>
+                return GetRelayCommand(ref _backButtonCommand, async _ =>
                 {
+                    var readMessageCount = await _directMessageService.SetReadAllMessageAsync(AppConfiguration.LoginUser.Id, Receiver.Id);
+
+                    ClickBackButton?.Invoke(Receiver.Id);
+
                     IsHide = true;
                 });
             }

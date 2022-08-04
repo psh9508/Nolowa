@@ -28,7 +28,7 @@ namespace NolowaFrontend.ViewModels
 
     public class DirectMessageVM : ViewModelBase
     {
-        public event Action<User, int> SelectDialog;
+        public event Action<User> SelectDialog;
         
         private readonly IDirectMessageService _directMessageService;
 
@@ -80,27 +80,6 @@ namespace NolowaFrontend.ViewModels
             }
         }
 
-        private ICommand _writeDirectMessageCommand;
-
-        public ICommand WriteDirectMessageCommand
-        {
-            get
-            {
-                return GetRelayCommand(ref _writeDirectMessageCommand, _ => {
-                    var dmSendVM = new DirectMessageSendVM();
-                    dmSendVM.ClickBackButton += (receiverId, message) => {
-                        PreviousDialogItems.Where(x => x.User.Id == receiverId)
-                                           .Single()
-                                           .NewMessageCount = 0;
-
-                        PreviousDialogItems.Refresh();
-                    };
-
-                    DirectMessageSendVM = dmSendVM;
-                });
-            }
-        }
-
         private ICommand _selectedItemChangedCommand;
 
         public ICommand SelectedItemChangedCommand
@@ -116,7 +95,7 @@ namespace NolowaFrontend.ViewModels
                                          
                     if (SelectDialog.IsNotNull())
                     {
-                        SelectDialog.Invoke(viewItem.User, viewItem.NewMessageCount);
+                        SelectDialog.Invoke(viewItem.User);
 
                         viewItem.NewMessageCount = 0;
 
@@ -152,11 +131,11 @@ namespace NolowaFrontend.ViewModels
             };
         }
 
-        public void Refresh(long receiverId, string message)
+        public void RemoveNewMessageCount(long userId)
         {
-            PreviousDialogItems.Where(x => x.User.Id == receiverId)
+            PreviousDialogItems.Where(x => x.User.Id == userId)
                                .Single()
-                               .Message = message;
+                               .NewMessageCount = 0;
 
             PreviousDialogItems.Refresh();
         }

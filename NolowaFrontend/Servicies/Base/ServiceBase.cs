@@ -28,8 +28,9 @@ namespace NolowaFrontend.Servicies.Base
 
         public ServiceBase()
         {
-            if(_httpClient.BaseAddress == null)
+            if (_httpClient.BaseAddress == null)
             {
+                //_httpClient.BaseAddress = new Uri("http://127.0.0.1:5000/");
                 _httpClient.BaseAddress = new Uri("https://localhost:5001/");
                 _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             }
@@ -48,7 +49,7 @@ namespace NolowaFrontend.Servicies.Base
             }
             catch (Exception ex)
             {
-                
+
             }
         }
 
@@ -111,6 +112,38 @@ namespace NolowaFrontend.Servicies.Base
                 SetJWTToken();
 
                 var result = await _httpClient.PutAsJsonAsync($"{ParentEndPoint}/{uri}", data);
+
+                var debug = await result.Content.ReadAsStringAsync();
+
+                return new ResponseBaseEntity<TResult>()
+                {
+                    IsSuccess = result.IsSuccessStatusCode,
+                    ResponseData = await result.Content.ReadFromJsonAsync<TResult>(),
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseBaseEntity<TResult>()
+                {
+                    IsSuccess = false,
+                    ResponseData = default(TResult),
+                    Message = ex.Message,
+                };
+            }
+        }
+
+        protected async Task<ResponseBaseEntity<TResult>> DoPatch<TResult>(string uri, string jsonRawData)
+        {
+            if (uri.StartsWith("/"))
+                uri = uri.Remove(0, 1);
+
+            try
+            {
+                SetJWTToken();
+
+                var content = new StringContent(jsonRawData, Encoding.UTF8, "application/json-patch+json");
+
+                var result = await _httpClient.PatchAsync($"{ParentEndPoint}/{uri}", content);
 
                 var debug = await result.Content.ReadAsStringAsync();
 

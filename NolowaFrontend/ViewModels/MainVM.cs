@@ -225,18 +225,18 @@ namespace NolowaFrontend.ViewModels
 
                     var directMessageVM = new DirectMessageVM();
 
-                    directMessageVM.SelectDialog += (user, readMessageCount) => {
+                    directMessageVM.SelectDialog += user => {
                         var directMessageSendVM = new DirectMessageSendVM(user);
 
                         directMessageSendVM.CompleteHide += () => {
                             DirectMessageSendViewModel = null;
                         };
 
-                        directMessageSendVM.ClickBackButton += (receiverId, message) => {
-                            directMessageVM.Refresh(receiverId, message);
+                        directMessageSendVM.ClickBackButton += async userId => {
+                            directMessageVM.RemoveNewMessageCount(userId);
+                            //UnreadMessageCount -= readMessageCount;
+                            await SetUnreadMessageCount();
                         };
-
-                        UnreadMessageCount -= readMessageCount;
 
                         DirectMessageSendViewModel = directMessageSendVM;
                     };

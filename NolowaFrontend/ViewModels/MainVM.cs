@@ -298,7 +298,7 @@ namespace NolowaFrontend.ViewModels
             _ = NolowaHubConnection.Instance.InitializeAsync();
 
             NolowaHubConnection.Instance.OnReceiveDirectMessage += (long senderId, long receiveId, string message, string time) => {
-                if(senderId != receiveId) // 내게 보낸 DM이 아닌 경우에만 올려준다.
+                if(senderId != receiveId && receiveId == AppConfiguration.LoginUser.Id) // 내게 보낸 DM이 아닌고 받는 사람이 나일 때만 올려준다.
                     UnreadMessageCount += 1;
             };
 

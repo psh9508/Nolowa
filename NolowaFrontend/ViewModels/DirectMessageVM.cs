@@ -31,6 +31,7 @@ namespace NolowaFrontend.ViewModels
         public event Action<User> SelectDialog;
         
         private readonly IDirectMessageService _directMessageService;
+        private readonly IUserService _userService;
 
         #region Props
         private DirectMessageSendVM _directMessageSendVM;
@@ -109,25 +110,33 @@ namespace NolowaFrontend.ViewModels
         public DirectMessageVM()
         {
             _directMessageService = new DirectMessageService();
+            _userService = new UserService();
 
-            NolowaHubConnection.Instance.OnReceiveDirectMessage += (long senderId, long receiveId, string message, string time) => 
+            NolowaHubConnection.Instance.OnReceiveDirectMessage += async (long senderId, long receiveId, string message, string time) => 
             {
                 var dialog = PreviousDialogItems.Where(x => (x.User.Id == receiveId || x.User.Id == senderId)
                                                           && x.User.Id != AppConfiguration.LoginUser.Id)
                                                 .SingleOrDefault();
                 if (dialog.IsNull())
                 {
-                    // 대화 추가
+                    // 대화 추가                    
+                    PreviousDialogItems.Add(new PreviousDirectMessageDialogItem()
+                    {
+                        User = await _userService.GetUserAsync(receiveId),
+                        Message = message,
+                        Time = time,
+                        NewMessageCount = senderId == AppConfiguration.LoginUser.Id ? 0 : 1,
+                    });
                 }
                 else
                 {
                     dialog.Message = message;
 
-                    if(senderId != AppConfiguration.LoginUser.Id)
+                    if (senderId != AppConfiguration.LoginUser.Id)
                         dialog.NewMessageCount++;
-
-                    PreviousDialogItems.Refresh();
                 }
+
+                PreviousDialogItems.Refresh();
             };
         }
 

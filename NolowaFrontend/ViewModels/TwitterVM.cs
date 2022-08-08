@@ -144,6 +144,8 @@ namespace NolowaFrontend.ViewModels
                     if (timer.ElapsedMilliseconds >= TIME_OUT)
                         return false;
 
+                    Task.Delay(100);
+
                 } while (HideComplete != true);
 
                 return true;

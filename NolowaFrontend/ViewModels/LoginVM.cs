@@ -19,7 +19,6 @@ namespace NolowaFrontend.ViewModels
         public event Action FailLogin;
 
         private readonly IAuthenticationService _service;
-        private readonly IPostService _postService;
 
         #region Props
         private bool _isLogining;
@@ -139,7 +138,6 @@ namespace NolowaFrontend.ViewModels
         public LoginVM()
         {
             _service = new AuthenticationService();
-            _postService = new PostService();
         }
 
         private void ToggleSignupVisibility()

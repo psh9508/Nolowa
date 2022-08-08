@@ -11,7 +11,6 @@ namespace NolowaFrontend.Servicies
 {
     public interface IPostService
     {
-        Task<ResponseBaseEntity<string>> IsAlive();
         Task<ResponseBaseEntity<List<Post>>> GetMyPostsAsync(long userId);
         Task<ResponseBaseEntity<List<Post>>> GetPostsAsync(long id);
         Task<ResponseBaseEntity<Post>> InsertPostAsync(Post post);
@@ -23,11 +22,6 @@ namespace NolowaFrontend.Servicies
         //private const string parentEndPoint = "Posts";
 
         public override string ParentEndPoint => "Posts";
-
-        public async Task<ResponseBaseEntity<string>> IsAlive()
-        {
-            return await DoGet<string>("/Alive");
-        }
 
         public async Task<ResponseBaseEntity<List<Post>>> GetMyPostsAsync(long userId)
         {

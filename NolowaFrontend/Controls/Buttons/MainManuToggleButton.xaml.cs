@@ -42,11 +42,5 @@ namespace NolowaFrontend.Controls
         {
             InitializeComponent();
         }
-
-        private void _this_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (IsChecked == true)
-                e.Handled = true;
-        }
     }
 }

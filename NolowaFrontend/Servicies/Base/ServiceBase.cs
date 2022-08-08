@@ -173,8 +173,6 @@ namespace NolowaFrontend.Servicies.Base
 
             var response = await _httpClient.GetAsync($"{ParentEndPoint}/{uri}");
 
-            var debug = await response.Content.ReadAsStringAsync();
-
             if (response.IsSuccessStatusCode)
                 return await response.Content.ReadFromJsonAsync<TModel>();
 

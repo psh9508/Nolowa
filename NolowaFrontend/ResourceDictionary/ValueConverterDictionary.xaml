@@ -8,5 +8,6 @@
     <converter:MinusConverter x:Key="MinusConverter"/>
     <converter:Get80PercentConverter x:Key="Get80PercentConverter"/>
     <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <converter:IsNotNullConverter x:Key="IsNotNullConverter"/>
 
 </ResourceDictionary>

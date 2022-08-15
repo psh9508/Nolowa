@@ -84,7 +84,6 @@ namespace NolowaFrontend.Views.MainViews
                 }
             }));
 
-
         public ICommand ReloadCommand
         {
             get { return (ICommand)GetValue(ReloadCommandProperty); }
@@ -93,6 +92,15 @@ namespace NolowaFrontend.Views.MainViews
 
         public static readonly DependencyProperty ReloadCommandProperty =
             DependencyProperty.Register("ReloadCommand", typeof(ICommand), typeof(TwitterView), new PropertyMetadata(null));
+
+        public bool IsPostLoading
+        {
+            get { return (bool)GetValue(IsPostLoadingProperty); }
+            set { SetValue(IsPostLoadingProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsPostLoadingProperty =
+            DependencyProperty.Register("IsPostLoading", typeof(bool), typeof(TwitterView), new PropertyMetadata(false));
 
 
         public TwitterView()
@@ -127,6 +135,11 @@ namespace NolowaFrontend.Views.MainViews
             else
             {
                 _isScrollbarOnTop = false;
+
+                if (e.VerticalOffset >= 1)
+                {
+                    IsPostLoading = true;
+                }
             }
         }   
 

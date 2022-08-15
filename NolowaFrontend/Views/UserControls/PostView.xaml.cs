@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,8 +28,15 @@ namespace NolowaFrontend.Views.UserControls
     /// <summary>
     /// PostView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class PostView : UserControl
+    public partial class PostView : UserControl, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
         /// <summary>
         /// 프로필 클릭 이벤트를 라우티드이벤트로 만들어서 밖으로 버블링시킴
         /// </summary>
@@ -86,6 +94,24 @@ namespace NolowaFrontend.Views.UserControls
         public static readonly DependencyProperty PostedUserProperty =
             DependencyProperty.Register("PostedUser", typeof(User), typeof(PostView), new PropertyMetadata(null));
 
+
+        public ICommand ReloadCommand
+        {
+            get { return (ICommand)GetValue(ReloadCommandProperty); }
+            set { SetValue(ReloadCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty ReloadCommandProperty =
+            DependencyProperty.Register("ReloadCommand", typeof(ICommand), typeof(PostView), new PropertyMetadata(null));
+
+        private bool _isPostLoading;
+
+        public bool IsPostLoading
+        {
+            get { return _isPostLoading; }
+            set { _isPostLoading = value; OnPropertyChanged(); }
+        }
+
         // Client에서 Post를 고유하게 식별하는 값
         public Guid Guid { get; set; } = new Guid();
 
@@ -96,11 +122,19 @@ namespace NolowaFrontend.Views.UserControls
 
         public PostView(Post post) : base()
         {
-            Message = post.Message;
-            ElapsedTime = post.UploadedDateTime.ToElapsedTime();
-            PostedUser = post.PostedUser;
+            if(post.IsNull())
+            {
+                // post가 null이 들어오면 실제 데이터가 아니라 listbox 가장 마지막에 넣어줄
+                // 로딩 표시가 들어가있는 빈 데이터를 생성한다.
+            }
+            else
+            {
+                Message = post.Message;
+                ElapsedTime = post.UploadedDateTime.ToElapsedTime();
+                PostedUser = post.PostedUser;
 
-            Guid = post.Guid;
+                Guid = post.Guid;
+            }
         }
 
         public void CompleteUpload()

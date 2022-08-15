@@ -8,59 +8,124 @@
              xmlns:local="clr-namespace:NolowaFrontend.Views" 
              xmlns:uc="clr-namespace:NolowaFrontend.Controls"
              xmlns:ucv="clr-namespace:NolowaFrontend.Views.UserControls"
-             d:Height="250" d:Width="300"
-             mc:Ignorable="d"> 
+             xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             d:Height="100" d:Width="300" x:Name="_this"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/NolowaFrontend;component/ResourceDictionary/ValueConverterDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- 다음 페이지 로딩 나타나는 에니메이션 -->
+            <Storyboard x:Key="ShowAnimation">
+                <!-- 위로 올라옴 -->
+                <ThicknessAnimation Storyboard.TargetName="_this"
+                                    Storyboard.TargetProperty="Margin" 
+                                    From="0,50,0,0"
+                                    To="0,0,0,0"
+                                    Duration="0:0:0.5">
+                    <ThicknessAnimation.EasingFunction>
+                        <QuarticEase EasingMode="EaseOut" />
+                    </ThicknessAnimation.EasingFunction>
+                </ThicknessAnimation>
+                <!-- 점점 진하게-->
+                <DoubleAnimation Storyboard.TargetName="_this"
+                                 Storyboard.TargetProperty="Opacity" 
+                                 From="0"
+                                 To="1" 
+                                 Duration="0:0:0.5"/>
+            </Storyboard>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid>        
+        <!-- 빈 데이터-->
+        <Grid x:Name="lastView" VerticalAlignment="Center" HorizontalAlignment="Center" 
+              Height="150" Width="350">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=PostedUser}" Value="{x:Null}"/>
+                                <Condition Binding="{Binding Path=IsPostLoading}" Value="True"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>              
+            </Grid.Style>
+
+            <behaviors:Interaction.Triggers>
+                <behaviors:DataTrigger Binding="{Binding ElementName=lastView, Path=IsVisible}" Value="True">
+                    <behaviors:ControlStoryboardAction Storyboard="{StaticResource ShowAnimation}"
+                                                       ControlStoryboardOption="Play"/>
+                </behaviors:DataTrigger>
+            </behaviors:Interaction.Triggers>
+
+            <!--Post 로딩 화면--> 
+            <fa:ImageAwesome Grid.Row="2" Icon="CircleOutlineNotch" Spin="True" Height="30" 
+                             VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Grid>
         
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <!-- 데이터가 있을 때-->
+        <Grid x:Name="dataView">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <Grid.Style>
-            <Style TargetType="Grid">
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
-                        <Setter Property="Opacity" Value="0.5"/>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </Grid.Style>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=PostedUser}" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
 
-        <ucv:ProfileImageElipseView Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Width="50" Height="50"
+            <ucv:ProfileImageElipseView Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Width="50" Height="50"
                                     ClickedProfileImage="ProfileImageElipseView_ClickedProfileImage" Margin="5,5,10,0"
                                     User="{Binding PostedUser}"/>
 
-        <Grid Grid.Column="1" Grid.Row="1" Margin="0,0,20,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="40"/>
-            </Grid.RowDefinitions>
+            <Grid Grid.Column="1" Grid.Row="1" Margin="0,0,20,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding User.Name, FallbackValue=pinnieminnie}" FontWeight="Bold" Margin="0,0,10,0"/>
-                <TextBlock Text="{Binding User.AccountID, FallbackValue=@asdf}" Margin="0,0,10,0"/>
-                <TextBlock Text="{Binding ElapsedTime, FallbackValue=1시간}" Margin="0,0,10,0"/>
-            </StackPanel>
-            <TextBlock Grid.Row="1" Text="{Binding Path=Message, FallbackValue=Message}" TextWrapping="Wrap"/>
-            <Grid Grid.Row="3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding User.Name, FallbackValue=pinnieminnie}" FontWeight="Bold" Margin="0,0,10,0"/>
+                    <TextBlock Text="{Binding User.AccountID, FallbackValue=@asdf}" Margin="0,0,10,0"/>
+                    <TextBlock Text="{Binding ElapsedTime, FallbackValue=1시간}" Margin="0,0,10,0"/>
+                </StackPanel>
+                <TextBlock Grid.Row="1" Text="{Binding Path=Message, FallbackValue=Message}" TextWrapping="Wrap"/>
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <uc:SpeechBubbleButton Click="SpeechBubbleButton_Click"/>
-                <uc:RetweetButton Grid.Column="1"/>
-                <uc:HeartButton Grid.Column="2" Click="HeartButton_Click"/>
-                <uc:ShareButton Grid.Column="3"/>                
+                    <uc:SpeechBubbleButton Click="SpeechBubbleButton_Click"/>
+                    <uc:RetweetButton Grid.Column="1"/>
+                    <uc:HeartButton Grid.Column="2" Click="HeartButton_Click"/>
+                    <uc:ShareButton Grid.Column="3"/>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>

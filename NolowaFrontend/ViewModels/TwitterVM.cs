@@ -2,15 +2,19 @@
 using NolowaFrontend.Extensions;
 using NolowaFrontend.Models;
 using NolowaFrontend.Models.Base;
+using NolowaFrontend.Models.Events;
 using NolowaFrontend.Servicies;
 using NolowaFrontend.ViewModels.Base;
+using NolowaFrontend.Views.UserControls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NolowaFrontend.ViewModels
@@ -28,6 +32,9 @@ namespace NolowaFrontend.ViewModels
 
         private readonly User _user;
         private readonly IPostService _postService;
+        private PostView _listPostItemView;
+
+        private int _nowPage = 1;
 
         #region Props
         public User User => _user;
@@ -58,9 +65,30 @@ namespace NolowaFrontend.ViewModels
             set { _message = value; OnPropertyChanged(); }
         }
 
+        private ObservableCollection<PostView> _posts = new ObservableCollection<PostView>();
+
+        public ObservableCollection<PostView> Posts
+        {
+            get { return _posts; }
+            set { _posts = value; OnPropertyChanged(); }
+        }
+
+        private bool _isPostLoading;
+
+        public bool IsPostLoading
+        {
+            get { return _isPostLoading; }
+            set { _isPostLoading = value; OnPropertyChanged(); }
+        }
         #endregion
 
         #region ICommands
+        private ICommand _scrollCommand;
+        public ICommand ScrollCommand
+        {
+            get { return _scrollCommand ?? (_scrollCommand = new RelayCommand(Scroll)); }
+        }
+
         private ICommand _closeCommand;
 
         public ICommand CloseCommand
@@ -73,6 +101,20 @@ namespace NolowaFrontend.ViewModels
                 });
             }
         }
+
+        private ICommand _reloadCommand;
+
+        public ICommand ReloadCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _loadedCommand, async _ =>
+                {
+                    await LoadPostsAsync();
+                });
+            }
+        }
+
 
         private ICommand _makeTwitterCommand;
 
@@ -120,7 +162,19 @@ namespace NolowaFrontend.ViewModels
                     }
                 });
             }
-           
+        }
+
+        private ICommand _loadedCommand;
+
+        public ICommand LoadedCommand
+        {
+            get
+            {
+                return GetRelayCommand(ref _loadedCommand, async _ =>
+                {
+                    await LoadPostsAsync();
+                });
+            }
         }
         #endregion
 
@@ -128,6 +182,12 @@ namespace NolowaFrontend.ViewModels
         {
             _user = user;
             _postService = new PostService();
+            _listPostItemView = new PostView(null);
+        }
+
+        public void InsertPost(PostView postView)
+        {
+
         }
 
         private async Task<bool> WaitUntilHideCompleteAsync()
@@ -150,6 +210,64 @@ namespace NolowaFrontend.ViewModels
 
                 return true;
             });
+        }
+
+        private async Task LoadPostsAsync()
+        {
+            var reponsePosts = await _postService.GetHomePosts(_user.Id);
+
+            AddPosts(reponsePosts.ResponseData);
+        }
+
+        private async void Scroll(object parameter)
+        {
+            var scrollChangedEventArgs = parameter as NolowaScrollCahngedEventArgs;
+            if (scrollChangedEventArgs != null)
+            {
+                if (scrollChangedEventArgs.VerticalOffset <= 0)
+                {
+                    //_isScrollbarOnTop = true;
+                }
+                else
+                {
+                    if (scrollChangedEventArgs.VerticalChange > 0 && 
+                        (scrollChangedEventArgs.VerticalOffset == scrollChangedEventArgs.ScrollableHeight))
+                    {
+                        if(_listPostItemView.IsNotNull())
+                            _listPostItemView.IsPostLoading = true;
+
+                        var responsePosts = await _postService.GetPostsAsync(_user.Id, ++_nowPage);
+
+                        AddPosts(responsePosts.ResponseData);
+                    }
+                }
+            }
+        }
+
+        private void AddPosts(IEnumerable<Post> addedPosts)
+        {
+            if (addedPosts.IsNull())
+            {
+                if (_listPostItemView.IsNull())
+                    return;
+
+                if (Posts.Count > 0)
+                    Posts.RemoveAt(Posts.Count() - 1); // 가장 마지막에 있는 로딩 이미지를 지우고
+
+                _listPostItemView = null;
+                // 모든 포스트를 다 가져왔습니다.
+                return;
+            }
+
+            if (Posts.Count > 0)
+                Posts.RemoveAt(Posts.Count() - 1); // 가장 마지막에 있는 로딩 이미지를 지우고
+
+            Posts.AddRange(addedPosts.Select(x => new PostView(x)));
+
+            if (_listPostItemView.IsNotNull())
+                _listPostItemView.IsPostLoading = false;
+
+            Posts.Add(_listPostItemView); // 가장 마지막에 로딩 이미지를 가지고 있는 빈 데이터를 넣어준다.
         }
     }
 }

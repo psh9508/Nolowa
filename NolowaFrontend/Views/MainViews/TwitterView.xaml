@@ -9,6 +9,7 @@
              xmlns:designTime="clr-namespace:NolowaFrontend.Views"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:extension="clr-namespace:NolowaFrontend.Extensions"
              mc:Ignorable="d" x:Name="_this"
              d:DesignHeight="450" d:DesignWidth="450">
     <UserControl.Resources>
@@ -33,6 +34,10 @@
             <behaviors:ChangePropertyAction PropertyName="ReloadHeight" Value="0"/>
             <behaviors:ChangePropertyAction PropertyName="HideReloadCircle" Value="false"/>
         </behaviors:StoryboardCompletedTrigger>
+
+        <behaviors:EventTrigger EventName="Loaded">
+            <behaviors:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </behaviors:EventTrigger>
     </behaviors:Interaction.Triggers>
 
     <Grid>
@@ -40,20 +45,21 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <Grid x:Name="ReloadGrid" MaxHeight="100" Height="{Binding ElementName=_this, Path=ReloadHeight, Mode=TwoWay}">
             <uc:ReloadProgressCircle ProgressValue="{Binding ElementName=_this, Path=ProgressValue}" Height="40" Width="40" Margin="0,10,0,0"/>
         </Grid>
-        
+
         <ListBox x:Name="list" Grid.Row="1" d:DataContext="{Binding Source={StaticResource TwitterViewDesignTimeVM}}"
                  ItemsSource="{Binding Posts}"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ScrollViewer.ScrollChanged="ListBox_ScrollChanged"
+                 extension:ListboxExtension.ScrollChangedCommand="{Binding ScrollCommand}"
                  PreviewMouseWheel="ListBox_PreviewMouseWheel">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <vuc:PostView PostedUser="{Binding PostedUser}" ClickedProfileImageRouted="PostView_ClickedProfileImage"/>
+                    <vuc:PostView PostedUser="{Binding PostedUser}" ReloadCommand="{Binding ReloadCommand}"
+                                  ClickedProfileImageRouted="PostView_ClickedProfileImage"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

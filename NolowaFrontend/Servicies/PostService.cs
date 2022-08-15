@@ -13,7 +13,8 @@ namespace NolowaFrontend.Servicies
     {
         Task<ResponseBaseEntity<string>> IsAlive();
         Task<ResponseBaseEntity<List<Post>>> GetMyPostsAsync(long userId);
-        Task<ResponseBaseEntity<List<Post>>> GetPostsAsync(long id);
+        Task<ResponseBaseEntity<List<Post>>> GetHomePosts(long id);
+        Task<ResponseBaseEntity<List<Post>>> GetPostsAsync(long id, int pageNumber);
         Task<ResponseBaseEntity<Post>> InsertPostAsync(Post post);
     }
 
@@ -33,10 +34,15 @@ namespace NolowaFrontend.Servicies
         {
             return await DoGet<List<Post>>($"{userId}/Posts");
         }
-
-        public async Task<ResponseBaseEntity<List<Post>>> GetPostsAsync(long id)
+        public async Task<ResponseBaseEntity<List<Post>>> GetHomePosts(long userId)
         {
-            return await DoGet<List<Post>>($"{id}/Followers");
+            return await DoGet<List<Post>>($"{userId}/HomePosts");
+            //return await DoGet<List<Post>>($"{userId}/Followers/1");
+        }
+
+        public async Task<ResponseBaseEntity<List<Post>>> GetPostsAsync(long id, int pageNumber)
+        {
+            return await DoGet<List<Post>>($"{id}/Followers/{pageNumber}");
         }
 
         public async Task<ResponseBaseEntity<Post>> InsertPostAsync(Post post)
@@ -45,3 +51,4 @@ namespace NolowaFrontend.Servicies
         }
     }
 }
+    

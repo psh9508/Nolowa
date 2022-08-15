@@ -88,7 +88,8 @@ namespace NolowaFrontend.Servicies.Base
                 return new ResponseBaseEntity<TResult>()
                 {
                     IsSuccess = result.IsSuccessStatusCode,
-                    ResponseData = await result.Content.ReadFromJsonAsync<TResult>(),
+                    ResponseData = result.IsSuccessStatusCode ? await result.Content.ReadFromJsonAsync<TResult>() : default(TResult),
+                    Message = await result.Content.ReadAsStringAsync(),
                 };
             }
             catch (Exception ex)

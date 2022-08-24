@@ -117,7 +117,7 @@ namespace NolowaFrontend.ViewModels
                 return GetRelayCommand(ref _loadedEventCommand, async _ =>
                 {
                     await CachingProfileImageFileToLocal();
-                    await LoadPostsAsync();
+                    //await LoadPostsAsync();
                     await SetUnreadMessageCount();
 
                     HomeViewCommand?.Execute(null);
@@ -139,6 +139,7 @@ namespace NolowaFrontend.ViewModels
                     //Post post = null;
 
                     makeTwitterView.MadeNewTwitter += newTwitter => {
+
                         postView = new PostView(newTwitter);
                         postView.IsEnabled = false;
 
@@ -151,7 +152,7 @@ namespace NolowaFrontend.ViewModels
                     makeTwitterView.FailedUploadTwitter += async guid => {
                         await Task.Delay(2000);
 
-                        var uploadFailedTwitter = Posts.Where(x => x.Guid == guid).FirstOrDefault() ;
+                        var uploadFailedTwitter = Posts.Where(x => x.Guid == guid).FirstOrDefault();
 
                         Posts.Remove(uploadFailedTwitter);
                     };
@@ -187,30 +188,36 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _homeViewCommand, _ =>
                 {
-                    var twitterView = new TwitterView();
-                    twitterView.ClickedProfileImage += (object sender, RoutedEventArgs e) =>
-                    {
-                        // VM에서 이벤트를 연결하는게 좋은건가 xaml에서 이벤트를 연결하는게 좋은건가?
+                    #region 이전 로직
+                    //var twitterView = new TwitterView();
+                    //twitterView.ClickedProfileImage += (object sender, RoutedEventArgs e) =>
+                    //{
+                    //    // VM에서 이벤트를 연결하는게 좋은건가 xaml에서 이벤트를 연결하는게 좋은건가?
 
-                        if (e is ObjectRoutedEventArgs args)
-                        {
-                            var clickedUser = (User)args.Parameter;
-                            var profileVM = new ProfileVM(clickedUser);
-                            profileVM.CompleteHide += () => {
-                                ProfileViewModel = null;
-                            };
-                            
-                            ProfileViewModel = profileVM;
-                        }
-                    };
+                    //    if (e is ObjectRoutedEventArgs args)
+                    //    {
+                    //        var clickedUser = (User)args.Parameter;
+                    //        var profileVM = new ProfileVM(clickedUser);
+                    //        profileVM.CompleteHide += () => {
+                    //            ProfileViewModel = null;
+                    //        };
 
-                    twitterView.ReloadCommand = new RelayCommand(async _ =>
-                    {
-                        Posts.Clear();
-                        await LoadPostsAsync();
-                    });
+                    //        ProfileViewModel = profileVM;
+                    //    }
+                    //};
 
-                    MainView = twitterView;
+                    //twitterView.ReloadCommand = new RelayCommand(async _ =>
+                    //{
+                    //    Posts.Clear();
+                    //    await LoadPostsAsync();
+                    //});
+
+                    //MainView = twitterView; 
+                    #endregion
+                    var postView = new TwitterVM(_user);
+
+
+                    MainView = postView;
                 });
             }
         }
@@ -245,7 +252,7 @@ namespace NolowaFrontend.ViewModels
                 });
             }
         }
-                
+
         private ICommand _directMessageSendViewCommand;
 
         public ICommand DirectMessageSendViewCommand
@@ -339,13 +346,27 @@ namespace NolowaFrontend.ViewModels
         {
         }
 
-        private async Task LoadPostsAsync()
+        public void ShowProfileView(object sender, RoutedEventArgs e)
         {
-            var posts = await _service.GetPostsAsync(_user.Id);
+            if (e is ObjectRoutedEventArgs args)
+            {
+                var clickedUser = (User)args.Parameter;
+                var profileVM = new ProfileVM(clickedUser);
+                profileVM.CompleteHide += () => {
+                    ProfileViewModel = null;
+                };
 
-            if (posts.ResponseData.Count() > 0)
-                Posts.AddRange(posts.ResponseData.Select(x => new PostView(x)));
+                ProfileViewModel = profileVM;
+            }
         }
+
+        //private async Task LoadPostsAsync()
+        //{
+        //    var posts = await _service.GetPostsAsync(_user.Id);
+
+        //    if (posts.ResponseData.Count() > 0)
+        //        Posts.AddRange(posts.ResponseData.Select(x => new PostView(x)));
+        //}
 
         private async Task SetUnreadMessageCount()
         {

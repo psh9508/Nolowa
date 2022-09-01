@@ -23,3 +23,6 @@
 
 ### `프로필 수정`
 ![Alt Text](https://user-images.githubusercontent.com/32666657/174333222-b3b33355-12d1-4041-afba-ef41944370d1.gif)
+
+### `실시간 채팅`
+![녹화_2022_09_01_23_41_45_972](https://user-images.githubusercontent.com/32666657/187945055-e9db7266-55ff-4953-b0d3-235543826aa6.gif)

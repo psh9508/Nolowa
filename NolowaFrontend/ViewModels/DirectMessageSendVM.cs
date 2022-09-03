@@ -44,6 +44,7 @@ namespace NolowaFrontend.ViewModels
     public class DirectMessageSendVM : ViewModelBase
     {
         public event Action<long> ClickBackButton;
+        public event Action GetNewMessage;
 
         private readonly IDirectMessageService _directMessageService;
 
@@ -167,6 +168,8 @@ namespace NolowaFrontend.ViewModels
                         Time = time,
                         IsMine = senderId == AppConfiguration.LoginUser.Id,
                     });
+
+                    GetNewMessage?.Invoke();
                 });
             };
         }

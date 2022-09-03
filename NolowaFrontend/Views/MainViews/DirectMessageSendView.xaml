@@ -8,7 +8,7 @@
              xmlns:uc="clr-namespace:NolowaFrontend.Controls"
              xmlns:designTime="clr-namespace:NolowaFrontend.Views"
              xmlns:vm="clr-namespace:NolowaFrontend.ViewModels"
-             mc:Ignorable="d" Width="400" Name="_this"
+             mc:Ignorable="d" Width="400" Name="_this" DataContextChanged="_this_DataContextChanged"
              d:DesignHeight="450" d:DesignWidth="400">
     <UserControl.Resources>
         <designTime:DirectMessageSendViewDesignTimeVM x:Key="DirectMessageSendViewDesignTimeVM"/>
@@ -128,7 +128,7 @@
 
         <!-- dialog -->
         <Grid Grid.Row="1" Background="White">
-            <ListBox d:DataContext="{Binding Source={StaticResource DirectMessageSendViewDesignTimeVM}}"
+            <ListBox x:Name="lstDialog" d:DataContext="{Binding Source={StaticResource DirectMessageSendViewDesignTimeVM}}"
                      ItemsSource="{Binding Dialog}" ItemTemplateSelector="{StaticResource TemplateSelector}">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">

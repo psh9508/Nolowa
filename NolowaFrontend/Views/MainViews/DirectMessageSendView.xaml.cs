@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NolowaFrontend.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,15 @@ namespace NolowaFrontend.Views.MainViews
         public DirectMessageSendView()
         {
             InitializeComponent();
+        }
+
+        private void _this_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var vm = (DirectMessageSendVM)this.DataContext;
+
+            vm.GetNewMessage += () =>  {
+                lstDialog.ScrollIntoView(lstDialog.Items[lstDialog.Items.Count - 1]);
+            };
         }
     }
 }

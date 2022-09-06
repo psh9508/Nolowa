@@ -35,6 +35,7 @@ namespace NolowaFrontend.ViewModels
         private PostView _listPostItemView;
 
         private int _nowPage = 1;
+        private bool _isLoading;
 
         #region Props
         public User User => _user;
@@ -233,12 +234,24 @@ namespace NolowaFrontend.ViewModels
                     if (scrollChangedEventArgs.VerticalChange > 0 && 
                         (scrollChangedEventArgs.VerticalOffset == scrollChangedEventArgs.ScrollableHeight))
                     {
-                        if(_listPostItemView.IsNotNull())
-                            _listPostItemView.IsPostLoading = true;
+                        if (_isLoading)
+                            return;
 
-                        var responsePosts = await _postService.GetPostsAsync(_user.Id, ++_nowPage);
+                        try
+                        {
+                            _isLoading = true;
 
-                        AddPosts(responsePosts.ResponseData);
+                            if (_listPostItemView.IsNotNull())
+                                _listPostItemView.IsPostLoading = true;
+
+                            var responsePosts = await _postService.GetPostsAsync(_user.Id, ++_nowPage);
+
+                            AddPosts(responsePosts.ResponseData);
+                        }
+                        finally
+                        {
+                            _isLoading = false;
+                        }
                     }
                 }
             }

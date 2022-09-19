@@ -41,7 +41,8 @@ namespace NolowaFrontend.Views.MainViews
             remove { RemoveHandler(ClickedProfileImageEvent, value); }
         }
 
-        public ObservableCollection<User> SearchedUsers { get; set; } = new ObservableCollection<User>();
+        public ObservableCollection<ScoreInfo> SearchRank { get; set; } = new();
+        public ObservableCollection<User> SearchedUsers { get; set; } = new();
 
         public SearchView()
         {
@@ -51,9 +52,16 @@ namespace NolowaFrontend.Views.MainViews
             _searchService = new SearchService();
         }
 
-        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            await SetSearchedKeywordAsync();
+            // 2개의 쓰레드에서 대기 없이 검색했던 목록과 검색어 랭킹을 가져온다
+            _ = SetSearchedKeywordAsync();
+            _ = GetSearchRankAsync();
+        }
+
+        private async Task GetSearchRankAsync()
+        {
+            var response = await _searchService.GetSearchkeywordRankAsync();
         }
 
         public async Task TimerSearchAsync(string text)

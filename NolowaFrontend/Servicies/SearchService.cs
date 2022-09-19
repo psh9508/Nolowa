@@ -1,6 +1,7 @@
 ﻿using NolowaFrontend.Models;
 using NolowaFrontend.Models.Base;
 using NolowaFrontend.Servicies.Base;
+using NolowaFrontend.Views.MainViews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace NolowaFrontend.Servicies
         Task<ResponseBaseEntity<List<SearchedUser>>> SearchUser(string usernameBeSearched);
         Task<ResponseBaseEntity<List<string>>> GetSearchedKeywords(long userId);
         Task DeleteAllSearchedKeywords(long userId);
+        Task<ResponseBaseEntity<List<ScoreInfo>>> GetSearchkeywordRankAsync(int startIndex = 0, int endIndex = 5);
     }
 
     public class SearchService : ServiceBase, ISearchService
@@ -39,6 +41,11 @@ namespace NolowaFrontend.Servicies
         public async Task DeleteAllSearchedKeywords(long userId)
         {
             await DoDelete($"DeleteAll/{userId}");
+        }
+
+        public async Task<ResponseBaseEntity<List<ScoreInfo>>> GetSearchkeywordRankAsync(int startIndex = 0, int endIndex = 5)
+        {
+            return await DoGet<List<ScoreInfo>>($"Keywords/Rank/{startIndex}/{endIndex}");
         }
     }
 }

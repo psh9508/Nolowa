@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:NolowaFrontend.Views.MainViews"
              xmlns:designTime="clr-namespace:NolowaFrontend.Views"
              xmlns:ucv="clr-namespace:NolowaFrontend.Views.UserControls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" Loaded="UserControl_Loaded"
              d:DesignHeight="300" d:DesignWidth="350" d:Background="White">
     
@@ -80,11 +81,7 @@
                         <Button Click="Button_Click">
                             <Button.Template>
                                 <ControlTemplate>
-                                    <!-- 'X'자 표시 -->
-                                    <Grid>
-                                        <Line X1="0" Y1="0" X2="10" Y2="10" Stroke="Black" StrokeThickness="2" />
-                                        <Line X1="0" Y1="10" X2="10" Y2="0" Stroke="Black" StrokeThickness="2" />
-                                    </Grid>
+                                    <fa:ImageAwesome Icon="Refresh" Height="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </ControlTemplate>
                             </Button.Template>
                         </Button>

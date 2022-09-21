@@ -41,7 +41,7 @@ namespace NolowaFrontend.Views.MainViews
             remove { RemoveHandler(ClickedProfileImageEvent, value); }
         }
 
-        public ObservableCollection<ScoreInfo> SearchRank { get; set; } = new();
+        public ObservableCollection<ScoreInfo> SearchRankingKeywords { get; set; } = new();
         public ObservableCollection<User> SearchedUsers { get; set; } = new();
 
         public SearchView()
@@ -62,6 +62,16 @@ namespace NolowaFrontend.Views.MainViews
         private async Task GetSearchRankAsync()
         {
             var response = await _searchService.GetSearchkeywordRankAsync();
+
+            if (response.IsSuccess)
+            {
+                var orderedRankData = response.ResponseData.OrderByDescending(x => x.Score).ThenBy(x => x.Key).ToList();
+
+                for (int i = 0; i < response.ResponseData.Count; i++)
+                    orderedRankData[i].Ranking = i + 1;
+
+                listboxKeywordRanking.ItemsSource = orderedRankData.ToObservableCollection();
+            }
         }
 
         public async Task TimerSearchAsync(string text)

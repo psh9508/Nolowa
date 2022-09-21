@@ -55,16 +55,13 @@
                 </ListBox.ItemTemplate>
             </ListBox>           
         </Grid>
-
-        <!--최근 검색어-->
-        <StackPanel x:Name="stackpanelRecentSearchedKeywords" Margin="5">
+        
+        <!-- 검색어 순위 + 최근 검색어 -->
+        <StackPanel>
             <StackPanel.Style>
                 <Style TargetType="StackPanel">
-                    <Style.Triggers>                        
+                    <Style.Triggers>
                         <DataTrigger Binding="{Binding ElementName=listboxUsers, Path=Items.Count, Converter={StaticResource IsGreaterThanZero}}" Value="True">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding ElementName=listboxSearchedKeywords, Path=Items.Count}" Value="0">
                             <Setter Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ElementName=txtSearchResultEmpty, Path=Text.Length, Converter={StaticResource IsGreaterThanZero}}" Value="True">
@@ -73,38 +70,87 @@
                     </Style.Triggers>
                 </Style>
             </StackPanel.Style>
-            <Grid>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <TextBlock Grid.Column="1" Text="최근" FontSize="15" FontWeight="Bold" Foreground="DimGray" Margin="5,0,0,0"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,9,0">
-                    <Button Click="Button_Click">
-                        <Button.Template>
-                            <ControlTemplate>
-                                <Grid>
-                                    <Line X1="0" Y1="0" X2="10" Y2="10" Stroke="Black" StrokeThickness="2" />
-                                    <Line X1="0" Y1="10" X2="10" Y2="0" Stroke="Black" StrokeThickness="2" />
-                                </Grid>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>                   
-                </StackPanel>
-            </Grid>
-            <ListBox x:Name="listboxSearchedKeywords" d:DataContext="{Binding Source={StaticResource SearchViewDesignTimeVM}}"
+            <!--검색어 순위-->
+            <StackPanel x:Name="SearchKeywordRankingPanel" Margin="5">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBlock Grid.Column="1" Text="검색순위" FontSize="15" FontWeight="Bold" Foreground="DimGray" Margin="5,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,9,0">
+                        <Button Click="Button_Click">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <!-- 'X'자 표시 -->
+                                    <Grid>
+                                        <Line X1="0" Y1="0" X2="10" Y2="10" Stroke="Black" StrokeThickness="2" />
+                                        <Line X1="0" Y1="10" X2="10" Y2="0" Stroke="Black" StrokeThickness="2" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <ListBox x:Name="listboxKeywordRanking" d:DataContext="{Binding Source={StaticResource SearchViewDesignTimeVM}}"
+                         ItemsSource="{Binding SearchRankingKeywords}"  HorizontalContentAlignment="Stretch" BorderThickness="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,0,0,5">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Ranking}" FontSize="13"/>
+                                    <TextBlock Text="." FontSize="13"/>
+                                    <TextBlock Text="{Binding Key}" FontSize="13" Margin="5,0,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            
+            <!--최근 검색어-->
+            <StackPanel x:Name="stackpanelRecentSearchedKeywords" Margin="5,20,5,5">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Style.Triggers>                            
+                            <DataTrigger Binding="{Binding ElementName=listboxSearchedKeywords, Path=Items.Count}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>                            
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <Grid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBlock Grid.Column="1" Text="최근" FontSize="15" FontWeight="Bold" Foreground="DimGray" Margin="5,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,9,0">
+                        <Button Click="Button_Click">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <!-- 'X'자 표시 -->
+                                    <Grid>
+                                        <Line X1="0" Y1="0" X2="10" Y2="10" Stroke="Black" StrokeThickness="2" />
+                                        <Line X1="0" Y1="10" X2="10" Y2="0" Stroke="Black" StrokeThickness="2" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <ListBox x:Name="listboxSearchedKeywords" d:DataContext="{Binding Source={StaticResource SearchViewDesignTimeVM}}"
                      ItemsSource="{Binding SearchedKeywords}" HorizontalContentAlignment="Stretch" BorderThickness="0">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="0,0,0,5">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                <TextBlock Text="{Binding}" FontSize="13"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBlock Text="✔"/>
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,0,0,5">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding}" FontSize="13"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="✔"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
         </StackPanel>
          
         <!-- 기본 페이지 -->

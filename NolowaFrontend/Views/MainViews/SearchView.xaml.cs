@@ -136,6 +136,11 @@ namespace NolowaFrontend.Views.MainViews
             await SetSearchedKeywordAsync();
         }
 
+        private async void RefreshRankingButton_Click(object sender, RoutedEventArgs e)
+        {
+            await GetSearchRankAsync();
+        }
+
         private void ProfileImageElipseView_ClickedProfileImage(object sender, RoutedEventArgs e)
         {
             //RaiseEvent(e);

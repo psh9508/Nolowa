@@ -78,7 +78,7 @@
                         <TextBlock Grid.Column="1" Text="검색순위" FontSize="15" FontWeight="Bold" Foreground="DimGray" Margin="5,0,0,0"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,9,0">
-                        <Button Click="Button_Click">
+                        <Button Click="RefreshRankingButton_Click">
                             <Button.Template>
                                 <ControlTemplate>
                                     <fa:ImageAwesome Icon="Refresh" Height="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>

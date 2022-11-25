@@ -35,8 +35,18 @@ namespace NolowaFrontend.Controls
 
         private byte[] _profileImageByteArray;
 
-        private bool _isProcessing = false;
         private readonly IUserService _userService;
+
+        #region DPs
+        public bool IsProcessing
+        {
+            get { return (bool)GetValue(IsProcessingProperty); }
+            set { SetValue(IsProcessingProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsProcessingProperty =
+            DependencyProperty.Register("IsProcessing", typeof(bool), typeof(SignUpControl), new PropertyMetadata(false)); 
+        #endregion
 
         public SignUpControl()
         {
@@ -147,7 +157,7 @@ namespace NolowaFrontend.Controls
         {
             try
             {
-                _isProcessing = true;
+                IsProcessing = true;
                 return await _userService.SaveAsync(user);
             }
             catch (Exception ex)
@@ -156,7 +166,7 @@ namespace NolowaFrontend.Controls
             }
             finally
             {
-                _isProcessing = false;
+                IsProcessing = false;
             }
         }
 

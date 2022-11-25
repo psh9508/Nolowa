@@ -35,6 +35,7 @@ namespace NolowaFrontend.Controls
 
         private byte[] _profileImageByteArray;
 
+        private bool _isProcessing = false;
         private readonly IUserService _userService;
 
         public SignUpControl()
@@ -146,11 +147,16 @@ namespace NolowaFrontend.Controls
         {
             try
             {
+                _isProcessing = true;
                 return await _userService.SaveAsync(user);
             }
             catch (Exception ex)
             {
                 return null;
+            }
+            finally
+            {
+                _isProcessing = false;
             }
         }
 

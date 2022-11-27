@@ -152,7 +152,7 @@
 
         <StackPanel Orientation="Horizontal" Grid.RowSpan="2" HorizontalAlignment="Center">
             <Button Height="30" Width="100" Background="Beige" Margin="0,270,10,0" Grid.RowSpan="2"                    
-                    IsEnabled="{Binding IsLogining, Converter={StaticResource InverseBooleanConverter}}"
+                    IsEnabled="{Binding IsProcessing, Converter={StaticResource InverseBooleanConverter}}"
                     Content="SIGN UP" Click="SignupButton_Click">
                 <Button.Resources>
                     <Style TargetType="Border">
@@ -165,7 +165,7 @@
             </Button>
 
             <Button Height="30" Width="100" Background="Beige" Margin="0,270,0,0" Grid.RowSpan="2"                    
-                    IsEnabled="{Binding IsLogining, Converter={StaticResource InverseBooleanConverter}}"
+                    IsEnabled="{Binding IsProcessing, Converter={StaticResource InverseBooleanConverter}}"
                     Content="CANCLE" Click="CancleButton_Click">
                 <Button.Resources>
                     <Style TargetType="Border">

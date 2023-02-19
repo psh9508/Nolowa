@@ -72,4 +72,9 @@
     <Folder Include="Configurations\" />
     <Folder Include="Models\Protos\Generated.proto\" />
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="protoc -I$(ProjectDir)Modles\Protos --csharp_out=$(ProejctDir)Models\Protos\Generated.proto $(ProjectDir)Models\Protos\*.proto" />
+  </Target>
+
 </Project>

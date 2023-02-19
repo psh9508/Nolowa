@@ -1,5 +1,6 @@
 ﻿using NolowaFrontend.Core.SNSLogin;
 using NolowaFrontend.Models;
+using NolowaFrontend.Models.Protos.Generated.prot;
 using NolowaFrontend.Servicies;
 using NolowaFrontend.ViewModels.Base;
 using NolowaFrontend.Views;
@@ -71,10 +72,13 @@ namespace NolowaFrontend.ViewModels
 
                         var args = (object[])x;
 
-                        var email = (string)args[0];
-                        var password = (string)args[1];
+                        var loginReq = new LoginReq()
+                        {
+                            Email = (string)args[0],
+                            PlainPassword = (string)args[1],
+                        };
 
-                        var response = await _service.Login(email, password);
+                        var response = await _service.Login(loginReq);
 
                         if (response?.IsSuccess == true)
                             SuccessLogin?.Invoke(response.ResponseData);

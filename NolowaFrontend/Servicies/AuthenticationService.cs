@@ -1,6 +1,7 @@
 ﻿using NolowaFrontend.Extensions;
 using NolowaFrontend.Models;
 using NolowaFrontend.Models.Base;
+using NolowaFrontend.Models.Protos.Generated.prot;
 using NolowaFrontend.Servicies.Base;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace NolowaFrontend.Servicies
 {
     public interface IAuthenticationService
     {
-        Task<ResponseBaseEntity<User>> Login(string id, string password);
+        Task<ResponseBaseEntity<User>> Login(LoginReq request);
     }
 
     public class AuthenticationService : ServiceBase, IAuthenticationService
@@ -23,16 +24,11 @@ namespace NolowaFrontend.Servicies
 
         public override string ParentEndPoint => "Accounts";
 
-        public async Task<ResponseBaseEntity<User>> Login(string id, string password)
+        public async Task<ResponseBaseEntity<User>> Login(LoginReq request)
         {
-            string loginInfo = Newtonsoft.Json.JsonConvert.SerializeObject(new {
-                id = id,
-                password = password,
-            });
-
             try
             {
-                var loginResponse = await DoPost<User, string>($"Login", loginInfo);
+                var loginResponse = await DoPost<User, LoginReq>($"Login", request);
 
                 if (loginResponse.IsSuccess)
                     _jwtToken = loginResponse.ResponseData.JWTToken;

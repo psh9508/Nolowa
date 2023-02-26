@@ -1,4 +1,6 @@
-﻿using NolowaFrontend.Core.SNSLogin;
+﻿using NolowaFrontend.Core.MessageQueue;
+using NolowaFrontend.Core.MessageQueue.Messages;
+using NolowaFrontend.Core.SNSLogin;
 using NolowaFrontend.Models;
 using NolowaFrontend.Models.Protos.Generated.prot;
 using NolowaFrontend.Servicies;
@@ -21,6 +23,7 @@ namespace NolowaFrontend.ViewModels
 
         private readonly IAuthenticationService _service;
         private readonly IPostService _postService;
+        private readonly IMessageQueueService _messageQueueService;
 
         #region Props
         private bool _isLogining;
@@ -72,21 +75,32 @@ namespace NolowaFrontend.ViewModels
 
                         var args = (object[])x;
 
-                        var loginReq = new LoginReq()
+                        //var loginReq = new LoginReq()
+                        //{
+                        //    Email = (string)args[0],
+                        //    PlainPassword = (string)args[1],
+                        //};
+
+                        //var response = await _service.Login(loginReq);
+
+                        //if (response?.IsSuccess == true)
+                        //    SuccessLogin?.Invoke(response.ResponseData);
+                        //else
+                        //{
+                        //    IsLoginFailed = true;
+                        //    FailLogin?.Invoke();
+                        //}
+
+                        var message = new LoginMessage()
                         {
-                            Email = (string)args[0],
-                            PlainPassword = (string)args[1],
+                            Id = (string)args[0],
+                            Password = (string)args[1],
+                            Origin = "frontend",
+                            Source = "frontend",
+                            Target = MessageTarget.GATEWAY
                         };
 
-                        var response = await _service.Login(loginReq);
-
-                        if (response?.IsSuccess == true)
-                            SuccessLogin?.Invoke(response.ResponseData);
-                        else
-                        {
-                            IsLoginFailed = true;
-                            FailLogin?.Invoke();
-                        }
+                        _messageQueueService.SendMessage(message);
                     }
                     finally
                     {
@@ -144,6 +158,15 @@ namespace NolowaFrontend.ViewModels
         {
             _service = new AuthenticationService();
             _postService = new PostService();
+            _messageQueueService = new MessageQueueService();
+
+            _messageQueueService.InitAsync(new MessageQueueConnectionData()
+            {
+                HostName = "localhost",
+                VirtualHostName = "/",
+                ExchangeName = "amq.topic",
+                QueueName = "frontend", // 사용자마다 다른 이름을 사용해야한다.
+            }).Wait(TimeSpan.FromSeconds(10));
         }
 
         private void ToggleSignupVisibility()

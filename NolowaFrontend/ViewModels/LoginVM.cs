@@ -97,7 +97,9 @@ namespace NolowaFrontend.ViewModels
                             Password = (string)args[1],
                             Origin = "frontend",
                             Source = "frontend",
-                            Target = MessageTarget.GATEWAY
+                            Target = MessageDestination.GATEWAY,
+                            Destination = MessageDestination.SERVER,
+                            Function = "LoginMessage",
                         };
 
                         _messageQueueService.SendMessage(message);

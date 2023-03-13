@@ -101,6 +101,7 @@ namespace NolowaFrontend.Core.MessageQueue
             return true;
         }
 
+
         public void SendMessage<T>(T body) where T : MessageBase
         {
             if (body is null)
@@ -109,7 +110,8 @@ namespace NolowaFrontend.Core.MessageQueue
             if (_isConnected == false)
                 throw new InvalidOperationException("It hasn't been connected yet");
 
-            string routingKey = $"{body.Source}.{body.Target.ToString().ToLower()}.{body.Function}";
+            string source = $"{body.Source}:{AppConfiguration.QueueName}";
+            string routingKey = $"{source}.{body.Target.ToString().ToLower()}.{body.Function}";
             string jsonBody = JsonSerializer.Serialize(body);
 
             _channel.BasicPublish("amq.topic", routingKey, body: Encoding.UTF8.GetBytes(jsonBody));

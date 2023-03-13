@@ -1,4 +1,5 @@
-﻿using NolowaFrontend.Core.MessageQueue;
+﻿using NolowaFrontend.Core;
+using NolowaFrontend.Core.MessageQueue;
 using NolowaFrontend.Core.MessageQueue.Messages;
 using NolowaFrontend.Core.SNSLogin;
 using NolowaFrontend.Models;
@@ -95,7 +96,7 @@ namespace NolowaFrontend.ViewModels
                         {
                             Id = (string)args[0],
                             Password = (string)args[1],
-                            Origin = "frontend",
+                            Origin = $"frontend:{AppConfiguration.QueueName}",
                             Source = "frontend",
                             Target = MessageDestination.GATEWAY,
                             Destination = MessageDestination.SERVER,
@@ -158,6 +159,8 @@ namespace NolowaFrontend.ViewModels
 
         public LoginVM()
         {
+            AppConfiguration.QueueName = "Client_" + Guid.NewGuid().ToString();
+
             _service = new AuthenticationService();
             _postService = new PostService();
             _messageQueueService = new MessageQueueService();
@@ -167,7 +170,7 @@ namespace NolowaFrontend.ViewModels
                 HostName = "localhost",
                 VirtualHostName = "/",
                 ExchangeName = "amq.topic",
-                QueueName = "frontend", // 사용자마다 다른 이름을 사용해야한다.
+                QueueName = AppConfiguration.QueueName,
             }).Wait(TimeSpan.FromSeconds(10));
         }
 

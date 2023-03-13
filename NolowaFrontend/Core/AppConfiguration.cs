@@ -9,6 +9,7 @@ namespace NolowaFrontend.Core
 {
     public static class AppConfiguration
     {
-        public static User LoginUser { set; get; } 
+        public static User LoginUser { get; set; } 
+        public static string QueueName { get; set; }
     }
 }

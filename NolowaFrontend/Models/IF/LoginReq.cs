@@ -1,6 +1,6 @@
 ﻿using NolowaNetwork.Models.Message;
 
-namespace NolowaFrontend.Core.MessageQueue.Messages
+namespace NolowaFrontend.Models.IF
 {
     public class LoginReq : NetMessageBase
     {

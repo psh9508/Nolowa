@@ -71,7 +71,6 @@
 
   <ItemGroup>
     <Folder Include="Configurations\" />
-    <Folder Include="Models\Protos\Generated.proto\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,17 +1,10 @@
 ﻿using NolowaFrontend.Core;
-using NolowaFrontend.Core.MessageQueue;
-using NolowaFrontend.Core.MessageQueue.Messages;
 using NolowaFrontend.Core.SNSLogin;
 using NolowaFrontend.Models;
-using NolowaFrontend.Models.Protos.Generated.prot;
+using NolowaFrontend.Models.IF;
 using NolowaFrontend.Servicies;
 using NolowaFrontend.ViewModels.Base;
-using NolowaFrontend.Views;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -24,7 +17,6 @@ namespace NolowaFrontend.ViewModels
 
         private readonly IAuthenticationService _service;
         private readonly IPostService _postService;
-        private readonly IMessageQueueService _messageQueueService;
 
         #region Props
         private bool _isLogining;
@@ -83,7 +75,7 @@ namespace NolowaFrontend.ViewModels
                         //    PlainPassword = (string)args[1],
                         //};
 
-                        var loginReq = new Core.MessageQueue.Messages.LoginReq()
+                        var loginReq = new LoginReq()
                         {
                             Id = (string)args[0],
                             Password = (string)args[1]
@@ -170,15 +162,6 @@ namespace NolowaFrontend.ViewModels
 
             _service = new AuthenticationService();
             _postService = new PostService();
-            _messageQueueService = new MessageQueueService();
-
-            _messageQueueService.InitAsync(new MessageQueueConnectionData()
-            {
-                HostName = "localhost",
-                VirtualHostName = "/",
-                ExchangeName = "amq.topic",
-                QueueName = AppConfiguration.QueueName,
-            }).Wait(TimeSpan.FromSeconds(10));
         }
 
         private void ToggleSignupVisibility()

@@ -104,17 +104,17 @@ namespace NolowaFrontend.Core.MessageQueue
 
         public void SendMessage<T>(T body) where T : MessageBase
         {
-            if (body is null)
-                throw new ArgumentOutOfRangeException($"{nameof(body)} must not be null");
+            //if (body is null)
+            //    throw new ArgumentOutOfRangeException($"{nameof(body)} must not be null");
 
-            if (_isConnected == false)
-                throw new InvalidOperationException("It hasn't been connected yet");
+            //if (_isConnected == false)
+            //    throw new InvalidOperationException("It hasn't been connected yet");
 
-            string source = $"{body.Source}:{AppConfiguration.QueueName}";
-            string routingKey = $"{source}.{body.Target.ToString().ToLower()}.{body.Function}";
-            string jsonBody = JsonSerializer.Serialize(body);
+            //string source = $"{body.Source}:{AppConfiguration.QueueName}";
+            //string routingKey = $"{source}.{body.Target.ToString().ToLower()}.{body.Function}";
+            //string jsonBody = JsonSerializer.Serialize(body);
 
-            _channel.BasicPublish("amq.topic", routingKey, body: Encoding.UTF8.GetBytes(jsonBody));
+            //_channel.BasicPublish("amq.topic", routingKey, body: Encoding.UTF8.GetBytes(jsonBody));
         }
     }
 }

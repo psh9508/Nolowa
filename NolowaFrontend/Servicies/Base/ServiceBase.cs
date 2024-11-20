@@ -31,7 +31,7 @@ namespace NolowaFrontend.Servicies.Base
             if (_httpClient.BaseAddress == null)
             {
                 //_httpClient.BaseAddress = new Uri("http://127.0.0.1:5000/");
-                _httpClient.BaseAddress = new Uri("https://localhost:5001/");
+                _httpClient.BaseAddress = new Uri("http://localhost:5261/");
                 _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             }
         }

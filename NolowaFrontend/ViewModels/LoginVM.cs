@@ -76,34 +76,41 @@ namespace NolowaFrontend.ViewModels
 
                         var args = (object[])x;
 
+                        // protobuf 사용 안함
                         //var loginReq = new LoginReq()
                         //{
                         //    Email = (string)args[0],
                         //    PlainPassword = (string)args[1],
                         //};
 
-                        //var response = await _service.Login(loginReq);
-
-                        //if (response?.IsSuccess == true)
-                        //    SuccessLogin?.Invoke(response.ResponseData);
-                        //else
-                        //{
-                        //    IsLoginFailed = true;
-                        //    FailLogin?.Invoke();
-                        //}
-
-                        var message = new LoginMessage()
+                        var loginReq = new Core.MessageQueue.Messages.LoginReq()
                         {
                             Id = (string)args[0],
-                            Password = (string)args[1],
-                            Origin = $"frontend:{AppConfiguration.QueueName}",
-                            Source = "frontend",
-                            Target = MessageDestination.GATEWAY,
-                            Destination = MessageDestination.SERVER,
-                            Function = "LoginMessage",
+                            Password = (string)args[1]
                         };
 
-                        _messageQueueService.SendMessage(message);
+                        var response = await _service.Login(loginReq);
+
+                        if (response?.IsSuccess == true)
+                            SuccessLogin?.Invoke(response.ResponseData);
+                        else
+                        {
+                            IsLoginFailed = true;
+                            FailLogin?.Invoke();
+                        }
+
+                        //var message = new LoginMessage()
+                        //{
+                        //    Id = (string)args[0],
+                        //    Password = (string)args[1],
+                        //    Origin = $"frontend:{AppConfiguration.QueueName}",
+                        //    Source = "frontend",
+                        //    Target = MessageDestination.GATEWAY,
+                        //    Destination = MessageDestination.SERVER,
+                        //    Function = "LoginMessage",
+                        //};
+
+                        //_messageQueueService.SendMessage(message);
                     }
                     finally
                     {

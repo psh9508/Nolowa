@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
@@ -72,5 +72,11 @@
   <ItemGroup>
     <Folder Include="Configurations\" />
     <Folder Include="Models\Protos\Generated.proto\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="NolowaNetwork">
+      <HintPath>Dlls\NolowaNetwork.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

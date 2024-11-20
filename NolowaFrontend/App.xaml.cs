@@ -23,7 +23,7 @@ namespace NolowaFrontend
         {
             IocKernel.Initialize(new IocConfiguration());
 
-            DownloadDefaultProfileImageFile();
+            //DownloadDefaultProfileImageFile();
 
             var loginView = new LoginView();
 

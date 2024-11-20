@@ -1,4 +1,5 @@
-﻿using NolowaFrontend.Extensions;
+﻿using NolowaFrontend.Core.MessageQueue.Messages;
+using NolowaFrontend.Extensions;
 using NolowaFrontend.Models;
 using NolowaFrontend.Models.Base;
 using NolowaFrontend.Models.Protos.Generated.prot;
@@ -14,7 +15,7 @@ namespace NolowaFrontend.Servicies
 {
     public interface IAuthenticationService
     {
-        Task<ResponseBaseEntity<User>> Login(LoginReq request);
+        Task<ResponseBaseEntity<User>> Login(Core.MessageQueue.Messages.LoginReq request);
     }
 
     public class AuthenticationService : ServiceBase, IAuthenticationService
@@ -22,13 +23,13 @@ namespace NolowaFrontend.Servicies
         //private const string parentEndPoint = "Authentication";
         //private const string parentEndPoint = "Accounts";
 
-        public override string ParentEndPoint => "Accounts";
+        public override string ParentEndPoint => "Auth";
 
-        public async Task<ResponseBaseEntity<User>> Login(LoginReq request)
+        public async Task<ResponseBaseEntity<User>> Login(Core.MessageQueue.Messages.LoginReq request)
         {
             try
             {
-                var loginResponse = await DoPost<User, LoginReq>($"Login", request);
+                var loginResponse = await DoPost<User, Core.MessageQueue.Messages.LoginReq>($"v1/login", request);
 
                 if (loginResponse.IsSuccess)
                     _jwtToken = loginResponse.ResponseData.JWTToken;

@@ -16,9 +16,9 @@ namespace NolowaFrontend.Core.MessageQueue.Messages
     {
         public string Origin { get; set; } = string.Empty;
         public string Source { get; set; } = string.Empty;
-        public MessageDestination Target { get; set; }
-        public MessageDestination Destination { get; set; }
-        public string Function { get; set; } = string.Empty;
+        //public MessageDestination Target { get; set; }
+        //public MessageDestination Destination { get; set; }
+        //public string Function { get; set; } = string.Empty;
         public string Body { get; set; } = string.Empty;
     }
 }

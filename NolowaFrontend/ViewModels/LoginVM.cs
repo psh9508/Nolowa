@@ -68,13 +68,6 @@ namespace NolowaFrontend.ViewModels
 
                         var args = (object[])x;
 
-                        // protobuf 사용 안함
-                        //var loginReq = new LoginReq()
-                        //{
-                        //    Email = (string)args[0],
-                        //    PlainPassword = (string)args[1],
-                        //};
-
                         var loginReq = new LoginReq()
                         {
                             Id = (string)args[0],
@@ -90,19 +83,6 @@ namespace NolowaFrontend.ViewModels
                             IsLoginFailed = true;
                             FailLogin?.Invoke();
                         }
-
-                        //var message = new LoginMessage()
-                        //{
-                        //    Id = (string)args[0],
-                        //    Password = (string)args[1],
-                        //    Origin = $"frontend:{AppConfiguration.QueueName}",
-                        //    Source = "frontend",
-                        //    Target = MessageDestination.GATEWAY,
-                        //    Destination = MessageDestination.SERVER,
-                        //    Function = "LoginMessage",
-                        //};
-
-                        //_messageQueueService.SendMessage(message);
                     }
                     finally
                     {

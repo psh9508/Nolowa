@@ -23,8 +23,7 @@ namespace NolowaFrontend.Servicies
 
     public class UserService : ServiceBase, IUserService
     {
-        //public override string ParentEndPoint => "User";
-        public override string ParentEndPoint => "Accounts";
+        public override string ParentEndPoint => "User";
 
         public async Task<List<User>> GetAllUsersAsync()
         {
@@ -40,7 +39,7 @@ namespace NolowaFrontend.Servicies
         {
             string debug = Newtonsoft.Json.JsonConvert.SerializeObject(user);
 
-            var response = await DoPost<User, IFSignUpUser>($"Save", user);
+            var response = await DoPost<User, IFSignUpUser>($"v1/save", user);
 
             return response.IsSuccess ? response.ResponseData : null;
         }

@@ -33,8 +33,10 @@ namespace NolowaFrontend.Models
 
         public ProfileInfo ProfileInfo { get; set; } = new ProfileInfo();
 
+        //[JsonProperty("jwtToken")]
+        //public string JWTToken { get; set; } = string.Empty;
         [JsonProperty("jwtToken")]
-        public string JWTToken { get; set; } = string.Empty;
+        public string Jwt { get; set; } = string.Empty;
 
         public string ProfileImageFile => Constant.PROFILE_IMAGE_ROOT_PATH + ProfileInfo.ProfileImage.Hash + ".jpg";
     }

@@ -23,7 +23,7 @@ namespace NolowaFrontend.Servicies
                 var loginResponse = await DoPost<User, LoginReq>($"v1/login", request);
 
                 if (loginResponse.IsSuccess)
-                    _jwtToken = loginResponse.ResponseData.JWTToken;
+                    _jwtToken = loginResponse.ResponseData.Jwt;
 
                 return loginResponse;
             }

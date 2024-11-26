@@ -70,7 +70,7 @@ namespace NolowaFrontend.ViewModels
                 return GetRelayCommand(ref _loadedCommand, async _ => {
                     try
                     {
-                        var response = await _directMessageService.GetPreviousDialogListAsync(AppConfiguration.LoginUser.Id);
+                        var response = await _directMessageService.GetPreviousDialogListAsync(long.Parse(AppConfiguration.LoginUser.USN));
                         PreviousDialogItems = response.ToObservableCollection();
                     }
                     finally
@@ -114,8 +114,8 @@ namespace NolowaFrontend.ViewModels
 
             NolowaHubConnection.Instance.OnReceiveDirectMessage += async (long senderId, long receiveId, string message, string time) => 
             {
-                var dialog = PreviousDialogItems.Where(x => (x.User.Id == receiveId || x.User.Id == senderId)
-                                                          && x.User.Id != AppConfiguration.LoginUser.Id)
+                var dialog = PreviousDialogItems.Where(x => (long.Parse(x.User.USN) == receiveId || long.Parse(x.User.USN) == senderId)
+                                                          && x.User.USN != AppConfiguration.LoginUser.USN)
                                                 .SingleOrDefault();
                 if (dialog.IsNull())
                 {
@@ -125,14 +125,14 @@ namespace NolowaFrontend.ViewModels
                         User = await _userService.GetUserAsync(receiveId),
                         Message = message,
                         Time = time,
-                        NewMessageCount = senderId == AppConfiguration.LoginUser.Id ? 0 : 1,
+                        NewMessageCount = senderId == long.Parse(AppConfiguration.LoginUser.USN) ? 0 : 1,
                     });
                 }
                 else
                 {
                     dialog.Message = message;
 
-                    if (senderId != AppConfiguration.LoginUser.Id)
+                    if (senderId != long.Parse(AppConfiguration.LoginUser.USN))
                         dialog.NewMessageCount++;
                 }
                 
@@ -142,7 +142,7 @@ namespace NolowaFrontend.ViewModels
 
         public void RemoveNewMessageCount(long userId)
         {
-            PreviousDialogItems.Where(x => x.User.Id == userId)
+            PreviousDialogItems.Where(x => long.Parse(x.User.USN) == userId)
                                .Single()
                                .NewMessageCount = 0;
 

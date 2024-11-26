@@ -23,7 +23,7 @@ namespace NolowaFrontend.Servicies
         //private const string parentEndPoint = "Post";
         //private const string parentEndPoint = "Posts";
 
-        public override string ParentEndPoint => "Posts";
+        public override string ParentEndPoint => "Post";
 
         public async Task<ResponseBaseEntity<string>> IsAlive()
         {

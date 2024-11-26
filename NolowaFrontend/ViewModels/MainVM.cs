@@ -305,7 +305,7 @@ namespace NolowaFrontend.ViewModels
             _ = NolowaHubConnection.Instance.InitializeAsync();
 
             NolowaHubConnection.Instance.OnReceiveDirectMessage += (long senderId, long receiveId, string message, string time) => {
-                if (senderId != receiveId && receiveId == AppConfiguration.LoginUser.Id) // 내게 보낸 DM이 아니고 받는 사람이 나일 때만 올려준다.
+                if (senderId != receiveId && receiveId == long.Parse(AppConfiguration.LoginUser.USN)) // 내게 보낸 DM이 아니고 받는 사람이 나일 때만 올려준다.
                     UnreadMessageCount += 1;
             };
 
@@ -370,7 +370,7 @@ namespace NolowaFrontend.ViewModels
 
         private async Task SetUnreadMessageCount()
         {
-            UnreadMessageCount = await _directMessageService.GetUnreadMessageCount(AppConfiguration.LoginUser.Id);
+            //UnreadMessageCount = await _directMessageService.GetUnreadMessageCount(AppConfiguration.LoginUser.Id);
         }
 
         private async Task CachingProfileImageFileToLocal()

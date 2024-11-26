@@ -101,15 +101,15 @@ namespace NolowaFrontend.Views.MainViews
 
                 var convertedDatas = response.ResponseData.Select(x => new User()
                 {
-                    Id = x.ID,
-                    AccountName = x.Name,
-                    UserId = x.UserId,
-                    ProfileInfo = new ProfileInfo()
-                    {
-                        Message = x.ProfileInfo.Message,
-                        BackgroundImage = x.ProfileInfo.BackgroundImage,
-                        ProfileImage = x.ProfileInfo.ProfileImage,
-                    },
+                    //Id = x.ID,
+                    //AccountName = x.Name,
+                    //UserId = x.UserId,
+                    //ProfileInfo = new ProfileInfo()
+                    //{
+                    //    Message = x.ProfileInfo.Message,
+                    //    BackgroundImage = x.ProfileInfo.BackgroundImage,
+                    //    ProfileImage = x.ProfileInfo.ProfileImage,
+                    //},
                 });
 
                 listboxUsers.ItemsSource = convertedDatas;
@@ -118,7 +118,7 @@ namespace NolowaFrontend.Views.MainViews
 
         private async Task SetSearchedKeywordAsync()
         {
-            var response = await _searchService.GetSearchedKeywords(_user.Id);
+            var response = await _searchService.GetSearchedKeywords(long.Parse(_user.USN));
 
             if (response.IsSuccess)
                 listboxSearchedKeywords.ItemsSource = response.ResponseData;
@@ -126,12 +126,12 @@ namespace NolowaFrontend.Views.MainViews
 
         private async Task InsertSearchKeywordAsync(string keyword)
         {
-            await _searchService.Search(_user.Id, keyword);
+            await _searchService.Search(long.Parse(_user.USN), keyword);
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            await _searchService.DeleteAllSearchedKeywords(_user.Id);
+            await _searchService.DeleteAllSearchedKeywords(long.Parse(_user.USN));
 
             await SetSearchedKeywordAsync();
         }

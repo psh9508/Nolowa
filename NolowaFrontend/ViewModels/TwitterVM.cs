@@ -215,7 +215,7 @@ namespace NolowaFrontend.ViewModels
 
         private async Task LoadPostsAsync()
         {
-            var reponsePosts = await _postService.GetHomePosts(_user.Id);
+            var reponsePosts = await _postService.GetHomePosts(long.Parse(_user.USN));
 
             AddPosts(reponsePosts.ResponseData);
         }
@@ -244,7 +244,7 @@ namespace NolowaFrontend.ViewModels
                             if (_listPostItemView.IsNotNull())
                                 _listPostItemView.IsPostLoading = true;
 
-                            var responsePosts = await _postService.GetPostsAsync(_user.Id, ++_nowPage);
+                            var responsePosts = await _postService.GetPostsAsync(long.Parse(_user.USN), ++_nowPage);
 
                             AddPosts(responsePosts.ResponseData);
                         }

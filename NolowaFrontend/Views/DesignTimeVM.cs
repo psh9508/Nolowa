@@ -42,7 +42,7 @@ namespace NolowaFrontend.Views
         {
             SearchedUsers.Add(new User()
             {
-                UserId = "AccountID",
+                USN = "AccountID",
                 AccountName = "Name",
                 ProfileInfo = new ProfileInfo()
                 {
@@ -55,7 +55,7 @@ namespace NolowaFrontend.Views
 
             SearchedUsers.Add(new User()
             {
-                UserId = "@Gold_Moon",
+                USN = "@Gold_Moon",
                 AccountName = "마수리",
                 ProfileInfo = new ProfileInfo()
                 {
@@ -68,7 +68,7 @@ namespace NolowaFrontend.Views
 
             SearchedUsers.Add(new User()
             {
-                UserId = "@xxxxbxxx",
+                USN = "@xxxxbxxx",
                 AccountName = "랜더스",
                 ProfileInfo = new ProfileInfo()
                 {
@@ -143,7 +143,7 @@ namespace NolowaFrontend.Views
             {
                 User = new User()
                 {
-                    UserId = "AccountID",
+                    USN = "AccountID",
                     AccountName = "Name",
                     ProfileInfo = new ProfileInfo()
                     {
@@ -162,7 +162,7 @@ namespace NolowaFrontend.Views
             {
                 User = new User()
                 {
-                    UserId = "@Gold_Moon",
+                    USN = "@Gold_Moon",
                     AccountName = "마수리",
                     ProfileInfo = new ProfileInfo()
                     {
@@ -180,7 +180,7 @@ namespace NolowaFrontend.Views
             {
                 User = new User()
                 {
-                    UserId = "@xxxxbxxx",
+                    USN = "@xxxxbxxx",
                     AccountName = "랜더스",
                     ProfileInfo = new ProfileInfo()
                     {

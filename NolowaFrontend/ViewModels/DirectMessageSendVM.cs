@@ -85,7 +85,7 @@ namespace NolowaFrontend.ViewModels
                 {
                     Dialog.Clear();
 
-                    var dialogResponse = await _directMessageService.GetDialog(AppConfiguration.LoginUser.Id, Receiver.Id);
+                    var dialogResponse = await _directMessageService.GetDialog(long.Parse(AppConfiguration.LoginUser.USN), long.Parse(Receiver.USN));
 
                     if (dialogResponse.Count() > 0)
                     {
@@ -95,7 +95,7 @@ namespace NolowaFrontend.ViewModels
                             ReceiverId = x.ReceiverId,
                             Message = x.Message,
                             Time = x.Time,
-                            IsMine = x.SenderId == AppConfiguration.LoginUser.Id,
+                            IsMine = x.SenderId == long.Parse(AppConfiguration.LoginUser.USN),
                         }).ToObservableCollection();
 
                         Dialog = dialogData;
@@ -118,7 +118,7 @@ namespace NolowaFrontend.ViewModels
                     string message = Message;
                     Message = string.Empty;
 
-                    await NolowaHubConnection.Instance.SendMessageAsync(AppConfiguration.LoginUser.Id, Receiver.Id, message);
+                    await NolowaHubConnection.Instance.SendMessageAsync(long.Parse(AppConfiguration.LoginUser.USN), long.Parse(Receiver.USN), message);
                 });
             }
         }
@@ -131,9 +131,9 @@ namespace NolowaFrontend.ViewModels
             {
                 return GetRelayCommand(ref _backButtonCommand, async _ =>
                 {
-                    var readMessageCount = await _directMessageService.SetReadAllMessageAsync(AppConfiguration.LoginUser.Id, Receiver.Id);
+                    var readMessageCount = await _directMessageService.SetReadAllMessageAsync(long.Parse(AppConfiguration.LoginUser.USN), long.Parse(Receiver.USN));
 
-                    ClickBackButton?.Invoke(Receiver.Id);
+                    ClickBackButton?.Invoke(long.Parse(Receiver.USN));
 
                     IsHide = true;
                 });
@@ -166,7 +166,7 @@ namespace NolowaFrontend.ViewModels
                         ReceiverId = receiveId,
                         Message = message,
                         Time = time,
-                        IsMine = senderId == AppConfiguration.LoginUser.Id,
+                        IsMine = senderId == long.Parse(AppConfiguration.LoginUser.USN),
                     });
 
                     GetNewMessage?.Invoke();

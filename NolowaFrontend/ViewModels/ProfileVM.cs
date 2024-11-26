@@ -83,7 +83,7 @@ namespace NolowaFrontend.ViewModels
                     {
                         var nowState = FollowButtonState;
                         // _userService를 이용해 팔로우 API 호출
-                        var response = await _userService.FollowAsync(AppConfiguration.LoginUser.Id, _user.Id);
+                        var response = await _userService.FollowAsync(long.Parse(AppConfiguration.LoginUser.USN), long.Parse(_user.USN));
 
                         if (response.IsNotNull())
                         {
@@ -113,7 +113,7 @@ namespace NolowaFrontend.ViewModels
 
                     if (User.IsNotNull())
                     {
-                        var postsResponse = await _postService.GetMyPostsAsync(User.Id);
+                        var postsResponse = await _postService.GetMyPostsAsync(long.Parse(User.USN));
 
                         if (postsResponse.IsSuccess)
                             Posts = postsResponse.ResponseData.ToObservableCollection();
@@ -138,11 +138,11 @@ namespace NolowaFrontend.ViewModels
 
         private void SetFollowButtonState()
         {
-            if (User.Id == AppConfiguration.LoginUser.Id)
+            if (User.USN == AppConfiguration.LoginUser.USN)
             {
                 FollowButtonState = eFollowButtonState.Editable;
             }
-            else if (AppConfiguration.LoginUser.Followers.Any(x => x.Id == User.Id))
+            else if (AppConfiguration.LoginUser.Followers.Any(x => x.Id == long.Parse(User.USN)))
             {
                 FollowButtonState = eFollowButtonState.Following;
             }

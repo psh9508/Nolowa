@@ -72,11 +72,11 @@ namespace NolowaFrontend.Core
 
         public async Task InitializeAsync()
         {
-            if (AppConfiguration.LoginUser.Id.IsNull())
+            if (AppConfiguration.LoginUser.USN.IsNull())
                 throw new InvalidOperationException("로그인 전에 호출 할 수 없습니다.");
 
             await _hubConnection.StartAsync();
-            await _hubConnection.SendAsync("Login", AppConfiguration.LoginUser.Id);
+            await _hubConnection.SendAsync("Login", AppConfiguration.LoginUser.USN);
 
             _hubConnection.On("ReceiveDirectMessage", (long senderId, long receiveId, string message, string time) => {
                 _onReceiveDirectMessage.Invoke(senderId, receiveId, message, time);

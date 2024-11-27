@@ -190,7 +190,7 @@ namespace NolowaFrontend.ViewModels
 
         public void InsertPost(PostView postView)
         {
-            Posts.Add(postView);
+            Posts.Insert(0, postView); 
         }
 
         public void RemovePost(Guid guid)

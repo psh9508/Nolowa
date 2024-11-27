@@ -135,6 +135,7 @@ namespace NolowaFrontend.ViewModels
                     {
                         var newTwitter = new Post()
                         {
+                            USN = long.Parse(_user.USN),
                             Message = Message,
                             Name = _user.AccountName,
                             PostedUser = _user,
@@ -148,6 +149,7 @@ namespace NolowaFrontend.ViewModels
                         if (response.IsSuccess == false)
                             throw new UploadFailException();
 
+                        // 서버 응답 시뮬레이션
                         await Task.Delay(3000);
 
                         var uploadResult = await WaitUntilHideCompleteAsync();
@@ -188,7 +190,14 @@ namespace NolowaFrontend.ViewModels
 
         public void InsertPost(PostView postView)
         {
+            Posts.Add(postView);
+        }
 
+        public void RemovePost(Guid guid)
+        {
+            var uploadFailedTwitter = Posts.Where(x => x.Guid == guid).FirstOrDefault();
+
+            Posts.Remove(uploadFailedTwitter);
         }
 
         private async Task<bool> WaitUntilHideCompleteAsync()
@@ -215,9 +224,9 @@ namespace NolowaFrontend.ViewModels
 
         private async Task LoadPostsAsync()
         {
-            var reponsePosts = await _postService.GetHomePosts(long.Parse(_user.USN));
+            //var reponsePosts = await _postService.GetHomePosts(long.Parse(_user.USN));
 
-            AddPosts(reponsePosts.ResponseData);
+            //AddPosts(reponsePosts.ResponseData);
         }
 
         private async void Scroll(object parameter)

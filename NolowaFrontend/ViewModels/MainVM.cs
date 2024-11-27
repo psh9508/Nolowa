@@ -31,6 +31,7 @@ namespace NolowaFrontend.ViewModels
         private readonly ISearchService _searchService;
         private readonly IDirectMessageService _directMessageService;
         private readonly SearchView _searchView;
+        private readonly TwitterVM _twitterVM;
 
         public string ProfileImageSource => _user.ProfileImageFile;
         public User User => _user;
@@ -44,12 +45,6 @@ namespace NolowaFrontend.ViewModels
         }
 
         private ObservableCollection<PostView> _posts = new ObservableCollection<PostView>();
-
-        public ObservableCollection<PostView> Posts
-        {
-            get { return _posts; }
-            set { _posts = value; OnPropertyChanged(); }
-        }
 
         private object _makeTwitterView;
 
@@ -136,31 +131,26 @@ namespace NolowaFrontend.ViewModels
                 {
                     var makeTwitterView = new MakeTwitterView(_user);
                     PostView postView = null;
-                    //Post post = null;
 
-                    makeTwitterView.MadeNewTwitter += newTwitter => {
-
+                    makeTwitterView.MadeNewTwitter += newTwitter =>
+                    {
                         postView = new PostView(newTwitter);
                         postView.IsEnabled = false;
 
-                        Posts.Insert(0, postView);
-
-                        //newTwitter.IsEnable = false;
-                        //Posts.Insert(0, newTwitter);
+                        _twitterVM.InsertPost(postView);
                     };
 
-                    makeTwitterView.FailedUploadTwitter += async guid => {
+                    makeTwitterView.FailedUploadTwitter += async guid =>
+                    {
                         await Task.Delay(2000);
 
-                        var uploadFailedTwitter = Posts.Where(x => x.Guid == guid).FirstOrDefault();
-
-                        Posts.Remove(uploadFailedTwitter);
+                        _twitterVM.RemovePost(guid);
                     };
 
-                    makeTwitterView.CompleteTwitter += () => {
+                    makeTwitterView.CompleteTwitter += () =>
+                    {
                         TwitterResultView = new TwitterResultView();
                         postView?.CompleteUpload();
-                        //post?.CompleteUpload();
                     };
 
                     MakeTwitterView = makeTwitterView;
@@ -214,10 +204,7 @@ namespace NolowaFrontend.ViewModels
 
                     //MainView = twitterView; 
                     #endregion
-                    var postView = new TwitterVM(_user);
-
-
-                    MainView = postView;
+                    MainView = _twitterVM;
                 });
             }
         }
@@ -317,6 +304,8 @@ namespace NolowaFrontend.ViewModels
             _service = new PostService();
             _searchService = new SearchService();
             _directMessageService = new DirectMessageService();
+
+            _twitterVM = new TwitterVM(_user);
 
             _searchView = new SearchView();
             _searchView.ClickedProfileImage += (object sender, RoutedEventArgs e) =>

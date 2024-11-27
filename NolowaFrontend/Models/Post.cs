@@ -12,7 +12,7 @@ namespace NolowaFrontend.Models
 {
     public class Post
     {
-        public long PostID { get; set; }
+        public long USN { get; set; }
         public int Likes { get; set; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public List<Image> Contents { get; set; } = new List<Image>();
